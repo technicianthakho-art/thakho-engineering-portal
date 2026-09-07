@@ -380,19 +380,19 @@
         </div>
       </div>
 
-      <!-- TAB GIS -->
+      <!-- TAB GIS (เพิ่ม Fallback Direct Link แก้ปัญหาการบล็อก Cookie บนมือถือ) -->
       <div id="tab-gis" class="hidden space-y-4">
         <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between flex-wrap gap-2">
           <div>
             <h2 class="text-base font-bold text-slate-800"><i class="fas fa-map-marked-alt text-teal-600 mr-2"></i>ระบบแผนที่ GIS กองช่าง (Spatial Satellite Map)</h2>
-            <p class="text-xs text-slate-500">ดึงการแสดงผลตรงจากระบบแผนที่ GIS กองช่าง</p>
+            <p class="text-xs text-slate-500">หากหน้าจอแสดงผลไม่ขึ้นเนื่องจากข้อจำกัดของมือถือ กรุณากดปุ่มเปิดหน้าต่างใหม่</p>
           </div>
-          <a href="https://script.google.com/macros/s/AKfycbxWPamVVAn7AQBc1zYO4mk9k1xP2JPg3PS5NZXxibRaqANZOeiYboWPBbhB4z9d7M1UJw/exec" target="_blank" class="px-3.5 py-2 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold flex items-center gap-1.5 shadow-xs">
-            <i class="fas fa-external-link-alt"></i><span>เปิดหน้าต่างใหม่</span>
+          <a href="https://script.google.com/macros/s/AKfycbxWPamVVAn7AQBc1zYO4mk9k1xP2JPg3PS5NZXxibRaqANZOeiYboWPBbhB4z9d7M1UJw/exec" target="_blank" class="px-3.5 py-2 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold flex items-center gap-1.5 shadow-xs transition">
+            <i class="fas fa-external-link-alt"></i><span>เปิดหน้าต่างใหม่ (Direct Link)</span>
           </a>
         </div>
         <div class="bg-white p-2 rounded-2xl border border-slate-200 shadow-xs h-[780px] overflow-hidden">
-          <iframe src="https://script.google.com/macros/s/AKfycbxWPamVVAn7AQBc1zYO4mk9k1xP2JPg3PS5NZXxibRaqANZOeiYboWPBbhB4z9d7M1UJw/exec" style="border:0; width:100%; height:100%;" allow="geolocation; microphone; camera" allowfullscreen></iframe>
+          <iframe src="https://script.google.com/macros/s/AKfycbxWPamVVAn7AQBc1zYO4mk9k1xP2JPg3PS5NZXxibRaqANZOeiYboWPBbhB4z9d7M1UJw/exec" style="border:0; width:100%; height:100%;" allow="geolocation; microphone; camera; display-capture" allowfullscreen></iframe>
         </div>
       </div>
 
@@ -495,7 +495,7 @@
         </div>
       </div>
 
-      <!-- TAB: คลังความรู้กองช่าง (ฝังแอปพลิเคชัน คลังความรู้ใหม่) -->
+      <!-- TAB: คลังความรู้กองช่าง -->
       <div id="tab-knowledge" class="hidden space-y-4">
         <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between flex-wrap gap-2">
           <div>
@@ -569,7 +569,7 @@
     function closeMobileSidebar() {
       const sidebar = document.getElementById('mainSidebar');
       const backdrop = document.getElementById('mobileSidebarBackdrop');
-      if (window.innerWidth < 768) { // ถ้าระดับมือถือ md
+      if (window.innerWidth < 768) {
         sidebar.classList.add('-translate-x-full');
         backdrop.classList.add('hidden');
       }
@@ -852,7 +852,7 @@
       }
       
       closeSearchDropdown();
-      closeMobileSidebar(); // ปิด Sidebar บนมือถือเมื่อสลับแท็บ
+      closeMobileSidebar();
     }
 
     function loadEmbeddedApp(url, appTitle) {
@@ -865,7 +865,7 @@
 
       externalLink.href = url;
       iframe.src = url;
-      closeMobileSidebar(); // ปิด Sidebar บนมือถือเมื่อโหลดแอปฝั่ง
+      closeMobileSidebar();
     }
 
     function reloadCalendarIframe() {
