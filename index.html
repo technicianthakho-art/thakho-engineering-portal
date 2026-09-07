@@ -170,7 +170,7 @@
         <h1 class="font-bold text-slate-800 text-base" id="pageTitle">ภาพรวมแอฟทั้งหมด</h1>
       </div>
 
-      <!-- ส่วนค้นหาอัจฉริยะ (Search Bar + Voice Search) -->
+      <!-- ส่วนค้นหาอัจฉริยะ -->
       <div class="flex-grow max-w-md relative" onclick="event.stopPropagation()">
         <div class="relative flex items-center">
           <i class="fas fa-search absolute left-3.5 text-slate-400 text-xs"></i>
@@ -186,7 +186,6 @@
           </div>
         </div>
 
-        <!-- Dropdown แสดงผลการค้นหาอัจฉริยะ -->
         <div id="searchResultsDropdown" class="hidden absolute left-0 right-0 top-full mt-2 bg-white border border-slate-200 rounded-2xl shadow-xl max-h-[480px] overflow-y-auto z-50 p-3 space-y-3">
         </div>
       </div>
@@ -206,7 +205,6 @@
       <!-- TAB 1: ภาพรวมแอฟทั้งหมด -->
       <div id="tab-analytics" class="space-y-6">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          
           <div onclick="openAppExternal('https://script.google.com/macros/s/AKfycbwIcHH9TjXif4dmmcRrlHWrgVsyDaYsjU2tkq79NyZ45Sp17fvgIXmFOjSpyjMDubLw/exec')" class="widget-card p-5 border border-blue-200/80 flex flex-col justify-between group">
             <div>
               <div class="flex items-center justify-between mb-3">
@@ -350,7 +348,6 @@
               <p class="text-xs text-slate-500">ระบบลงทะเบียนสายทาง ถนน สะพาน และบัญชีทางหลวงท้องถิ่น ต.ท่าก๊อ</p>
             </div>
           </div>
-
         </div>
       </div>
 
@@ -401,8 +398,6 @@
           </div>
 
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
-            
-            <!-- ฝั่งซ้าย: พื้นที่รับผิดชอบนายช่างนายตรวจ -->
             <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 flex flex-col justify-between space-y-4">
               <div class="border-b border-slate-200 pb-3 flex items-center justify-between">
                 <h3 class="font-bold text-slate-900 text-base flex items-center gap-2">
@@ -415,7 +410,6 @@
               </div>
             </div>
 
-            <!-- ฝั่งขวา: กรรมการกำหนดราคากลาง -->
             <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 flex flex-col justify-between space-y-4">
               <div class="border-b border-slate-200 pb-3 flex items-center justify-between">
                 <h3 class="font-bold text-slate-900 text-base flex items-center gap-2">
@@ -427,7 +421,6 @@
                 <div class="col-span-2 text-center py-8 text-slate-400 text-xs"><i class="fas fa-spinner fa-spin mr-2"></i>กำลังดึงข้อมูล...</div>
               </div>
             </div>
-
           </div>
         </div>
       </div>
@@ -495,11 +488,11 @@
         <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between flex-wrap gap-2">
           <div>
             <h2 class="font-bold text-slate-800 text-base"><i class="fas fa-book-reader text-teal-600 mr-2"></i>คลังความรู้กองช่าง (Knowledge Center)</h2>
-            <p class="text-xs text-slate-500">จัดเก็บแบบแปลนมาตรฐาน คู่มือ และกฎหมายควบคุมอาคาร</p>
+            <p class="text-xs text-slate-500">จัดเก็บแบบแปลนมาตรฐาน คู่มือ และกฎหมายควบคุมอาคาร (แยกโฟลเดอร์ใน Google Drive อัตโนมัติ)</p>
           </div>
           <div class="flex items-center gap-2">
             <button onclick="openKnowledgeModal()" class="px-4 py-2 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold flex items-center gap-1.5 shadow-xs transition">
-              <i class="fas fa-plus"></i><span>➕ เพิ่มคลังความรู้</span>
+              <i class="fas fa-cloud-upload-alt"></i><span>➕ อัปโหลดเอกสารเข้าคลังความรู้</span>
             </button>
             <button onclick="loadKnowledgeData()" class="px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold flex items-center gap-1.5 transition">
               <i class="fas fa-sync-alt"></i>
@@ -515,11 +508,11 @@
     </main>
   </div>
 
-  <!-- Modal ฟอร์มเพิ่มคลังความรู้ -->
+  <!-- Modal ฟอร์มเพิ่มคลังความรู้ (รองรับอัปโหลด PDF) -->
   <div id="knowledgeModal" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 hidden">
     <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-xl space-y-4">
       <div class="flex items-center justify-between border-b pb-3">
-        <h3 class="font-bold text-slate-800 text-base"><i class="fas fa-plus-circle text-teal-600 mr-2"></i>เพิ่มรายการคลังความรู้</h3>
+        <h3 class="font-bold text-slate-800 text-base"><i class="fas fa-file-pdf text-red-500 mr-2"></i>อัปโหลดไฟล์เอกสารเข้าคลังความรู้</h3>
         <button onclick="closeKnowledgeModal()" class="text-slate-400 hover:text-slate-600 text-sm"><i class="fas fa-times"></i></button>
       </div>
 
@@ -541,29 +534,31 @@
 
         <div>
           <label class="block text-xs font-bold text-slate-700 mb-1">ชื่อเอกสาร / หัวข้อความรู้</label>
-          <input type="text" id="kTitle" required class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs focus:ring-2 focus:ring-teal-500" placeholder="เช่น แบบแปลนท่อเหลี่ยมมาตรฐาน">
+          <input type="text" id="kTitle" required class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs focus:ring-2 focus:ring-teal-500" placeholder="เช่น แบบแปลนท่อเหลี่ยมมาตรฐาน ม.15">
         </div>
 
         <div>
           <label class="block text-xs font-bold text-slate-700 mb-1">รายละเอียดสังเขป</label>
-          <textarea id="kDetails" rows="3" class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs focus:ring-2 focus:ring-teal-500" placeholder="รายละเอียดหรือคำอธิบายเพิ่มเติม..."></textarea>
+          <textarea id="kDetails" rows="3" class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs focus:ring-2 focus:ring-teal-500" placeholder="รายละเอียด หรือคำอธิบายสังเขป..."></textarea>
         </div>
 
         <div>
-          <label class="block text-xs font-bold text-slate-700 mb-1">URL เอกสาร / ลิงก์ Google Drive</label>
-          <input type="url" id="kFileUrl" required class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs focus:ring-2 focus:ring-teal-500" placeholder="https://drive.google.com/...">
+          <label class="block text-xs font-bold text-slate-700 mb-1">เลือกไฟล์ PDF เอกสาร</label>
+          <input type="file" id="kFileInput" accept="application/pdf" required class="w-full p-2 bg-slate-50 border border-slate-300 rounded-xl text-xs focus:ring-2 focus:ring-teal-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-teal-50 file:text-teal-700 hover:file:bg-teal-100">
+          <p class="text-[10px] text-slate-400 mt-1">* ระบบจะสร้างโฟลเดอร์แยกให้อัตโนมัติใน Google Drive</p>
         </div>
 
         <div class="flex justify-end gap-2 pt-2 border-t">
           <button type="button" onclick="closeKnowledgeModal()" class="px-4 py-2 bg-slate-100 text-slate-700 text-xs font-bold rounded-xl">ยกเลิก</button>
-          <button type="submit" id="saveKnowledgeBtn" class="px-5 py-2 bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold rounded-xl shadow-xs">บันทึกข้อมูล</button>
+          <button type="submit" id="saveKnowledgeBtn" class="px-5 py-2 bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold rounded-xl shadow-xs flex items-center gap-1.5">
+            <i class="fas fa-cloud-upload-alt"></i><span>เริ่มอัปโหลด & บันทึก</span>
+          </button>
         </div>
       </form>
     </div>
   </div>
 
   <script>
-    // ⚠️ นำ Web App URL ล่าสุดจาก Google Apps Script มาใส่ตรงนี้ครับ
     const GAS_API_URL = "https://script.google.com/macros/s/AKfycbyo7Ofb1OqEnUv8Z1BAhj7neqPcroCKh2d1ccJi5KEYv3rBscuCHNfaBRNfsqWhjY3_/exec";
 
     let globalDataStore = {
@@ -760,7 +755,7 @@
             <div onclick="window.open('${item.fileUrl}', '_blank')" class="p-2.5 hover:bg-teal-50/50 rounded-xl cursor-pointer transition flex items-center justify-between border border-transparent hover:border-teal-100">
               <div class="flex items-center gap-3">
                 <div class="w-9 h-9 rounded-full bg-teal-100 text-teal-600 flex items-center justify-center font-bold text-xs flex-shrink-0">
-                  <i class="fas fa-file-alt"></i>
+                  <i class="fas fa-file-pdf"></i>
                 </div>
                 <div>
                   <span class="text-[9px] px-1.5 py-0.5 bg-teal-100 text-teal-800 rounded font-bold">${item.category}</span>
@@ -957,7 +952,6 @@
         const res = await fetch(`${GAS_API_URL}?action=getPersonnelData`);
         const data = await res.json();
 
-        // Render นายช่างนายตรวจ
         if (data.inspectors && data.inspectors.length > 0) {
           let html = '';
           data.inspectors.forEach((item, idx) => {
@@ -985,7 +979,6 @@
           inspContainer.innerHTML = '<div class="col-span-2 text-center py-6 text-slate-400 text-xs">ไม่พบข้อมูลนายช่างนายตรวจ</div>';
         }
 
-        // Render กรรมการกำหนดราคากลาง
         if (data.committee && data.committee.length > 0) {
           let html = '';
           data.committee.forEach((item, idx) => {
@@ -1013,7 +1006,6 @@
           comContainer.innerHTML = '<div class="col-span-2 text-center py-6 text-slate-400 text-xs">ไม่พบข้อมูลกรรมการราคากลาง</div>';
         }
 
-        // Render พื้นที่ควบคุมงานช่าง
         if (data.engineers && data.engineers.length > 0) {
           const colors = ['blue', 'amber', 'emerald', 'purple', 'sky', 'red'];
           let html = '';
@@ -1158,20 +1150,47 @@
       });
     }
 
+    // ฟังก์ชันแปลงไฟล์เป็น Base64
+    function fileToBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+      });
+    }
+
     async function handleSaveKnowledge(e) {
       e.preventDefault();
       const btn = document.getElementById('saveKnowledgeBtn');
-      btn.disabled = true;
-      btn.innerText = 'กำลังบันทึก...';
+      const fileInput = document.getElementById('kFileInput');
 
-      const formData = {
-        category: document.getElementById('kCategorySelect').value,
-        title: document.getElementById('kTitle').value,
-        details: document.getElementById('kDetails').value,
-        fileUrl: document.getElementById('kFileUrl').value
-      };
+      if (!fileInput.files || fileInput.files.length === 0) {
+        Swal.fire('เตือน', 'กรุณาเลือกไฟล์ PDF เอกสารที่ต้องการอัปโหลด', 'warning');
+        return;
+      }
+
+      const file = fileInput.files[0];
+      if (file.type !== 'application/pdf') {
+        Swal.fire('เตือน', 'อนุญาตให้อัปโหลดเฉพาะไฟล์ PDF เท่านั้น', 'warning');
+        return;
+      }
+
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-1"></i> กำลังสร้างโฟลเดอร์ & อัปโหลด...';
 
       try {
+        const fileBase64 = await fileToBase64(file);
+
+        const formData = {
+          category: document.getElementById('kCategorySelect').value,
+          title: document.getElementById('kTitle').value,
+          details: document.getElementById('kDetails').value,
+          fileName: file.name,
+          mimeType: file.type,
+          fileData: fileBase64
+        };
+
         const res = await fetch(GAS_API_URL, {
           method: 'POST',
           body: JSON.stringify({
@@ -1182,7 +1201,7 @@
 
         const result = await res.json();
         btn.disabled = false;
-        btn.innerText = 'บันทึกข้อมูล';
+        btn.innerHTML = '<i class="fas fa-cloud-upload-alt"></i><span>เริ่มอัปโหลด & บันทึก</span>';
 
         if (result.success) {
           Swal.fire('สำเร็จ!', result.message, 'success');
@@ -1193,7 +1212,7 @@
         }
       } catch (err) {
         btn.disabled = false;
-        btn.innerText = 'บันทึกข้อมูล';
+        btn.innerHTML = '<i class="fas fa-cloud-upload-alt"></i><span>เริ่มอัปโหลด & บันทึก</span>';
         Swal.fire('ผิดพลาด!', err.toString(), 'error');
       }
     }
@@ -1223,9 +1242,16 @@
                 <h3 class="font-bold text-slate-800 text-sm mb-1">${item.title}</h3>
                 <p class="text-xs text-slate-500 leading-relaxed">${item.details}</p>
               </div>
-              <a href="${item.fileUrl}" target="_blank" class="w-full py-2 bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold rounded-xl flex items-center justify-center gap-2 transition">
-                <i class="fas fa-folder-open"></i><span>เปิดดูเอกสาร / ดาวน์โหลด</span>
-              </a>
+              <div class="flex items-center gap-2 pt-1">
+                <a href="${item.fileUrl}" target="_blank" class="flex-1 py-2 bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold rounded-xl flex items-center justify-center gap-1.5 transition">
+                  <i class="fas fa-file-pdf"></i><span>เปิดดูเอกสาร (PDF)</span>
+                </a>
+                ${item.folderUrl && item.folderUrl !== '#' ? `
+                  <a href="${item.folderUrl}" target="_blank" class="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl flex items-center justify-center gap-1 transition" title="เปิดโฟลเดอร์ใน Google Drive">
+                    <i class="fab fa-google-drive text-emerald-600"></i>
+                  </a>
+                ` : ''}
+              </div>
             </div>
           `;
         });
