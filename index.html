@@ -462,7 +462,7 @@
         </div>
 
         <div class="bg-white p-3 rounded-2xl border border-slate-200 shadow-xs h-[750px]">
-          <iframe id="calendarIframe" src="https://calendar.google.com/calendar/embed?height=750&wkst=1&ctz=Asia%2FBangkok&showTitle=0&showPrint=0&showTabs=1&src=dGVjaG5pY2lhbi50aGFraG9AZ21haWwuY29t&color=%23039BE5&src=Mzk3NTY4MTY5YWJjMzE0MDM3NTYzMWQ4ZDE3NDhlODkxYWNlOThiOTAzNmVkY2I2MDU0YmYyYkBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&color=%2333B679&src=YjQ2MWFmM2FkMGY0NDY5OTFlZGFiZjQ1NWVkOWYxNDkwM2ZhYjE5NTFmODk1ZDE1ODdjMWFjZThhZThkYzYyNUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&color=%23D50000&src=ZWNlZmY3MWU3MGVmYzVjMjhiNGE3NGIzZjliMWU5ZjJlZjFmMWZjMjBjMTQyYzNjOTI0Y2Y4ZWNjMDAzMWYyOUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&color=%23F6BF26" style="border:0; width:100%; height:100%;" frameborder="0" scrolling="no"></iframe>
+          <iframe id="calendarIframe" src="https://calendar.google.com/calendar/embed?height=750&wkst=1&ctz=Asia%2FBangkok&showTitle=0&showPrint=0&showTabs=1&src=dGVjaG5pY2lhbi50aGFraG9AZ21haWwuY29t&color=%23039BE5&src=Mzk3NTY4MTY5YWJjMzE0MDM3NTYzMWQ0MTBmZTk2MWQ4ZDE3NDhlODkxYWNlOThiOTAzNmVkY2I2MDU0YmYyYkBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&color=%2333B679&src=YjQ2MWFmM2FkMGY0NDY5OTFlZGFiZjQ1NWVkOWYxNDkwM2ZhYjE5NTFmODk1ZDE1ODdjMWFjZThhZThkYzYyNUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&color=%23D50000&src=ZWNlZmY3MWU3MGVmYzVjMjhiNGE3NGIzZjliMWU5ZjJlZjFmMWZjMjBjMTQyYzNjOTI0Y2Y4ZWNjMDAzMWYyOUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&color=%23F6BF26" style="border:0; width:100%; height:100%;" frameborder="0" scrolling="no"></iframe>
         </div>
       </div>
 
@@ -483,79 +483,29 @@
         </div>
       </div>
 
-      <!-- TAB: คลังความรู้กองช่าง -->
+      <!-- TAB: คลังความรู้กองช่าง (ฝังแอปพลิเคชัน คลังความรู้ใหม่) -->
       <div id="tab-knowledge" class="hidden space-y-4">
         <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between flex-wrap gap-2">
           <div>
             <h2 class="font-bold text-slate-800 text-base"><i class="fas fa-book-reader text-teal-600 mr-2"></i>คลังความรู้กองช่าง (Knowledge Center)</h2>
-            <p class="text-xs text-slate-500">จัดเก็บแบบแปลนมาตรฐาน คู่มือ และกฎหมายควบคุมอาคาร (แยกโฟลเดอร์ใน Google Drive อัตโนมัติ)</p>
+            <p class="text-xs text-slate-500">ระบบจัดการคลังความรู้ แบบแปลนมาตรฐาน กฎหมาย และคู่มือปฏิบัติงาน</p>
           </div>
           <div class="flex items-center gap-2">
-            <button onclick="openKnowledgeModal()" class="px-4 py-2 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold flex items-center gap-1.5 shadow-xs transition">
-              <i class="fas fa-cloud-upload-alt"></i><span>➕ อัปโหลดเอกสารเข้าคลังความรู้</span>
+            <button onclick="reloadKnowledgeIframe()" class="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold flex items-center gap-1.5 transition">
+              <i class="fas fa-sync-alt text-teal-600"></i><span>รีเฟรช</span>
             </button>
-            <button onclick="loadKnowledgeData()" class="px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold flex items-center gap-1.5 transition">
-              <i class="fas fa-sync-alt"></i>
-            </button>
+            <a href="https://technicianthakho-art.github.io/Knowledge-Center/" target="_blank" class="px-3.5 py-2 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold flex items-center gap-1.5 shadow-xs transition">
+              <i class="fas fa-external-link-alt"></i><span>เปิดในหน้าต่างใหม่ (Direct Link)</span>
+            </a>
           </div>
         </div>
 
-        <div id="knowledgeListContainer" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div class="col-span-2 text-center py-12 text-slate-400 text-xs"><i class="fas fa-spinner fa-spin mr-2"></i>กำลังโหลดคลังความรู้...</div>
+        <div class="bg-white p-2 rounded-2xl border border-slate-200 shadow-xs h-[780px] overflow-hidden">
+          <iframe id="knowledgeIframe" src="https://technicianthakho-art.github.io/Knowledge-Center/" style="border:0; width:100%; height:100%;" allow="geolocation; microphone; camera; display-capture" allowfullscreen></iframe>
         </div>
       </div>
 
     </main>
-  </div>
-
-  <!-- Modal ฟอร์มเพิ่มคลังความรู้ (รองรับอัปโหลด PDF) -->
-  <div id="knowledgeModal" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 hidden">
-    <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-xl space-y-4">
-      <div class="flex items-center justify-between border-b pb-3">
-        <h3 class="font-bold text-slate-800 text-base"><i class="fas fa-file-pdf text-red-500 mr-2"></i>อัปโหลดไฟล์เอกสารเข้าคลังความรู้</h3>
-        <button onclick="closeKnowledgeModal()" class="text-slate-400 hover:text-slate-600 text-sm"><i class="fas fa-times"></i></button>
-      </div>
-
-      <form id="knowledgeForm" onsubmit="handleSaveKnowledge(event)" class="space-y-3">
-        <div>
-          <label class="block text-xs font-bold text-slate-700 mb-1">หมวดหมู่ / ประเภทความรู้</label>
-          <div class="flex gap-2">
-            <select id="kCategorySelect" class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs font-semibold focus:ring-2 focus:ring-teal-500">
-              <option value="แบบแปลนมาตรฐาน">แบบแปลนมาตรฐาน</option>
-              <option value="กฎหมาย & ระเบียบ">กฎหมาย & ระเบียบ</option>
-              <option value="คู่มือการปฏิบัติงาน">คู่มือการปฏิบัติงาน</option>
-              <option value="งานผังเมือง & GIS">งานผังเมือง & GIS</option>
-            </select>
-            <button type="button" onclick="promptAddCategory()" class="px-3 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-bold rounded-xl whitespace-nowrap">
-              + เพิ่มประเภท
-            </button>
-          </div>
-        </div>
-
-        <div>
-          <label class="block text-xs font-bold text-slate-700 mb-1">ชื่อเอกสาร / หัวข้อความรู้</label>
-          <input type="text" id="kTitle" required class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs focus:ring-2 focus:ring-teal-500" placeholder="เช่น แบบแปลนท่อเหลี่ยมมาตรฐาน ม.15">
-        </div>
-
-        <div>
-          <label class="block text-xs font-bold text-slate-700 mb-1">รายละเอียดสังเขป</label>
-          <textarea id="kDetails" rows="3" class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs focus:ring-2 focus:ring-teal-500" placeholder="รายละเอียด หรือคำอธิบายสังเขป..."></textarea>
-        </div>
-
-        <div>
-          <label class="block text-xs font-bold text-slate-700 mb-1">เลือกไฟล์ PDF เอกสาร</label>
-          <input type="file" id="kFileInput" accept="application/pdf" required class="w-full p-2 bg-slate-50 border border-slate-300 rounded-xl text-xs focus:ring-2 focus:ring-teal-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-teal-50 file:text-teal-700 hover:file:bg-teal-100">
-          <p class="text-[10px] text-slate-400 mt-1">* ระบบจะสร้างโฟลเดอร์แยกให้อัตโนมัติใน Google Drive</p>
-        </div>
-
-        <div class="flex justify-end gap-2 pt-2 border-t">
-          <button type="button" onclick="closeKnowledgeModal()" class="px-4 py-2 bg-slate-100 text-slate-700 text-xs font-bold rounded-xl">ยกเลิก</button>
-          <button type="submit" id="saveKnowledgeBtn" class="px-5 py-2 bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold rounded-xl shadow-xs flex items-center gap-1.5">
-            <i class="fas fa-cloud-upload-alt"></i><span>เริ่มอัปโหลด & บันทึก</span>
-          </button>
-        </div>
-      </form>
-    </div>
   </div>
 
   <script>
@@ -563,7 +513,6 @@
 
     let globalDataStore = {
       personnel: [],
-      knowledge: [],
       apps: [
         { name: "ติดตามแผนดำเนินงาน", desc: "ระบบบันทึกและติดตามแผนดำเนินงานโครงการ กองช่าง", url: "https://script.google.com/macros/s/AKfycbwIcHH9TjXif4dmmcRrlHWrgVsyDaYsjU2tkq79NyZ45Sp17fvgIXmFOjSpyjMDubLw/exec", keywords: "แผน โครงการ ติดตาม ติดตามแผน" },
         { name: "บริหารงานเครื่องจักรกล", desc: "ระบบบันทึกคุมการใช้เครื่องจักรกล รถพุ่ม รถขุด ซ่อมบำรุง", url: "https://script.google.com/macros/s/AKfycbwyd-y4JM-NZuD6rbYvfgisfmbef5u9R_-NaWYAtTHjezfLFMx5uEm8h_6QAPF4OiIe/exec", keywords: "เครื่องจักร รถขุด รถพุ่ม ซ่อม ซ่อมบำรุง ยานพาหนะ พัสดุ" },
@@ -573,7 +522,8 @@
         { name: "บริหาร & ติดตามงาน", desc: "ระบบมอบหมายภารกิจ ติดตามความก้าวหน้างาน แจ้งเตือน Telegram", url: "https://script.google.com/macros/s/AKfycbxN7BTPiB9i1dAN0-g3JJZW1Tv8OnOPQDahetEo1SdNABTVwMaN6w51TxTFZJAmVvht/exec", keywords: "สั่งงาน มอบหมาย ติดตามงาน ภารกิจ telegram" },
         { name: "ยื่นคำร้องขออนุญาต", desc: "ระบบยื่นคำร้องขอก่อสร้าง ดัดแปลงอาคาร อ.1 และเอกสารควบคุมอาคาร", url: "https://script.google.com/macros/s/AKfycbxI66qrkex8RBmR7OW1yaRYaExMEqG0dkt2RHR6xbiytBAmAiwTSpLyawGgiaBdV-9OKQ/exec", keywords: "ขออนุญาต ก่อสร้าง ดัดแปลง อาคาร อ.1 ยื่นคำร้อง" },
         { name: "ลงทะเบียนทางหลวง", desc: "ระบบลงทะเบียนสายทาง ถนน สะพาน และบัญชีทางหลวงท้องถิ่น", url: "https://script.google.com/macros/s/AKfycbyv1XpHjf3bgPS0DRWOLxfcj_gl6xji6Ve87KwgTQ4mfCnRCeil7e7OsYi3r5oc5J5c1w/exec", keywords: "ทางหลวง ถนน สะพาน สายทาง ท้องถิ่น" },
-        { name: "แผนที่ GIS กองช่าง", desc: "ระบบแผนที่ชั้นข้อมูลเชิงพื้นที่ ภาพถ่ายดาวเทียม พิกัดสิ่งก่อสร้าง", tab: "gis", keywords: "gis แผนที่ ดาวเทียม พิกัด ตำแหน่ง" }
+        { name: "แผนที่ GIS กองช่าง", desc: "ระบบแผนที่ชั้นข้อมูลเชิงพื้นที่ ภาพถ่ายดาวเทียม พิกัดสิ่งก่อสร้าง", tab: "gis", keywords: "gis แผนที่ ดาวเทียม พิกัด ตำแหน่ง" },
+        { name: "คลังความรู้กองช่าง", desc: "ระบบจัดการคลังความรู้ แบบแปลนมาตรฐาน กฎหมาย และคู่มือปฏิบัติงาน", tab: "knowledge", keywords: "คลังความรู้ เอกสาร แบบแปลน แปลนท่อ กฎหมาย คู่มือ" }
       ],
       orgInfo: [
         { name: "องค์การบริหารส่วนตำบลท่าก๊อ", desc: "179 ม.26 ต.ท่าก๊อ อ.แม่สรวย จ.เชียงราย 57180", phone: "053-724217-8", email: "saraban@thakho.go.th", keywords: "ที่อยู่ อบต ท่าก๊อ เบอร์โทร สำนักงาน อีเมล สารบรรณ" }
@@ -585,7 +535,6 @@
 
     window.addEventListener('DOMContentLoaded', () => {
       syncPersonnelDataStore();
-      syncKnowledgeDataStore();
       initSpeechRecognition();
     });
 
@@ -600,16 +549,6 @@
         ];
       } catch (e) {
         console.error("Sync personnel error:", e);
-      }
-    }
-
-    async function syncKnowledgeDataStore() {
-      try {
-        const res = await fetch(`${GAS_API_URL}?action=getKnowledgeData`);
-        const items = await res.json();
-        globalDataStore.knowledge = items || [];
-      } catch (e) {
-        console.error("Sync knowledge error:", e);
       }
     }
 
@@ -701,7 +640,6 @@
       clearBtn.classList.add('flex');
 
       if (globalDataStore.personnel.length === 0) syncPersonnelDataStore();
-      if (globalDataStore.knowledge.length === 0) syncKnowledgeDataStore();
 
       let html = '';
       let matchCount = 0;
@@ -736,34 +674,6 @@
                 </div>
               </div>
               <i class="fas fa-chevron-right text-slate-300 text-xs"></i>
-            </div>
-          `;
-        });
-      }
-
-      const matchedKnowledge = globalDataStore.knowledge.filter(k => 
-        (k.title && k.title.toLowerCase().includes(cleanQuery)) ||
-        (k.category && k.category.toLowerCase().includes(cleanQuery)) ||
-        (k.details && k.details.toLowerCase().includes(cleanQuery))
-      );
-
-      if (matchedKnowledge.length > 0) {
-        html += `<div class="text-[11px] font-bold text-slate-400 px-2 pt-2 pb-1 border-b"><i class="fas fa-book text-teal-500 mr-1.5"></i>คลังความรู้ & เอกสาร (${matchedKnowledge.length})</div>`;
-        matchedKnowledge.slice(0, 4).forEach(item => {
-          matchCount++;
-          html += `
-            <div onclick="window.open('${item.fileUrl}', '_blank')" class="p-2.5 hover:bg-teal-50/50 rounded-xl cursor-pointer transition flex items-center justify-between border border-transparent hover:border-teal-100">
-              <div class="flex items-center gap-3">
-                <div class="w-9 h-9 rounded-full bg-teal-100 text-teal-600 flex items-center justify-center font-bold text-xs flex-shrink-0">
-                  <i class="fas fa-file-pdf"></i>
-                </div>
-                <div>
-                  <span class="text-[9px] px-1.5 py-0.5 bg-teal-100 text-teal-800 rounded font-bold">${item.category}</span>
-                  <h4 class="font-bold text-slate-800 text-xs mt-0.5">${item.title}</h4>
-                  <p class="text-[10px] text-slate-400 line-clamp-1">${item.details}</p>
-                </div>
-              </div>
-              <i class="fas fa-external-link-alt text-teal-500 text-xs"></i>
             </div>
           `;
         });
@@ -902,7 +812,6 @@
       }
       if (tab === 'knowledge') {
         document.getElementById('pageTitle').innerText = 'คลังความรู้กองช่าง (Knowledge Center)';
-        loadKnowledgeData();
       }
       
       closeSearchDropdown();
@@ -922,6 +831,11 @@
 
     function reloadCalendarIframe() {
       const iframe = document.getElementById('calendarIframe');
+      iframe.src = iframe.src;
+    }
+
+    function reloadKnowledgeIframe() {
+      const iframe = document.getElementById('knowledgeIframe');
       iframe.src = iframe.src;
     }
 
@@ -1117,146 +1031,6 @@
         container.innerHTML = html;
       } catch (err) {
         console.error("Load drive activity slides error:", err);
-      }
-    }
-
-    function openKnowledgeModal() {
-      document.getElementById('knowledgeModal').classList.remove('hidden');
-    }
-
-    function closeKnowledgeModal() {
-      document.getElementById('knowledgeModal').classList.add('hidden');
-      document.getElementById('knowledgeForm').reset();
-    }
-
-    function promptAddCategory() {
-      Swal.fire({
-        title: 'เพิ่มประเภทความรู้ใหม่',
-        input: 'text',
-        inputPlaceholder: 'กรอกชื่อหมวดหมู่ใหม่...',
-        showCancelButton: true,
-        confirmButtonText: 'เพิ่ม',
-        cancelButtonText: 'ยกเลิก',
-        confirmButtonColor: '#0d9488'
-      }).then(res => {
-        if (res.isConfirmed && res.value) {
-          const select = document.getElementById('kCategorySelect');
-          const opt = document.createElement('option');
-          opt.value = res.value;
-          opt.innerText = res.value;
-          opt.selected = true;
-          select.appendChild(opt);
-        }
-      });
-    }
-
-    // ฟังก์ชันแปลงไฟล์เป็น Base64
-    function readFileAsBase64(file) {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = error => reject(error);
-        reader.readAsDataURL(file);
-      });
-    }
-
-    async function handleSaveKnowledge(e) {
-      e.preventDefault();
-      const btn = document.getElementById('saveKnowledgeBtn');
-      const fileInput = document.getElementById('kFileInput');
-
-      if (!fileInput.files || fileInput.files.length === 0) {
-        Swal.fire('เตือน', 'กรุณาเลือกไฟล์ PDF เอกสารที่ต้องการอัปโหลด', 'warning');
-        return;
-      }
-
-      const file = fileInput.files[0];
-      if (file.type !== 'application/pdf') {
-        Swal.fire('เตือน', 'อนุญาตให้อัปโหลดเฉพาะไฟล์ PDF เท่านั้น', 'warning');
-        return;
-      }
-
-      btn.disabled = true;
-      btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-1"></i> กำลังสร้างโฟลเดอร์ & อัปโหลด...';
-
-      try {
-        const base64String = await readFileAsBase64(file);
-
-        const formData = {
-          category: document.getElementById('kCategorySelect').value,
-          title: document.getElementById('kTitle').value,
-          details: document.getElementById('kDetails').value,
-          fileName: file.name,
-          fileBase64: base64String
-        };
-
-        const res = await fetch(GAS_API_URL, {
-          method: 'POST',
-          body: JSON.stringify({
-            action: 'saveKnowledgeData',
-            data: formData
-          })
-        });
-
-        const result = await res.json();
-        btn.disabled = false;
-        btn.innerHTML = '<i class="fas fa-cloud-upload-alt"></i><span>เริ่มอัปโหลด & บันทึก</span>';
-
-        if (result.success) {
-          Swal.fire('สำเร็จ!', result.message, 'success');
-          closeKnowledgeModal();
-          loadKnowledgeData();
-        } else {
-          Swal.fire('ผิดพลาด!', result.message, 'error');
-        }
-      } catch (err) {
-        btn.disabled = false;
-        btn.innerHTML = '<i class="fas fa-cloud-upload-alt"></i><span>เริ่มอัปโหลด & บันทึก</span>';
-        Swal.fire('ผิดพลาด!', err.toString(), 'error');
-      }
-    }
-
-    async function loadKnowledgeData() {
-      const container = document.getElementById('knowledgeListContainer');
-      container.innerHTML = '<div class="col-span-2 text-center py-12 text-slate-400 text-xs"><i class="fas fa-spinner fa-spin mr-2"></i>กำลังโหลดคลังความรู้...</div>';
-
-      try {
-        const res = await fetch(`${GAS_API_URL}?action=getKnowledgeData`);
-        const items = await res.json();
-
-        if (!items || items.length === 0) {
-          container.innerHTML = '<div class="col-span-2 text-center py-12 text-slate-400 text-xs">ไม่พบรายการคลังความรู้</div>';
-          return;
-        }
-
-        let html = '';
-        items.forEach(item => {
-          html += `
-            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex flex-col justify-between space-y-3">
-              <div>
-                <div class="flex items-center justify-between mb-2">
-                  <span class="px-2.5 py-0.5 rounded-md bg-teal-50 text-teal-700 border border-teal-100 font-bold text-[10px]">${item.category}</span>
-                  <span class="text-[10px] text-slate-400">${item.dateDisplay}</span>
-                </div>
-                <h3 class="font-bold text-slate-800 text-sm mb-1">${item.title}</h3>
-                <p class="text-xs text-slate-500 leading-relaxed">${item.details}</p>
-              </div>
-              <div class="flex items-center gap-2 pt-1">
-                <a href="${item.fileUrl}" target="_blank" class="flex-1 py-2 bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold rounded-xl flex items-center justify-center gap-1.5 transition">
-                  <i class="fas fa-file-pdf"></i><span>เปิดดูเอกสาร (PDF)</span>
-                </a>
-                ${item.folderUrl && item.folderUrl !== '#' ? `
-                  <a href="${item.folderUrl}" target="_blank" class="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl flex items-center justify-center gap-1 transition" title="เปิดโฟลเดอร์ใน Google Drive">
-                    <i class="fab fa-google-drive text-emerald-600"></i>
-                  </a>
-                ` : ''}
-              </div>
-            </div>
-          `;
-        });
-        container.innerHTML = html;
-      } catch (err) {
-        console.error("Load knowledge data error:", err);
       }
     }
   </script>
