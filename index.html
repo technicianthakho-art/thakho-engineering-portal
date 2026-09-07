@@ -462,7 +462,7 @@
         </div>
 
         <div class="bg-white p-3 rounded-2xl border border-slate-200 shadow-xs h-[750px]">
-          <iframe id="calendarIframe" src="https://calendar.google.com/calendar/embed?height=750&wkst=1&ctz=Asia%2FBangkok&showTitle=0&showPrint=0&showTabs=1&src=dGVjaG5pY2lhbi50aGFraG9AZ21haWwuY29t&color=%23039BE5&src=Mzk3NTY4MTY5YWJjMzE0MDM3NTYzMWQ0MTBmZTk2MWQ4ZDE3NDhlODkxYWNlOThiOTAzNmVkY2I2MDU0YmYyYkBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&color=%2333B679&src=YjQ2MWFmM2FkMGY0NDY5OTFlZGFiZjQ1NWVkOWYxNDkwM2ZhYjE5NTFmODk1ZDE1ODdjMWFjZThhZThkYzYyNUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&color=%23D50000&src=ZWNlZmY3MWU3MGVmYzVjMjhiNGE3NGIzZjliMWU5ZjJlZjFmMWZjMjBjMTQyYzNjOTI0Y2Y4ZWNjMDAzMWYyOUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&color=%23F6BF26" style="border:0; width:100%; height:100%;" frameborder="0" scrolling="no"></iframe>
+          <iframe id="calendarIframe" src="https://calendar.google.com/calendar/embed?height=750&wkst=1&ctz=Asia%2FBangkok&showTitle=0&showPrint=0&showTabs=1&src=dGVjaG5pY2lhbi50aGFraG9AZ21haWwuY29t&color=%23039BE5&src=Mzk3NTY4MTY5YWJjMzE0MDM3NTYzMWQ4ZDE3NDhlODkxYWNlOThiOTAzNmVkY2I2MDU0YmYyYkBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&color=%2333B679&src=YjQ2MWFmM2FkMGY0NDY5OTFlZGFiZjQ1NWVkOWYxNDkwM2ZhYjE5NTFmODk1ZDE1ODdjMWFjZThhZThkYzYyNUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&color=%23D50000&src=ZWNlZmY3MWU3MGVmYzVjMjhiNGE3NGIzZjliMWU5ZjJlZjFmMWZjMjBjMTQyYzNjOTI0Y2Y4ZWNjMDAzMWYyOUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&color=%23F6BF26" style="border:0; width:100%; height:100%;" frameborder="0" scrolling="no"></iframe>
         </div>
       </div>
 
@@ -1150,16 +1150,13 @@
       });
     }
 
-    // ฟังก์ชันแปลงไฟล์เป็น Byte Array (Uint8Array)
-    function readFileAsByteArray(file) {
+    // ฟังก์ชันแปลงไฟล์เป็น Base64
+    function readFileAsBase64(file) {
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
-        reader.onload = (evt) => {
-          const byteArray = Array.from(new Uint8Array(evt.target.result));
-          resolve(byteArray);
-        };
-        reader.onerror = (error) => reject(error);
-        reader.readAsArrayBuffer(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+        reader.readAsDataURL(file);
       });
     }
 
@@ -1183,15 +1180,14 @@
       btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-1"></i> กำลังสร้างโฟลเดอร์ & อัปโหลด...';
 
       try {
-        const fileBytes = await readFileAsByteArray(file);
+        const base64String = await readFileAsBase64(file);
 
         const formData = {
           category: document.getElementById('kCategorySelect').value,
           title: document.getElementById('kTitle').value,
           details: document.getElementById('kDetails').value,
           fileName: file.name,
-          mimeType: file.type,
-          fileBytes: fileBytes
+          fileBase64: base64String
         };
 
         const res = await fetch(GAS_API_URL, {
