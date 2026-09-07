@@ -103,9 +103,9 @@
           </button>
           
           <div id="subAppMenu" class="pl-4 pr-1 py-1 space-y-1 mt-1">
-            <button onclick="loadEmbeddedApp('https://script.google.com/macros/s/AKfycbwIcHH9TjXif4dmmcRrlHWrgVsyDaYsjU2tkq79NyZ45Sp17fvgIXmFOjSpyjMDubLw/exec', 'ติดตามแผนดำเนินงาน')" class="w-full text-left px-2.5 py-1.5 rounded-lg text-[11px] text-slate-400 sub-app-item flex items-center gap-2">
-              <i class="fa-solid fa-chart-gantt text-blue-400 w-3"></i><span>ติดตามแผนดำเนินงาน</span>
-            </button>
+            <a href="https://script.google.com/macros/s/AKfycbwIcHH9TjXif4dmmcRrlHWrgVsyDaYsjU2tkq79NyZ45Sp17fvgIXmFOjSpyjMDubLw/exec" target="_blank" class="w-full text-left px-2.5 py-1.5 rounded-lg text-[11px] text-slate-400 sub-app-item flex items-center gap-2">
+              <i class="fa-solid fa-chart-gantt text-blue-400 w-3"></i><span>ติดตามแผนดำเนินงาน ↗</span>
+            </a>
             <button onclick="loadEmbeddedApp('https://script.google.com/macros/s/AKfycbwyd-y4JM-NZuD6rbYvfgisfmbef5u9R_-NaWYAtTHjezfLFMx5uEm8h_6QAPF4OiIe/exec', 'บริหารงานเครื่องจักรกล')" class="w-full text-left px-2.5 py-1.5 rounded-lg text-[11px] text-slate-400 sub-app-item flex items-center gap-2">
               <i class="fa-solid fa-truck-monster text-amber-400 w-3"></i><span>บริหารงานเครื่องจักรกล</span>
             </button>
@@ -380,7 +380,7 @@
         </div>
       </div>
 
-      <!-- TAB GIS -->
+      <!-- TAB GIS (เพิ่ม Fallback Direct Link แก้ปัญหาการบล็อก Cookie บนมือถือ) -->
       <div id="tab-gis" class="hidden space-y-4">
         <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between flex-wrap gap-2">
           <div>
