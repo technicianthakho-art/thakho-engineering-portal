@@ -1150,13 +1150,16 @@
       });
     }
 
-    // ฟังก์ชันแปลงไฟล์เป็น Base64
-    function fileToBase64(file) {
+    // ฟังก์ชันแปลงไฟล์เป็น Byte Array (Uint8Array)
+    function readFileAsByteArray(file) {
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = error => reject(error);
+        reader.onload = (evt) => {
+          const byteArray = Array.from(new Uint8Array(evt.target.result));
+          resolve(byteArray);
+        };
+        reader.onerror = (error) => reject(error);
+        reader.readAsArrayBuffer(file);
       });
     }
 
@@ -1180,7 +1183,7 @@
       btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-1"></i> กำลังสร้างโฟลเดอร์ & อัปโหลด...';
 
       try {
-        const fileBase64 = await fileToBase64(file);
+        const fileBytes = await readFileAsByteArray(file);
 
         const formData = {
           category: document.getElementById('kCategorySelect').value,
@@ -1188,7 +1191,7 @@
           details: document.getElementById('kDetails').value,
           fileName: file.name,
           mimeType: file.type,
-          fileData: fileBase64
+          fileBytes: fileBytes
         };
 
         const res = await fetch(GAS_API_URL, {
