@@ -404,7 +404,7 @@
               <h2 class="text-base md:text-lg font-bold text-white mb-1">พื้นที่รับผิดชอบนายช่างนายตรวจ & กรรมการกำหนดราคากลาง</h2>
               <p class="text-xs text-slate-300">กองช่าง องค์การบริหารส่วนตำบลท่าก๊อ อำเภอแม่สรวย จังหวัดเชียงราย</p>
             </div>
-            <button onclick="loadPersonnelData()" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-amber-400 text-xs font-bold rounded-xl border border-slate-700 transition flex items-center gap-2">
+            <button onclick="loadPersonnelData(true)" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-amber-400 text-xs font-bold rounded-xl border border-slate-700 transition flex items-center gap-2">
               <i class="fas fa-sync-alt"></i><span>รีเฟรชข้อมูล</span>
             </button>
           </div>
@@ -445,7 +445,7 @@
               <h2 class="text-base md:text-xl font-bold text-white mb-1">พื้นที่ควบคุมงานที่อยู่ในความดูแลของช่าง</h2>
               <p class="text-xs text-blue-200">แบ่งพื้นที่การดูแลครอบคลุมทั้ง 28 หมู่บ้าน และ ศพด. ตำบลท่าก๊อ</p>
             </div>
-            <button onclick="loadPersonnelData()" class="px-3.5 py-2 bg-white/10 hover:bg-white/20 text-white text-xs font-bold rounded-xl border border-white/20 transition flex items-center gap-2">
+            <button onclick="loadPersonnelData(true)" class="px-3.5 py-2 bg-white/10 hover:bg-white/20 text-white text-xs font-bold rounded-xl border border-white/20 transition flex items-center gap-2">
               <i class="fas fa-sync-alt"></i><span>รีเฟรชข้อมูล</span>
             </button>
           </div>
@@ -485,7 +485,7 @@
             <h2 class="font-bold text-slate-800 text-base"><i class="fas fa-images text-purple-600 mr-2"></i>รายงานผลการปฏิบัติงาน (Google Drive Group Slide)</h2>
             <p class="text-xs text-slate-500">แสดงผลแบบ 3 ชุดต่อแถว สัดส่วนภาพ 16:9 ไวด์สกรีนเต็มตา</p>
           </div>
-          <button onclick="loadDriveActivitySlides()" class="px-3.5 py-2 rounded-xl bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold flex items-center gap-1.5 shadow-xs transition">
+          <button onclick="loadDriveActivitySlides(true)" class="px-3.5 py-2 rounded-xl bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold flex items-center gap-1.5 shadow-xs transition">
             <i class="fas fa-sync-alt"></i><span>รีเฟรชสไลด์ภาพ</span>
           </button>
         </div>
@@ -546,11 +546,15 @@
     let isRecording = false;
 
     window.addEventListener('DOMContentLoaded', () => {
+      // 1. โหลดข้อมูลจาก LocalStorage แสดงผลลัพธ์ทันที 0 วินาที
+      loadPersonnelDataFromLocal();
+      loadDriveActivitySlidesFromLocal();
+
+      // 2. ดึงข้อมูลใหม่สดจาก API (Background Sync)
       syncPersonnelDataStore();
       initSpeechRecognition();
     });
 
-    // ฟังก์ชัน สลับการเปิด/ปิด Sidebar บนมือถือ
     function toggleMobileSidebar() {
       const sidebar = document.getElementById('mainSidebar');
       const backdrop = document.getElementById('mobileSidebarBackdrop');
@@ -565,7 +569,6 @@
       }
     }
 
-    // ฟังก์ชัน ปิด Sidebar บนมือถืออัตโนมัติเมื่อเลือกเมนู
     function closeMobileSidebar() {
       const sidebar = document.getElementById('mainSidebar');
       const backdrop = document.getElementById('mobileSidebarBackdrop');
@@ -575,10 +578,45 @@
       }
     }
 
-    async function syncPersonnelDataStore() {
+    // LocalStorage Helper Functions
+    function loadPersonnelDataFromLocal() {
+      const cached = localStorage.getItem('local_personnel_data');
+      if (cached) {
+        try {
+          const data = JSON.parse(cached);
+          renderPersonnelUI(data);
+          globalDataStore.personnel = [
+            ...(data.inspectors || []),
+            ...(data.committee || []),
+            ...(data.engineers || [])
+          ];
+        } catch (e) {
+          console.warn("Parse local personnel error:", e);
+        }
+      }
+    }
+
+    function loadDriveActivitySlidesFromLocal() {
+      const cached = localStorage.getItem('local_drive_slides');
+      if (cached) {
+        try {
+          const slides = JSON.parse(cached);
+          renderDriveSlidesUI(slides);
+        } catch (e) {
+          console.warn("Parse local slides error:", e);
+        }
+      }
+    }
+
+    async function syncPersonnelDataStore(forceRefresh = false) {
       try {
-        const res = await fetch(`${GAS_API_URL}?action=getPersonnelData`);
+        const url = `${GAS_API_URL}?action=getPersonnelData${forceRefresh ? '&refresh=true' : ''}`;
+        const res = await fetch(url);
         const data = await res.json();
+        
+        localStorage.setItem('local_personnel_data', JSON.stringify(data));
+        renderPersonnelUI(data);
+
         globalDataStore.personnel = [
           ...(data.inspectors || []),
           ...(data.committee || []),
@@ -896,108 +934,109 @@
       return html || `<p class="text-[13px] font-semibold text-slate-800">${textStr}</p>`;
     }
 
-    async function loadPersonnelData() {
+    function renderPersonnelUI(data) {
       const inspContainer = document.getElementById('inspectorsContainer');
       const comContainer = document.getElementById('committeeContainer');
       const engContainer = document.getElementById('engineersContainer');
 
-      try {
-        const res = await fetch(`${GAS_API_URL}?action=getPersonnelData`);
-        const data = await res.json();
-
-        if (data.inspectors && data.inspectors.length > 0) {
-          let html = '';
-          data.inspectors.forEach((item, idx) => {
-            const cardId = item.id || `inspector-${idx}`;
-            const avatar = item.imgUrl ? `<img src="${item.imgUrl}" class="w-full h-full object-cover">` : `<i class="fas fa-user-tie text-blue-500 text-3xl"></i>`;
-            html += `
-              <div id="${cardId}" class="bg-white p-4 rounded-xl border border-slate-200 shadow-xs flex flex-col justify-between items-center text-center h-full transition-all">
-                <div class="flex flex-col items-center w-full">
-                  <span class="px-3 py-0.5 bg-blue-600 text-white text-[11px] font-bold rounded-full mb-3">${item.zone}</span>
-                  <div class="w-24 h-28 rounded-2xl overflow-hidden border-2 border-blue-500 mb-3 bg-white p-1 shadow-xs flex items-center justify-center">
-                    <div class="w-full h-full rounded-xl overflow-hidden flex items-center justify-center bg-slate-100">
-                      ${avatar}
-                    </div>
+      if (data.inspectors && data.inspectors.length > 0) {
+        let html = '';
+        data.inspectors.forEach((item, idx) => {
+          const cardId = item.id || `inspector-${idx}`;
+          const avatar = item.imgUrl ? `<img src="${item.imgUrl}" loading="lazy" class="w-full h-full object-cover">` : `<i class="fas fa-user-tie text-blue-500 text-3xl"></i>`;
+          html += `
+            <div id="${cardId}" class="bg-white p-4 rounded-xl border border-slate-200 shadow-xs flex flex-col justify-between items-center text-center h-full transition-all">
+              <div class="flex flex-col items-center w-full">
+                <span class="px-3 py-0.5 bg-blue-600 text-white text-[11px] font-bold rounded-full mb-3">${item.zone}</span>
+                <div class="w-24 h-28 rounded-2xl overflow-hidden border-2 border-blue-500 mb-3 bg-white p-1 shadow-xs flex items-center justify-center">
+                  <div class="w-full h-full rounded-xl overflow-hidden flex items-center justify-center bg-slate-100">
+                    ${avatar}
                   </div>
-                  <p class="text-[11px] text-slate-400 font-bold">ผู้รับผิดชอบ</p>
-                  <h4 class="font-bold text-slate-900 text-sm mb-1">${item.name}</h4>
-                  <p class="text-xs text-blue-600 font-bold mb-3"><i class="fas fa-phone mr-1"></i>โทร ${item.phone}</p>
                 </div>
-                <p class="text-xs text-slate-700 bg-slate-100 px-3 py-1.5 rounded-md w-full font-semibold">หมู่บ้าน: ${item.villages}</p>
+                <p class="text-[11px] text-slate-400 font-bold">ผู้รับผิดชอบ</p>
+                <h4 class="font-bold text-slate-900 text-sm mb-1">${item.name}</h4>
+                <p class="text-xs text-blue-600 font-bold mb-3"><i class="fas fa-phone mr-1"></i>โทร ${item.phone}</p>
               </div>
-            `;
-          });
-          inspContainer.innerHTML = html;
-        } else {
-          inspContainer.innerHTML = '<div class="col-span-2 text-center py-6 text-slate-400 text-xs">ไม่พบข้อมูลนายช่างนายตรวจ</div>';
-        }
+              <p class="text-xs text-slate-700 bg-slate-100 px-3 py-1.5 rounded-md w-full font-semibold">หมู่บ้าน: ${item.villages}</p>
+            </div>
+          `;
+        });
+        inspContainer.innerHTML = html;
+      } else {
+        inspContainer.innerHTML = '<div class="col-span-2 text-center py-6 text-slate-400 text-xs">ไม่พบข้อมูลนายช่างนายตรวจ</div>';
+      }
 
-        if (data.committee && data.committee.length > 0) {
-          let html = '';
-          data.committee.forEach((item, idx) => {
-            const cardId = item.id || `committee-${idx}`;
-            const avatar = item.imgUrl ? `<img src="${item.imgUrl}" class="w-full h-full object-cover">` : `<i class="fas fa-user-tie text-amber-500 text-3xl"></i>`;
-            html += `
-              <div id="${cardId}" class="bg-white p-4 rounded-xl border border-slate-200 shadow-xs flex flex-col justify-between items-center text-center h-full transition-all">
-                <div class="flex flex-col items-center w-full">
-                  <span class="px-3 py-0.5 bg-amber-500 text-white text-[11px] font-bold rounded-full mb-3">${item.zone || 'กรรมการ'}</span>
-                  <div class="w-24 h-28 rounded-2xl overflow-hidden border-2 border-amber-500 mb-3 bg-white p-1 shadow-xs flex items-center justify-center">
-                    <div class="w-full h-full rounded-xl overflow-hidden flex items-center justify-center bg-slate-100">
-                      ${avatar}
-                    </div>
+      if (data.committee && data.committee.length > 0) {
+        let html = '';
+        data.committee.forEach((item, idx) => {
+          const cardId = item.id || `committee-${idx}`;
+          const avatar = item.imgUrl ? `<img src="${item.imgUrl}" loading="lazy" class="w-full h-full object-cover">` : `<i class="fas fa-user-tie text-amber-500 text-3xl"></i>`;
+          html += `
+            <div id="${cardId}" class="bg-white p-4 rounded-xl border border-slate-200 shadow-xs flex flex-col justify-between items-center text-center h-full transition-all">
+              <div class="flex flex-col items-center w-full">
+                <span class="px-3 py-0.5 bg-amber-500 text-white text-[11px] font-bold rounded-full mb-3">${item.zone || 'กรรมการ'}</span>
+                <div class="w-24 h-28 rounded-2xl overflow-hidden border-2 border-amber-500 mb-3 bg-white p-1 shadow-xs flex items-center justify-center">
+                  <div class="w-full h-full rounded-xl overflow-hidden flex items-center justify-center bg-slate-100">
+                    ${avatar}
                   </div>
-                  <p class="text-[11px] text-slate-400 font-bold">กรรมการราคากลาง</p>
-                  <h4 class="font-bold text-slate-900 text-sm mb-1">${item.name}</h4>
-                  <p class="text-xs text-emerald-600 font-bold mb-3"><i class="fas fa-phone mr-1"></i>โทร ${item.phone}</p>
                 </div>
-                <p class="text-xs text-slate-700 bg-amber-50 border border-amber-200 px-3 py-1.5 rounded-md w-full font-semibold">ผู้รับผิดชอบ: ${item.villages}</p>
+                <p class="text-[11px] text-slate-400 font-bold">กรรมการราคากลาง</p>
+                <h4 class="font-bold text-slate-900 text-sm mb-1">${item.name}</h4>
+                <p class="text-xs text-emerald-600 font-bold mb-3"><i class="fas fa-phone mr-1"></i>โทร ${item.phone}</p>
               </div>
-            `;
-          });
-          comContainer.innerHTML = html;
-        } else {
-          comContainer.innerHTML = '<div class="col-span-2 text-center py-6 text-slate-400 text-xs">ไม่พบข้อมูลกรรมการราคากลาง</div>';
-        }
+              <p class="text-xs text-slate-700 bg-amber-50 border border-amber-200 px-3 py-1.5 rounded-md w-full font-semibold">ผู้รับผิดชอบ: ${item.villages}</p>
+            </div>
+          `;
+        });
+        comContainer.innerHTML = html;
+      } else {
+        comContainer.innerHTML = '<div class="col-span-2 text-center py-6 text-slate-400 text-xs">ไม่พบข้อมูลกรรมการราคากลาง</div>';
+      }
 
-        if (data.engineers && data.engineers.length > 0) {
-          const colors = ['blue', 'amber', 'emerald', 'purple', 'sky', 'red'];
-          let html = '';
-          data.engineers.forEach((item, idx) => {
-            const cardId = item.id || `engineer-${idx}`;
-            const color = colors[idx % colors.length];
-            const avatar = item.imgUrl ? `<img src="${item.imgUrl}" class="w-full h-full object-cover">` : `<i class="fas fa-user-tie text-slate-400 text-2xl"></i>`;
-            
-            const villagesHtml = formatMultilineItems(item.villages);
-            const centersHtml = formatMultilineItems(item.centers);
+      if (data.engineers && data.engineers.length > 0) {
+        const colors = ['blue', 'amber', 'emerald', 'purple', 'sky', 'red'];
+        let html = '';
+        data.engineers.forEach((item, idx) => {
+          const cardId = item.id || `engineer-${idx}`;
+          const color = colors[idx % colors.length];
+          const avatar = item.imgUrl ? `<img src="${item.imgUrl}" loading="lazy" class="w-full h-full object-cover">` : `<i class="fas fa-user-tie text-slate-400 text-2xl"></i>`;
+          
+          const villagesHtml = formatMultilineItems(item.villages);
+          const centersHtml = formatMultilineItems(item.centers);
 
-            html += `
-              <div id="${cardId}" class="bg-slate-50 p-4 rounded-xl border border-slate-200 flex flex-col justify-between transition-all">
-                <div>
-                  <div class="w-20 h-24 rounded-2xl bg-white p-1 border-2 border-${color}-400 shadow-xs mx-auto mb-2 overflow-hidden">
-                    <div class="w-full h-full rounded-xl overflow-hidden flex items-center justify-center bg-${color}-50">
-                      ${avatar}
-                    </div>
-                  </div>
-                  <h3 class="font-bold text-slate-900 text-xs text-center">${item.name}</h3>
-                  <p class="text-[11px] text-${color}-600 font-bold text-center mb-3">โทร ${item.phone}</p>
-                  <div class="text-[11px] space-y-1 text-slate-700 bg-white p-2.5 rounded-lg border border-slate-200 mb-2">
-                    <p class="font-bold text-slate-900 border-b pb-1 mb-1.5 text-xs">หมู่บ้าน:</p>
-                    <div class="space-y-1">${villagesHtml}</div>
+          html += `
+            <div id="${cardId}" class="bg-slate-50 p-4 rounded-xl border border-slate-200 flex flex-col justify-between transition-all">
+              <div>
+                <div class="w-20 h-24 rounded-2xl bg-white p-1 border-2 border-${color}-400 shadow-xs mx-auto mb-2 overflow-hidden">
+                  <div class="w-full h-full rounded-xl overflow-hidden flex items-center justify-center bg-${color}-50">
+                    ${avatar}
                   </div>
                 </div>
-                <div class="text-[11px] bg-${color}-50 p-2.5 rounded-lg text-${color}-800 border border-${color}-100">
-                  <p class="font-bold border-b border-${color}-200/60 pb-1 mb-1.5 text-xs">ศพด./ศูนย์:</p>
-                  <div class="space-y-1">${centersHtml}</div>
+                <h3 class="font-bold text-slate-900 text-xs text-center">${item.name}</h3>
+                <p class="text-[11px] text-${color}-600 font-bold text-center mb-3">โทร ${item.phone}</p>
+                <div class="text-[11px] space-y-1 text-slate-700 bg-white p-2.5 rounded-lg border border-slate-200 mb-2">
+                  <p class="font-bold text-slate-900 border-b pb-1 mb-1.5 text-xs">หมู่บ้าน:</p>
+                  <div class="space-y-1">${villagesHtml}</div>
                 </div>
               </div>
-            `;
-          });
-          engContainer.innerHTML = html;
-        } else {
-          engContainer.innerHTML = '<div class="col-span-6 text-center py-6 text-slate-400 text-xs">ไม่พบข้อมูลพื้นที่ควบคุมงานช่าง</div>';
-        }
-      } catch (err) {
-        console.error("Load personnel data error:", err);
+              <div class="text-[11px] bg-${color}-50 p-2.5 rounded-lg text-${color}-800 border border-${color}-100">
+                <p class="font-bold border-b border-${color}-200/60 pb-1 mb-1.5 text-xs">ศพด./ศูนย์:</p>
+                <div class="space-y-1">${centersHtml}</div>
+              </div>
+            </div>
+          `;
+        });
+        engContainer.innerHTML = html;
+      } else {
+        engContainer.innerHTML = '<div class="col-span-6 text-center py-6 text-slate-400 text-xs">ไม่พบข้อมูลพื้นที่ควบคุมงานช่าง</div>';
+      }
+    }
+
+    async function loadPersonnelData(forceRefresh = false) {
+      if (forceRefresh) {
+        syncPersonnelDataStore(true);
+      } else {
+        syncPersonnelDataStore(false);
       }
     }
 
@@ -1007,67 +1046,81 @@
       container.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
     }
 
-    async function loadDriveActivitySlides() {
+    function renderDriveSlidesUI(slides) {
       const container = document.getElementById('driveSlidesContainer');
-      container.innerHTML = '<div class="col-span-3 text-center py-12 text-slate-400 text-xs"><i class="fas fa-spinner fa-spin mr-2"></i>กำลังดึงสไลด์กิจกรรมจาก Google Drive...</div>';
 
-      try {
-        const res = await fetch(`${GAS_API_URL}?action=getDriveActivitySlides`);
-        const slides = await res.json();
+      if (!slides || slides.length === 0) {
+        container.innerHTML = '<div class="col-span-3 text-center py-12 text-slate-400 text-xs">ไม่พบโฟลเดอร์ภาพกิจกรรมใน Google Drive</div>';
+        return;
+      }
 
-        if (!slides || slides.length === 0) {
-          container.innerHTML = '<div class="col-span-3 text-center py-12 text-slate-400 text-xs">ไม่พบโฟลเดอร์ภาพกิจกรรมใน Google Drive</div>';
-          return;
-        }
-
-        let html = '';
-        slides.forEach((slide, idx) => {
-          let imageItemsHtml = '';
-          slide.images.forEach((imgUrl, imgIdx) => {
-            imageItemsHtml += `
-              <div class="carousel-slide flex-shrink-0 w-full aspect-video rounded-xl overflow-hidden relative bg-slate-900">
-                <img src="${imgUrl}" class="w-full h-full object-cover">
-                <div class="absolute bottom-2 right-2 bg-black/70 text-white text-[10px] px-2 py-0.5 rounded-full font-bold">
-                  ${imgIdx + 1}/${slide.images.length}
-                </div>
-              </div>
-            `;
-          });
-
-          html += `
-            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex flex-col justify-between space-y-3">
-              <div class="flex items-center justify-between border-b pb-2">
-                <div>
-                  <span class="inline-block px-2 py-0.5 bg-purple-50 text-purple-700 text-[10px] font-bold rounded mb-1">${slide.reporter}</span>
-                  <h3 class="font-bold text-slate-900 text-xs line-clamp-1">${slide.title}</h3>
-                </div>
-                <a href="${slide.folderUrl}" target="_blank" class="p-1.5 bg-slate-100 hover:bg-slate-200 text-emerald-600 rounded-lg text-xs" title="เปิดโฟลเดอร์">
-                  <i class="fab fa-google-drive"></i>
-                </a>
-              </div>
-
-              <div class="relative group">
-                <div id="carousel-${idx}" class="carousel-container flex overflow-x-hidden scroll-smooth">
-                  ${imageItemsHtml}
-                </div>
-                ${slide.images.length > 1 ? `
-                  <button onclick="moveSlide(${idx}, -1)" class="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/60 text-white text-xs flex items-center justify-center opacity-80 hover:opacity-100 transition shadow-md">
-                    <i class="fas fa-chevron-left"></i>
-                  </button>
-                  <button onclick="moveSlide(${idx}, 1)" class="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/60 text-white text-xs flex items-center justify-center opacity-80 hover:opacity-100 transition shadow-md">
-                    <i class="fas fa-chevron-right"></i>
-                  </button>
-                ` : ''}
-              </div>
-
-              <div class="text-right text-[10px] text-slate-400">
-                <i class="far fa-clock mr-1"></i>${slide.dateDisplay}
+      let html = '';
+      slides.forEach((slide, idx) => {
+        let imageItemsHtml = '';
+        slide.images.forEach((imgUrl, imgIdx) => {
+          // ใช้ Lazy loading บนรูปภาพที่ไม่ใช่อิมเมจแรก
+          const loadingAttr = imgIdx === 0 ? 'loading="eager"' : 'loading="lazy"';
+          imageItemsHtml += `
+            <div class="carousel-slide flex-shrink-0 w-full aspect-video rounded-xl overflow-hidden relative bg-slate-900">
+              <img src="${imgUrl}" ${loadingAttr} class="w-full h-full object-cover">
+              <div class="absolute bottom-2 right-2 bg-black/70 text-white text-[10px] px-2 py-0.5 rounded-full font-bold">
+                ${imgIdx + 1}/${slide.images.length}
               </div>
             </div>
           `;
         });
 
-        container.innerHTML = html;
+        html += `
+          <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex flex-col justify-between space-y-3">
+            <div class="flex items-center justify-between border-b pb-2">
+              <div>
+                <span class="inline-block px-2 py-0.5 bg-purple-50 text-purple-700 text-[10px] font-bold rounded mb-1">${slide.reporter}</span>
+                <h3 class="font-bold text-slate-900 text-xs line-clamp-1">${slide.title}</h3>
+              </div>
+              <a href="${slide.folderUrl}" target="_blank" class="p-1.5 bg-slate-100 hover:bg-slate-200 text-emerald-600 rounded-lg text-xs" title="เปิดโฟลเดอร์">
+                <i class="fab fa-google-drive"></i>
+              </a>
+            </div>
+
+            <div class="relative group">
+              <div id="carousel-${idx}" class="carousel-container flex overflow-x-hidden scroll-smooth">
+                ${imageItemsHtml}
+              </div>
+              ${slide.images.length > 1 ? `
+                <button onclick="moveSlide(${idx}, -1)" class="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/60 text-white text-xs flex items-center justify-center opacity-80 hover:opacity-100 transition shadow-md">
+                  <i class="fas fa-chevron-left"></i>
+                </button>
+                <button onclick="moveSlide(${idx}, 1)" class="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/60 text-white text-xs flex items-center justify-center opacity-80 hover:opacity-100 transition shadow-md">
+                  <i class="fas fa-chevron-right"></i>
+                </button>
+              ` : ''}
+            </div>
+
+            <div class="text-right text-[10px] text-slate-400">
+              <i class="far fa-clock mr-1"></i>${slide.dateDisplay}
+            </div>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+    }
+
+    async function loadDriveActivitySlides(forceRefresh = false) {
+      const container = document.getElementById('driveSlidesContainer');
+      
+      // ถ้าไม่มี LocalStorage ให้แสดง Spinner
+      if (!localStorage.getItem('local_drive_slides') || forceRefresh) {
+        container.innerHTML = '<div class="col-span-3 text-center py-12 text-slate-400 text-xs"><i class="fas fa-spinner fa-spin mr-2"></i>กำลังดึงสไลด์กิจกรรมจาก Google Drive...</div>';
+      }
+
+      try {
+        const url = `${GAS_API_URL}?action=getDriveActivitySlides${forceRefresh ? '&refresh=true' : ''}`;
+        const res = await fetch(url);
+        const slides = await res.json();
+
+        localStorage.setItem('local_drive_slides', JSON.stringify(slides));
+        renderDriveSlidesUI(slides);
       } catch (err) {
         console.error("Load drive activity slides error:", err);
       }
