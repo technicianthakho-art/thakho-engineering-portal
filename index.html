@@ -112,13 +112,9 @@
         <div>
           <div class="flex items-center justify-between px-2 py-3 border-b border-slate-800">
             <div class="flex items-center gap-3">
-              <!-- โลโก้ตรา อบต.ท่าก๊อ SVG เวกเตอร์แบบคมชัดสูง -->
-              <div class="w-10 h-10 rounded-full bg-blue-900 p-1 flex items-center justify-center flex-shrink-0 border-2 border-amber-400 shadow-md">
-                <svg viewBox="0 0 100 100" class="w-full h-full">
-                  <circle cx="50" cy="50" r="46" fill="#1d4ed8" stroke="#f59e0b" stroke-width="3"/>
-                  <path d="M50 20 L65 40 L65 75 L35 75 L35 40 Z" fill="#10b981" stroke="#f59e0b" stroke-width="2"/>
-                  <circle cx="50" cy="50" r="12" fill="#f59e0b"/>
-                </svg>
+              <!-- โลโก้ตรา อบต.ท่าก๊อ (ภาพจริงจาก CDN Direct Link) -->
+              <div class="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center flex-shrink-0 border-2 border-amber-400 shadow-md bg-white">
+                <img src="https://lh3.googleusercontent.com/d/1MNeJFoDWNE9Bsg_lKzUDNdKhiowFle63" alt="ตรา อบต.ท่าก๊อ" class="w-full h-full object-cover">
               </div>
               <div class="sidebar-header-text">
                 <h2 class="font-bold text-sm leading-tight text-amber-400">กองช่าง อบต.ท่าก๊อ</h2>
@@ -220,6 +216,10 @@
         <button onclick="toggleMobileSidebar()" class="md:hidden w-9 h-9 rounded-xl bg-slate-900 text-amber-400 flex items-center justify-center text-sm border border-slate-800">
           <i class="fas fa-bars"></i>
         </button>
+        <!-- โลโก้มือถือ (ภาพจริง) -->
+        <div class="md:hidden w-8 h-8 rounded-full overflow-hidden flex-shrink-0 border border-amber-400/40 bg-white shadow-xs">
+          <img src="https://lh3.googleusercontent.com/d/1MNeJFoDWNE9Bsg_lKzUDNdKhiowFle63" alt="ตรา อบต.ท่าก๊อ" class="w-full h-full object-cover">
+        </div>
         <h1 class="font-bold text-slate-800 text-sm md:text-base line-clamp-1" id="pageTitle">ภาพรวมแอฟทั้งหมด</h1>
       </div>
 
