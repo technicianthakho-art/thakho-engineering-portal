@@ -620,7 +620,8 @@
   </div>
 
   <script>
-    const GAS_API_URL = "https://script.google.com/macros/s/AKfycbyo7Ofb1OqEnUv8Z1BAhj7neqPcroCKh2d1ccJi5KEYv3rBscuCHNfaBRNfsqWhjY3_/exec";
+    // URL Web App ตรงตามเป้าหมาย
+    const GAS_API_URL = "https://script.google.com/macros/s/AKfycbyykY41f__bf2ChoZtveV8ISwIIrMFufU4hF2mJaCs6ENp74azXxkkAYTyFmd7WnnUz/exec";
 
     let currentAdminPin = "";
     let globalAppsData = [];
@@ -635,18 +636,35 @@
     let recognition = null;
     let isRecording = false;
 
+    // Helper Function ส่ง API ด้วย URL-Encoded (ป้องกัน CORS Preflight OPTIONS 100%)
+    async function sendApiRequest(payloadObj) {
+      const bodyParams = new URLSearchParams();
+      for (const key in payloadObj) {
+        if (typeof payloadObj[key] === 'object') {
+          bodyParams.append(key, JSON.stringify(payloadObj[key]));
+        } else {
+          bodyParams.append(key, payloadObj[key]);
+        }
+      }
+
+      const res = await fetch(GAS_API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8' },
+        body: bodyParams.toString()
+      });
+      return await res.json();
+    }
+
     window.addEventListener('DOMContentLoaded', () => {
-      // 1. โหลดข้อมูลจาก LocalStorage แสดงผลทันที 0 วินาที
       loadAppsDataFromLocal();
       loadPersonnelDataFromLocal();
       loadDriveActivitySlidesFromLocal();
 
-      // 2. ซิงค์ข้อมูลสดจาก API หลังบ้าน
-      syncAppsDataStore();
+      // สั่งซิงค์ข้อมูลสด (ส่ง refresh=true เพื่อเคลียร์ Cache สดบน Server)
+      syncAppsDataStore(true);
       syncPersonnelDataStore();
       initSpeechRecognition();
 
-      // ตรวจสอบคีย์แอดมินเดิมใน Session
       const savedPin = sessionStorage.getItem('admin_pin_token');
       if (savedPin) currentAdminPin = savedPin;
     });
@@ -796,11 +814,7 @@
       Swal.fire({ title: 'กำลังตรวจสอบ PIN...', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } });
 
       try {
-        const res = await fetch(GAS_API_URL, {
-          method: 'POST',
-          body: JSON.stringify({ action: 'verifyAdminPin', pin: pin })
-        });
-        const result = await res.json();
+        const result = await sendApiRequest({ action: 'verifyAdminPin', pin: pin });
 
         if (result.success) {
           currentAdminPin = pin;
@@ -823,7 +837,7 @@
 
     function closeAdminPanelModal() {
       document.getElementById('adminPanelModal').classList.add('hidden');
-      syncAppsDataStore(true); // ซิงค์การเปลี่ยนแปลงสดออกหน้าบ้าน
+      syncAppsDataStore(true);
     }
 
     function logoutAdmin() {
@@ -879,7 +893,6 @@
             </div>
 
             <div class="flex items-center gap-3">
-              <!-- Toggle Switch -->
               <label class="relative inline-flex items-center cursor-pointer">
                 <input type="checkbox" ${isChecked} onchange="toggleAppStatus('${app.app_id}', this.checked)" class="sr-only peer">
                 <div class="w-9 h-5 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-emerald-500"></div>
@@ -901,16 +914,12 @@
 
     async function toggleAppStatus(appId, isVisible) {
       try {
-        const res = await fetch(GAS_API_URL, {
-          method: 'POST',
-          body: JSON.stringify({
-            action: 'toggleAppVisibility',
-            pin: currentAdminPin,
-            appId: appId,
-            isVisible: isVisible
-          })
+        const result = await sendApiRequest({
+          action: 'toggleAppVisibility',
+          pin: currentAdminPin,
+          appId: appId,
+          isVisible: isVisible
         });
-        const result = await res.json();
         if (result.success) {
           fetchAdminAppsData(true);
         } else {
@@ -995,15 +1004,11 @@
       Swal.fire({ title: 'กำลังบันทึกข้อมูล...', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } });
 
       try {
-        const res = await fetch(GAS_API_URL, {
-          method: 'POST',
-          body: JSON.stringify({
-            action: 'saveAppData',
-            pin: currentAdminPin,
-            appData: appData
-          })
+        const result = await sendApiRequest({
+          action: 'saveAppData',
+          pin: currentAdminPin,
+          appData: appData
         });
-        const result = await res.json();
 
         if (result.success) {
           Swal.fire('บันทึกสำเร็จ', result.message, 'success');
@@ -1032,15 +1037,11 @@
         Swal.fire({ title: 'กำลังลบ...', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } });
 
         try {
-          const res = await fetch(GAS_API_URL, {
-            method: 'POST',
-            body: JSON.stringify({
-              action: 'deleteAppData',
-              pin: currentAdminPin,
-              appId: appId
-            })
+          const result = await sendApiRequest({
+            action: 'deleteAppData',
+            pin: currentAdminPin,
+            appId: appId
           });
-          const result = await res.json();
 
           if (result.success) {
             Swal.fire('ลบสำเร็จ', result.message, 'success');
