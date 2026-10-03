@@ -1,679 +1,1633 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ระบบงานกองช่าง อบต.ท่าก้อ</title>
-  <!-- Google Fonts & Lucide Icons -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <base target="_top">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>กองช่าง อบต.ท่าก๊อ</title>
   
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700&family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
   <style>
-    :root {
-      --sidebar-width: 260px;
-      --bg-main: #f8fafc;
-      --sidebar-bg: #0f172a;
-      --sidebar-text: #94a3b8;
-      --sidebar-text-active: #ffffff;
-      --card-radius: 16px;
+    * { font-family: 'Sarabun', 'Plus Jakarta Sans', sans-serif; box-sizing: border-box; }
+    body { background-color: #ffffff; color: #0f172a; overflow-x: hidden; }
+    
+    /* Modern Custom Scrollbar สำหรับ Sidebar */
+    .sidebar-custom-scroll::-webkit-scrollbar {
+      width: 5px;
     }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Sarabun', sans-serif;
-    }
-
-    body {
-      background-color: var(--bg-main);
-      color: #334155;
-      height: 100vh;
-      overflow: hidden;
-      display: flex;
-    }
-
-    /* ================= SIDEBAR (ฝั่งซ้าย) ================= */
-    .sidebar {
-      width: var(--sidebar-width);
-      background-color: var(--sidebar-bg);
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding: 16px 12px;
-      color: #fff;
-      flex-shrink: 0;
-      z-index: 20;
-    }
-
-    .sidebar-header {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 8px 12px;
-      margin-bottom: 12px;
-    }
-
-    .sidebar-logo {
-      width: 36px;
-      height: 36px;
-      background: linear-gradient(135deg, #059669, #10b981);
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-weight: bold;
-    }
-
-    .sidebar-title {
-      font-size: 15px;
-      font-weight: 700;
-      color: #f8fafc;
-      line-height: 1.2;
-    }
-
-    .sidebar-nav {
-      flex: 1;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      padding-right: 4px;
-    }
-
-    /* Custom Scrollbar สำหรับ Sidebar */
-    .sidebar-nav::-webkit-scrollbar {
-      width: 4px;
-    }
-    .sidebar-nav::-webkit-scrollbar-thumb {
-      background: #334155;
-      border-radius: 4px;
-    }
-
-    .nav-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 9px 12px;
-      border-radius: 8px;
-      color: var(--sidebar-text);
-      text-decoration: none;
-      font-size: 13.5px;
-      font-weight: 500;
-      transition: all 0.2s ease;
-    }
-
-    .nav-item:hover {
-      background-color: rgba(255, 255, 255, 0.06);
-      color: #ffffff;
-    }
-
-    .nav-item.active {
-      background-color: #0284c7;
-      color: #ffffff;
-      font-weight: 600;
-      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
-    }
-
-    /* ข้อมูลการติดต่อคงไว้เหมือนเดิม ไม่ยุบ */
-    .sidebar-footer {
-      background-color: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 12px;
-      padding: 12px;
-      margin-top: 12px;
-      font-size: 11.5px;
-      color: #94a3b8;
-      line-height: 1.5;
-    }
-
-    .footer-title {
-      color: #38bdf8;
-      font-weight: 600;
-      margin-bottom: 4px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 12px;
-    }
-
-    /* ================= MAIN CONTENT (ฝั่งขวา) ================= */
-    .main-wrapper {
-      flex: 1;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
-
-    /* Top Bar Search & Actions */
-    .top-header {
-      height: 60px;
-      background: #ffffff;
-      border-bottom: 1px solid #e2e8f0;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 24px;
-      flex-shrink: 0;
-    }
-
-    .search-box {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      background: #f1f5f9;
-      padding: 8px 16px;
-      border-radius: 20px;
-      width: 380px;
-      border: 1px solid #e2e8f0;
-    }
-
-    .search-box input {
-      border: none;
+    .sidebar-custom-scroll::-webkit-scrollbar-track {
       background: transparent;
-      outline: none;
-      font-size: 13px;
-      width: 100%;
+    }
+    .sidebar-custom-scroll::-webkit-scrollbar-thumb {
+      background: transparent;
+      border-radius: 10px;
+    }
+    .sidebar-custom-scroll:hover::-webkit-scrollbar-thumb {
+      background: #334155;
     }
 
-    .header-actions {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .action-btn {
-      padding: 6px 14px;
-      border-radius: 8px;
-      font-size: 12.5px;
-      font-weight: 600;
-      border: none;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .btn-light { background: #f1f5f9; color: #475569; }
-    .btn-primary { background: #0284c7; color: #ffffff; }
-
-    /* Content Area */
-    .content-container {
-      flex: 1;
-      padding: 16px 24px;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      overflow-y: auto;
-    }
-
-    /* Quick Access Bar Top Section */
-    .quick-access-banner {
-      background: linear-gradient(135deg, #0f172a, #1e293b);
-      border-radius: var(--card-radius);
-      padding: 14px 20px;
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      box-shadow: 0 4px 20px rgba(15, 23, 42, 0.08);
-      flex-shrink: 0;
-    }
-
-    .banner-title {
-      font-size: 15px;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      color: #f8fafc;
-    }
-
-    .quick-nav-list {
-      display: flex;
-      gap: 12px;
-    }
-
-    .quick-btn {
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      padding: 6px 12px;
-      border-radius: 8px;
-      color: #e2e8f0;
-      font-size: 12px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .quick-btn:hover {
-      background: rgba(255, 255, 255, 0.18);
-      color: #fff;
-    }
-
-    /* ================= UNIFORM BENTO GRID ================= */
-    .grid-container {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-      align-content: start;
-    }
-
-    /* Card Item Base Style */
-    .app-card {
-      border-radius: var(--card-radius);
-      padding: 16px;
-      position: relative;
+    .widget-card {
       background: #ffffff;
-      border: 1.5px solid #e2e8f0;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      min-height: 120px;
-      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-      text-decoration: none;
-      color: inherit;
+      border: 1px solid #e2e8f0;
+      border-radius: 1.25rem;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
+      transition: all 0.25s ease;
+      cursor: pointer;
+    }
+    .widget-card:hover {
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+      transform: translateY(-3px);
+    }
+    .sidebar-active { background-color: #374151; border-left: 4px solid #059669; }
+    .sub-app-item { transition: all 0.2s ease; }
+    .sub-app-item:hover { background-color: #1f2937; color: #34d399; }
+
+    @media (min-width: 768px) {
+      .sidebar-collapsed { width: 4.5rem !important; }
+      .sidebar-collapsed .nav-text, 
+      .sidebar-collapsed .sidebar-header-text,
+      .sidebar-collapsed .contact-info-card,
+      .sidebar-collapsed #subAppMenu { display: none !important; }
+      .sidebar-collapsed .nav-item { justify-content: center !important; padding-left: 0 !important; padding-right: 0 !important; }
     }
 
-    .app-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 24px -6px rgba(0, 0, 0, 0.08);
-    }
-
-    /* Color Tints according to Departments */
-    .card-blue   { background: #f0f9ff; border-color: #bae6fd; }
-    .card-amber  { background: #fffbeb; border-color: #fde68a; }
-    .card-emerald{ background: #ecfdf5; border-color: #a7f3d0; }
-    .card-rose   { background: #fff1f2; border-color: #fecdd3; }
-    .card-purple { background: #faf5ff; border-color: #e9d5ff; }
-    .card-cyan   { background: #ecfeff; border-color: #a5f3fc; }
-    .card-indigo { background: #eef2ff; border-color: #c7d2fe; }
-
-    .card-header-row {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      margin-bottom: 10px;
-    }
-
-    /* Modern Squircle Icon Container */
-    .icon-squircle {
-      width: 44px;
-      height: 44px;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      flex-shrink: 0;
-    }
-
-    .icon-blue    { background: linear-gradient(135deg, #0284c7, #0369a1); }
-    .icon-amber   { background: linear-gradient(135deg, #d97706, #b45309); }
-    .icon-emerald { background: linear-gradient(135deg, #059669, #047857); }
-    .icon-rose    { background: linear-gradient(135deg, #e11d48, #be123c); }
-    .icon-purple { background: linear-gradient(135deg, #9333ea, #7e22ce); }
-    .icon-cyan   { background: linear-gradient(135deg, #0891b2, #0e7490); }
-    .icon-indigo { background: linear-gradient(135deg, #4f46e5, #4338ca); }
-
-    .card-title-group {
-      flex: 1;
-      margin-left: 12px;
-    }
-
-    .card-title {
-      font-size: 14.5px;
-      font-weight: 700;
-      color: #0f172a;
-      line-height: 1.3;
-    }
-
-    .badge-solid {
-      display: inline-block;
-      padding: 2px 8px;
-      border-radius: 6px;
-      font-size: 10.5px;
-      font-weight: 600;
-      margin-top: 4px;
-      color: white;
-    }
-
-    .badge-blue    { background: #0284c7; }
-    .badge-amber   { background: #d97706; }
-    .badge-emerald { background: #059669; }
-    .badge-rose    { background: #e11d48; }
-    .badge-purple { background: #9333ea; }
-    .badge-cyan   { background: #0891b2; }
-    .badge-indigo { background: #4f46e5; }
-
-    .external-btn {
+    .floating-toggle-btn {
+      position: absolute;
+      right: -14px;
+      top: 22px;
       width: 28px;
       height: 28px;
+      background-color: #059669;
+      color: #ffffff;
+      border: 2px solid #0f172a;
       border-radius: 50%;
-      background: #ffffff;
-      border: 1px solid #e2e8f0;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #64748b;
-      transition: all 0.2s;
+      cursor: pointer;
+      z-index: 100;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+      transition: all 0.25s ease;
+    }
+    .floating-toggle-btn:hover {
+      background-color: #10b981;
+      transform: scale(1.12);
     }
 
-    .app-card:hover .external-btn {
-      background: #0f172a;
-      color: #ffffff;
-      border-color: #0f172a;
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+    @keyframes pulse-ring {
+      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+      70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+    }
+    .mic-recording {
+      animation: pulse-ring 1.5s infinite;
+      background-color: #ef4444 !important;
+      color: #ffffff !important;
     }
 
-    .card-desc {
-      font-size: 12px;
-      color: #475569;
-      line-height: 1.4;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
+    @keyframes highlight-card {
+      0% { ring-width: 0px; transform: scale(1); }
+      50% { ring-width: 4px; ring-color: #059669; transform: scale(1.03); }
+      100% { ring-width: 0px; transform: scale(1); }
     }
-
-    .card-footer-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-top: 10px;
-      padding-top: 8px;
-      border-top: 1px dashed rgba(0,0,0,0.06);
-      font-size: 11px;
-      color: #64748b;
-    }
-
-    .status-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: #10b981;
-      display: inline-block;
-      margin-right: 4px;
-    }
-
-    /* ================= RESPONSIVE HEIGHT SCALING (โน้ตบุ๊ก) ================= */
-    @media (max-height: 850px) {
-      .top-header { height: 50px; }
-      .content-container { padding: 12px 18px; gap: 12px; }
-      .quick-access-banner { padding: 10px 16px; }
-      .grid-container { gap: 12px; }
-      .app-card { padding: 12px; min-height: 105px; }
-      .icon-squircle { width: 38px; height: 38px; border-radius: 10px; }
-      .card-title { font-size: 13.5px; }
-      .card-desc { font-size: 11.5px; }
-      .sidebar { padding: 12px 10px; }
-      .nav-item { padding: 7px 10px; font-size: 12.5px; }
-      .sidebar-footer { padding: 8px; font-size: 11px; margin-top: 8px; }
-    }
-
-    @media (max-height: 720px) {
-      .content-container { gap: 10px; }
-      .grid-container { gap: 10px; }
-      .app-card { padding: 10px; min-height: 98px; }
-      .card-desc { display: none; } /* ซ่อนคำอธิบายสั้นถ้าจอสั้นมาก เพื่อคงให้เห็น footer Sidebar */
-      .card-footer-row { margin-top: 4px; padding-top: 4px; }
-      .nav-item { padding: 6px 8px; }
+    .card-highlight {
+      animation: highlight-card 1.8s ease-in-out infinite;
+      border-color: #059669 !important;
     }
   </style>
 </head>
-<body>
+<body class="bg-white flex min-h-screen text-slate-800 relative w-full overflow-x-hidden" onclick="closeSearchDropdown(event)">
 
-  <!-- SIDEBAR (คงเดิมตามความต้องการ) -->
-  <aside class="sidebar">
-    <div>
-      <div class="sidebar-header">
-        <div class="sidebar-logo"><i data-lucide="wrench" size="20"></i></div>
-        <div class="sidebar-title">กองช่าง อบต.ท่าก้อ</div>
-      </div>
+  <!-- Mobile Overlay Backdrop -->
+  <div id="mobileSidebarBackdrop" onclick="toggleMobileSidebar()" class="fixed inset-0 bg-black/60 z-40 hidden md:hidden transition-opacity duration-300"></div>
+
+  <!-- Sidebar Container -->
+  <div class="relative flex-shrink-0">
+    <aside id="mainSidebar" class="w-64 bg-slate-900 text-white flex-shrink-0 flex flex-col justify-between p-3 border-r border-slate-800 fixed md:sticky top-0 h-screen overflow-y-visible transition-all duration-300 z-50 -translate-x-full md:translate-x-0">
       
-      <nav class="sidebar-nav">
-        <a href="#" class="nav-item active"><i data-lucide="layout-grid" size="18"></i> ภาพรวมแอปทั้งหมด</a>
-        <a href="#" class="nav-item"><i data-lucide="bar-chart-2" size="18"></i> ติดตามแผนดำเนินงาน</a>
-        <a href="#" class="nav-item"><i data-lucide="truck" size="18"></i> บริหารงานเครื่องจักรกล</a>
-        <a href="#" class="nav-item"><i data-lucide="wallet" size="18"></i> งบประมาณหมู่บ้าน</a>
-        <a href="#" class="nav-item"><i data-lucide="clipboard-list" size="18"></i> บริหาร & ติดตามงาน</a>
-        <a href="#" class="nav-item"><i data-lucide="user-check" size="18"></i> บันทึกการปฏิบัติงาน</a>
-        <a href="#" class="nav-item"><i data-lucide="file-text" size="18"></i> ยื่นคำร้องขออนุญาต</a>
-        <a href="#" class="nav-item"><i data-lucide="map" size="18"></i> แผนที่ GIS กองช่าง</a>
-        <a href="#" class="nav-item"><i data-lucide="navigation" size="18"></i> ลงทะเบียนทางหลวง</a>
-        <a href="#" class="nav-item"><i data-lucide="hand-coins" size="18"></i> สถานะขอรับงบสนับสนุน</a>
-        <a href="#" class="nav-item"><i data-lucide="shield-check" size="18"></i> ทะเบียนควบคุมใบอนุญาต</a>
-      </nav>
-    </div>
+      <button onclick="toggleSidebarCollapse()" class="hidden md:flex floating-toggle-btn" title="กดยุบ / ขยาย แถบข้าง" id="floatingToggleBtn">
+        <i class="fas fa-chevron-left text-xs transition-transform duration-300" id="toggleIcon"></i>
+      </button>
 
-    <!-- ข้อมูลการติดต่อคงไว้เหมือนเดิม -->
-    <div class="sidebar-footer">
-      <div class="footer-title"><i data-lucide="phone-call" size="14"></i> ข้อมูลการติดต่อ</div>
-      <div>องค์การบริหารส่วนตำบลท่าก้อ</div>
-      <div>179 ม.26 ต.ท่าก้อ อ.แม่สรวย จ.เชียงราย 57180</div>
-    </div>
-  </aside>
+      <div class="overflow-y-auto h-full flex flex-col justify-between sidebar-custom-scroll pr-1">
+        <div>
+          <div class="flex items-center justify-between px-2 py-3 border-b border-slate-800">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center flex-shrink-0 border-2 border-amber-400 shadow-md bg-white">
+                <img src="https://lh3.googleusercontent.com/d/1MNeJFoDWNE9Bsg_lKzUDNdKhiowFle63" alt="ตรา อบต.ท่าก๊อ" class="w-full h-full object-cover">
+              </div>
+              <div class="sidebar-header-text">
+                <h2 class="font-bold text-base leading-tight text-amber-400">กองช่าง อบต.ท่าก๊อ</h2>
+              </div>
+            </div>
+            <button onclick="toggleMobileSidebar()" class="md:hidden w-8 h-8 rounded-xl bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center">
+              <i class="fas fa-times text-base"></i>
+            </button>
+          </div>
 
-  <!-- MAIN WRAPPER -->
-  <div class="main-wrapper">
-    <!-- Top Header Bar -->
-    <header class="top-header">
-      <div class="search-box">
-        <i data-lucide="search" size="16" color="#94a3b8"></i>
-        <input type="text" placeholder="พิมพ์ค้นหาแอปพลิเคชัน, เบอร์ช่าง, แปลงแผนที่...">
+          <!-- Navigation Menu -->
+          <nav class="mt-4 space-y-1.5">
+            <div>
+              <button onclick="switchTab('analytics'); toggleAppDropdown();" id="nav-analytics-btn" class="nav-item w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs md:text-sm font-semibold hover:bg-slate-800 transition text-left sidebar-active" title="ภาพรวมแอฟทั้งหมด">
+                <div class="flex items-center gap-3">
+                  <i class="fas fa-th-large text-emerald-400 w-4 text-center"></i>
+                  <span class="nav-text">ภาพรวมแอฟทั้งหมด</span>
+                </div>
+                <i class="fas fa-chevron-down text-[10px] transition-transform duration-200 nav-text" id="dropdownIcon"></i>
+              </button>
+              
+              <!-- Dynamic SubAppMenu จาก Sheet -->
+              <div id="subAppMenu" class="pl-4 pr-1 py-1 space-y-1 mt-1">
+                <div class="text-xs text-slate-500 py-1 px-2"><i class="fas fa-spinner fa-spin mr-1"></i>กำลังโหลดเมนู...</div>
+              </div>
+            </div>
+
+            <button onclick="switchTab('gis')" id="nav-gis" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs md:text-sm font-semibold hover:bg-slate-800 transition text-left" title="ระบบแผนที่ GIS กองช่าง">
+              <i class="fas fa-globe-asia text-cyan-400 w-4 text-center"></i><span class="nav-text">ระบบแผนที่ GIS กองช่าง</span>
+            </button>
+            
+            <button onclick="switchTab('structure')" id="nav-structure" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs md:text-sm font-semibold hover:bg-slate-800 transition text-left" title="เขตรับผิดชอบ & กรรมการราคากลาง">
+              <i class="fas fa-users-gear text-amber-400 w-4 text-center"></i><span class="nav-text">เขตรับผิดชอบ & กรรมการราคากลาง</span>
+            </button>
+
+            <button onclick="switchTab('engineers')" id="nav-engineers" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs md:text-sm font-semibold hover:bg-slate-800 transition text-left" title="พื้นที่ควบคุมงานช่าง">
+              <i class="fas fa-user-shield text-indigo-400 w-4 text-center"></i><span class="nav-text">พื้นที่ควบคุมงานช่าง</span>
+            </button>
+
+            <button onclick="switchTab('calendar')" id="nav-calendar" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs md:text-sm font-semibold hover:bg-slate-800 transition text-left" title="ปฏิทินงานปฏิบัติงาน">
+              <i class="fas fa-calendar-alt text-rose-400 w-4 text-center"></i><span class="nav-text">ปฏิทินงานปฏิบัติงาน</span>
+            </button>
+
+            <button onclick="switchTab('workreports')" id="nav-workreports" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs md:text-sm font-semibold hover:bg-slate-800 transition text-left" title="รายงานผลปฏิบัติงาน">
+              <i class="fas fa-clipboard-list text-purple-400 w-4 text-center"></i><span class="nav-text">รายงานผลปฏิบัติงาน</span>
+            </button>
+
+            <button onclick="switchTab('knowledge')" id="nav-knowledge" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs md:text-sm font-semibold hover:bg-slate-800 transition text-left" title="คลังความรู้กองช่าง">
+              <i class="fas fa-book-reader text-teal-400 w-4 text-center"></i><span class="nav-text">คลังความรู้กองช่าง</span>
+            </button>
+          </nav>
+        </div>
+
+        <!-- ส่วนท้าย Sidebar พร้อมปุ่มล็อกอินแอดมิน -->
+        <div class="mt-6 pt-3 border-t border-slate-800 space-y-2 contact-info-card text-xs">
+          <div class="flex items-center justify-between">
+            <p class="font-bold text-slate-200 text-xs md:text-sm"><i class="fas fa-address-card text-emerald-400 mr-1.5"></i>ข้อมูลการติดต่อ</p>
+            <button onclick="openAdminPinModal()" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-amber-400 text-xs font-bold border border-slate-700 transition flex items-center gap-1" title="เข้าสู่ระบบจัดการแอดมิน">
+              <i class="fas fa-lock"></i><span>แอดมิน</span>
+            </button>
+          </div>
+          <p class="text-slate-300 leading-relaxed text-xs">องค์การบริหารส่วนตำบลท่าก๊อ<br>179 ม.26 ต.ท่าก๊อ อ.แม่สรวย จ.เชียงราย 57180</p>
+          <div class="space-y-1 text-slate-300 pt-1 text-xs">
+            <p><i class="fas fa-phone text-amber-400 w-4"></i>053-724217-8</p>
+            <p><i class="fas fa-envelope text-sky-400 w-4"></i>saraban@thakho.go.th</p>
+            <p><i class="fas fa-globe text-emerald-400 w-4"></i>thakho.go.th</p>
+          </div>
+          <p class="text-[11px] text-slate-500 text-center pt-2">© 2026 อบต.ท่าก๊อ</p>
+        </div>
       </div>
-      <div class="header-actions">
-        <button class="action-btn btn-light"><i data-lucide="settings" size="16"></i> จัดการแอป</button>
-        <button class="action-btn btn-light"><i data-lucide="file-spreadsheet" size="16"></i> ระบบสารบรรณ</button>
-        <button class="action-btn btn-primary"><i data-lucide="globe" size="16"></i> เว็บไซต์ อบต.</button>
+    </aside>
+  </div>
+
+  <!-- Main Area -->
+  <div class="flex-grow flex flex-col min-w-0 w-full overflow-x-hidden">
+
+    <!-- Header พร้อม Universal Instant Search -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-30 px-4 md:px-6 py-3 flex items-center justify-between shadow-xs flex-wrap gap-2 md:gap-3 w-full">
+      <div class="flex items-center gap-2 md:gap-3">
+        <button onclick="toggleMobileSidebar()" class="md:hidden w-9 h-9 rounded-xl bg-slate-900 text-amber-400 flex items-center justify-center text-sm border border-slate-800">
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="md:hidden w-8 h-8 rounded-full overflow-hidden flex-shrink-0 border border-amber-400/40 bg-white shadow-xs">
+          <img src="https://lh3.googleusercontent.com/d/1MNeJFoDWNE9Bsg_lKzUDNdKhiowFle63" alt="ตรา อบต.ท่าก๊อ" class="w-full h-full object-cover">
+        </div>
+        <h1 class="font-bold text-slate-900 text-base md:text-lg line-clamp-1" id="pageTitle">ภาพรวมแอฟทั้งหมด</h1>
+      </div>
+
+      <!-- ค้นหาอัจฉริยะ -->
+      <div class="flex-grow max-w-md relative order-last md:order-none w-full md:w-auto mt-2 md:mt-0" onclick="event.stopPropagation()">
+        <div class="relative flex items-center">
+          <i class="fas fa-search absolute left-3.5 text-slate-400 text-xs md:text-sm"></i>
+          <input type="text" id="globalSearchInput" oninput="handleSearchInput(this.value)" placeholder="พิมพ์หรือกด 🎙️ พูดค้นหา: ม.15, เบอร์ช่าง, แปลนท่อ, ที่อยู่..." class="w-full pl-9 pr-16 py-2 bg-slate-100 hover:bg-slate-50 focus:bg-white border border-slate-200 focus:border-emerald-500 rounded-xl text-xs md:text-sm font-semibold focus:outline-none transition shadow-inner">
+          
+          <div class="absolute right-2 flex items-center gap-1">
+            <button type="button" id="clearSearchBtn" onclick="clearGlobalSearch()" class="hidden w-5 h-5 text-slate-400 hover:text-slate-600 rounded-full items-center justify-center text-xs">
+              <i class="fas fa-times"></i>
+            </button>
+            <button type="button" id="voiceSearchBtn" onclick="toggleVoiceSearch()" class="w-7 h-7 bg-emerald-50 hover:bg-emerald-100 text-emerald-600 rounded-lg flex items-center justify-center text-xs transition border border-emerald-200 shadow-xs" title="ค้นหาด้วยเสียงภาษาไทย">
+              <i class="fas fa-microphone"></i>
+            </button>
+          </div>
+        </div>
+
+        <div id="searchResultsDropdown" class="hidden absolute left-0 right-0 top-full mt-2 bg-white border border-slate-200 rounded-2xl shadow-xl max-h-[480px] overflow-y-auto z-50 p-3 space-y-3">
+        </div>
+      </div>
+
+      <div class="flex items-center gap-1.5 md:gap-2">
+        <button onclick="openAdminPinModal()" class="px-3 py-1.5 rounded-xl bg-amber-50 text-amber-800 hover:bg-amber-100 border border-amber-200 text-xs md:text-sm font-bold flex items-center gap-1.5 transition" title="จัดการแอปพลิเคชัน">
+          <i class="fas fa-lock text-amber-600"></i><span class="hidden sm:inline">จัดการแอป</span>
+        </button>
+        <a href="https://tk.e-service.me/Main.php?View=AA_sb_report" target="_blank" class="px-3 py-1.5 rounded-xl bg-emerald-50 text-emerald-800 hover:bg-emerald-100 border border-emerald-200 text-xs md:text-sm font-bold flex items-center gap-1.5 transition">
+          <i class="fas fa-folder-open text-emerald-600"></i><span class="hidden sm:inline">ระบบสารบรรณ</span>
+        </a>
+        <a href="https://www.thakho.go.th/index.php/web/Home" target="_blank" class="px-3 py-1.5 rounded-xl bg-blue-50 text-blue-800 hover:bg-blue-100 border border-blue-200 text-xs md:text-sm font-bold flex items-center gap-1.5 transition">
+          <i class="fas fa-globe text-blue-600"></i><span class="hidden sm:inline">เว็บไซต์ อบต.ท่าก๊อ</span>
+        </a>
       </div>
     </header>
 
-    <!-- Main Content -->
-    <main class="content-container">
-      
-      <!-- Quick Access Top Banner -->
-      <div class="quick-access-banner">
-        <div class="banner-title">
-          <i data-lucide="star" size="18" color="#f59e0b"></i>
-          บริการ & ระบบทั้งหมดของกองช่าง (Quick Access)
+    <!-- Mobile Horizontal Scroll Tabs -->
+    <div class="md:hidden bg-slate-900 border-b border-slate-800 px-3 py-2 flex items-center gap-2 overflow-x-auto no-scrollbar sticky top-[57px] z-20 shadow-xs w-full">
+      <button onclick="switchTab('analytics')" id="m-tab-analytics" class="flex-shrink-0 px-3 py-1.5 rounded-xl bg-emerald-600 text-white text-xs font-bold flex items-center gap-1.5 transition">
+        <i class="fas fa-th-large"></i><span>แอปทั้งหมด</span>
+      </button>
+      <button onclick="switchTab('gis')" id="m-tab-gis" class="flex-shrink-0 px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300 text-xs font-semibold flex items-center gap-1.5 transition">
+        <i class="fas fa-globe-asia text-cyan-400"></i><span>แผนที่ GIS</span>
+      </button>
+      <button onclick="switchTab('structure')" id="m-tab-structure" class="flex-shrink-0 px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300 text-xs font-semibold flex items-center gap-1.5 transition">
+        <i class="fas fa-users-gear text-amber-400"></i><span>เขตรับผิดชอบ</span>
+      </button>
+      <button onclick="switchTab('engineers')" id="m-tab-engineers" class="flex-shrink-0 px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300 text-xs font-semibold flex items-center gap-1.5 transition">
+        <i class="fas fa-user-shield text-indigo-400"></i><span>พื้นที่ควบคุมงาน</span>
+      </button>
+      <button onclick="switchTab('calendar')" id="m-tab-calendar" class="flex-shrink-0 px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300 text-xs font-semibold flex items-center gap-1.5 transition">
+        <i class="fas fa-calendar-alt text-rose-400"></i><span>ปฏิทินงาน</span>
+      </button>
+      <button onclick="switchTab('workreports')" id="m-tab-workreports" class="flex-shrink-0 px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300 text-xs font-semibold flex items-center gap-1.5 transition">
+        <i class="fas fa-clipboard-list text-purple-400"></i><span>รายงานผลงาน</span>
+      </button>
+      <button onclick="switchTab('knowledge')" id="m-tab-knowledge" class="flex-shrink-0 px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300 text-xs font-semibold flex items-center gap-1.5 transition">
+        <i class="fas fa-book-reader text-teal-400"></i><span>คลังความรู้</span>
+      </button>
+    </div>
+
+    <main class="p-3 md:p-6 w-full max-w-full">
+
+      <!-- TAB 1: ภาพรวมแอฟทั้งหมด -->
+      <div id="tab-analytics" class="space-y-6 w-full">
+
+        <!-- Quick Access Grid -->
+        <div class="bg-gradient-to-r from-slate-900 to-slate-800 p-4 md:p-5 rounded-2xl border border-slate-700 shadow-md w-full">
+          <div class="flex items-center justify-between mb-3.5 border-b border-slate-700 pb-2.5">
+            <div class="flex items-center gap-2">
+              <i class="fas fa-star text-amber-400 text-sm md:text-base"></i>
+              <h2 class="font-bold text-white text-sm md:text-base">บริการ & ระบบทั้งหมดของกองช่าง (Quick Access)</h2>
+            </div>
+            <span class="text-xs text-emerald-400 bg-emerald-950/80 px-2.5 py-1 rounded-full font-semibold border border-emerald-800">เข้าถึงด่วนใน 1 คลิก</span>
+          </div>
+
+          <div class="grid grid-cols-3 sm:grid-cols-6 gap-2.5 md:gap-3 w-full">
+            <button onclick="switchTab('gis')" class="p-2.5 md:p-3 bg-slate-800/80 hover:bg-slate-700/90 rounded-xl border border-slate-700 flex flex-col items-center text-center transition group">
+              <div class="w-8 h-8 md:w-9 md:h-9 rounded-lg bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-base md:text-lg mb-1 group-hover:scale-110 transition"><i class="fas fa-map-marked-alt"></i></div>
+              <span class="text-xs font-bold text-slate-200 line-clamp-1">แผนที่ GIS</span>
+            </button>
+
+            <button onclick="switchTab('structure')" class="p-2.5 md:p-3 bg-slate-800/80 hover:bg-slate-700/90 rounded-xl border border-slate-700 flex flex-col items-center text-center transition group">
+              <div class="w-8 h-8 md:w-9 md:h-9 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center text-base md:text-lg mb-1 group-hover:scale-110 transition"><i class="fas fa-users-gear"></i></div>
+              <span class="text-xs font-bold text-slate-200 line-clamp-1">เขตรับผิดชอบ</span>
+            </button>
+
+            <button onclick="switchTab('engineers')" class="p-2.5 md:p-3 bg-slate-800/80 hover:bg-slate-700/90 rounded-xl border border-slate-700 flex flex-col items-center text-center transition group">
+              <div class="w-8 h-8 md:w-9 md:h-9 rounded-lg bg-indigo-500/20 text-indigo-400 flex items-center justify-center text-base md:text-lg mb-1 group-hover:scale-110 transition"><i class="fas fa-user-shield"></i></div>
+              <span class="text-xs font-bold text-slate-200 line-clamp-1">ควบคุมงานช่าง</span>
+            </button>
+
+            <button onclick="switchTab('calendar')" class="p-2.5 md:p-3 bg-slate-800/80 hover:bg-slate-700/90 rounded-xl border border-slate-700 flex flex-col items-center text-center transition group">
+              <div class="w-8 h-8 md:w-9 md:h-9 rounded-lg bg-rose-500/20 text-rose-400 flex items-center justify-center text-base md:text-lg mb-1 group-hover:scale-110 transition"><i class="fas fa-calendar-alt"></i></div>
+              <span class="text-xs font-bold text-slate-200 line-clamp-1">ปฏิทินงาน</span>
+            </button>
+
+            <button onclick="switchTab('workreports')" class="p-2.5 md:p-3 bg-slate-800/80 hover:bg-slate-700/90 rounded-xl border border-slate-700 flex flex-col items-center text-center transition group">
+              <div class="w-8 h-8 md:w-9 md:h-9 rounded-lg bg-purple-500/20 text-purple-400 flex items-center justify-center text-base md:text-lg mb-1 group-hover:scale-110 transition"><i class="fas fa-clipboard-list"></i></div>
+              <span class="text-xs font-bold text-slate-200 line-clamp-1">รายงานผลงาน</span>
+            </button>
+
+            <button onclick="switchTab('knowledge')" class="p-2.5 md:p-3 bg-slate-800/80 hover:bg-slate-700/90 rounded-xl border border-slate-700 flex flex-col items-center text-center transition group">
+              <div class="w-8 h-8 md:w-9 md:h-9 rounded-lg bg-teal-500/20 text-teal-400 flex items-center justify-center text-base md:text-lg mb-1 group-hover:scale-110 transition"><i class="fas fa-book-reader"></i></div>
+              <span class="text-xs font-bold text-slate-200 line-clamp-1">คลังความรู้</span>
+            </button>
+          </div>
         </div>
-        <div class="quick-nav-list">
-          <button class="quick-btn"><i data-lucide="map-pin" size="14"></i> แผนที่ GIS</button>
-          <button class="quick-btn"><i data-lucide="users" size="14"></i> เขตรับผิดชอบ</button>
-          <button class="quick-btn"><i data-lucide="hard-hat" size="14"></i> ควบคุมงานช่าง</button>
-          <button class="quick-btn"><i data-lucide="calendar" size="14"></i> ปฏิทินงาน</button>
+
+        <!-- Dynamic Container สำหรับการ์ดแอปพลิเคชันจาก Sheet -->
+        <div id="appsGridContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5 w-full">
+          <div class="col-span-full text-center py-12 text-slate-500 text-sm"><i class="fas fa-spinner fa-spin mr-2"></i>กำลังดึงข้อมูลระบบแอปพลิเคชัน...</div>
         </div>
       </div>
 
-      <!-- Uniform Bento Cards Grid -->
-      <div class="grid-container">
+      <!-- TAB Embedded App Display -->
+      <div id="tab-embedded" class="hidden space-y-4 w-full">
+        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between flex-wrap gap-2">
+          <div>
+            <h2 class="text-base font-bold text-slate-800" id="embedAppTitle">ระบบแอปพลิเคชัน</h2>
+            <p class="text-xs text-slate-600">หากหน้าต่างแอปแสดงผลไม่สำเร็จ สามารถกดปุ่ม Direct Link เพื่อเปิดในแท็บใหม่ได้ทันที</p>
+          </div>
+          <a href="#" id="embedAppExternalLink" target="_blank" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs md:text-sm font-bold flex items-center gap-2 shadow-xs transition">
+            <i class="fas fa-external-link-alt"></i><span>เปิดใช้งานผ่านหน้าต่างใหม่ (Direct Link)</span>
+          </a>
+        </div>
         
-        <!-- App 1 -->
-        <a href="#" class="app-card card-blue">
-          <div>
-            <div class="card-header-row">
-              <div class="icon-squircle icon-blue"><i data-lucide="line-chart" size="22"></i></div>
-              <div class="card-title-group">
-                <div class="card-title">ติดตามแผนดำเนินงาน</div>
-                <span class="badge-solid badge-blue">บริหารโครงการ</span>
-              </div>
-              <div class="external-btn"><i data-lucide="arrow-up-right" size="16"></i></div>
-            </div>
-            <div class="card-desc">ระบบบันทึกและติดตามแผนดำเนินงานโครงการ กองช่าง อบต.ท่าก้อ</div>
-          </div>
-          <div class="card-footer-row">
-            <span><span class="status-dot"></span>พร้อมใช้งาน</span>
-            <span>อัปเดตวันนี้</span>
-          </div>
-        </a>
-
-        <!-- App 2 -->
-        <a href="#" class="app-card card-amber">
-          <div>
-            <div class="card-header-row">
-              <div class="icon-squircle icon-amber"><i data-lucide="truck" size="22"></i></div>
-              <div class="card-title-group">
-                <div class="card-title">บริหารงานเครื่องจักรกล</div>
-                <span class="badge-solid badge-amber">พัสดุ & ยานพาหนะ</span>
-              </div>
-              <div class="external-btn"><i data-lucide="arrow-up-right" size="16"></i></div>
-            </div>
-            <div class="card-desc">ระบบบันทึกคุมการใช้เครื่องจักรกล รถพรวน รถขุด และสถานะซ่อมบำรุง</div>
-          </div>
-          <div class="card-footer-row">
-            <span><span class="status-dot"></span>พร้อมใช้งาน</span>
-            <span>12 รายการ</span>
-          </div>
-        </a>
-
-        <!-- App 3 -->
-        <a href="#" class="app-card card-emerald">
-          <div>
-            <div class="card-header-row">
-              <div class="icon-squircle icon-emerald"><i data-lucide="coins" size="22"></i></div>
-              <div class="card-title-group">
-                <div class="card-title">งบประมาณหมู่บ้าน</div>
-                <span class="badge-solid badge-emerald">การเงิน & งบประมาณ</span>
-              </div>
-              <div class="external-btn"><i data-lucide="arrow-up-right" size="16"></i></div>
-            </div>
-            <div class="card-desc">ระบบจัดสรรและติดตามงบประมาณพัฒนาหมู่บ้าน ต.ท่าก้อ</div>
-          </div>
-          <div class="card-footer-row">
-            <span><span class="status-dot"></span>พร้อมใช้งาน</span>
-            <span>ปีงบ 2569</span>
-          </div>
-        </a>
-
-        <!-- App 4 -->
-        <a href="#" class="app-card card-rose">
-          <div>
-            <div class="card-header-row">
-              <div class="icon-squircle icon-rose"><i data-lucide="check-square" size="22"></i></div>
-              <div class="card-title-group">
-                <div class="card-title">บริหาร & ติดตามงาน</div>
-                <span class="badge-solid badge-rose">บริหารงานบุคคล</span>
-              </div>
-              <div class="external-btn"><i data-lucide="arrow-up-right" size="16"></i></div>
-            </div>
-            <div class="card-desc">ระบบมอบหมายภารกิจ ติดตามความก้าวหน้างาน และแจ้งเตือน Telegram</div>
-          </div>
-          <div class="card-footer-row">
-            <span><span class="status-dot"></span>พร้อมใช้งาน</span>
-            <span>งานค้าง 3 งาน</span>
-          </div>
-        </a>
-
-        <!-- App 5 -->
-        <a href="#" class="app-card card-purple">
-          <div>
-            <div class="card-header-row">
-              <div class="icon-squircle icon-purple"><i data-lucide="clipboard-check" size="22"></i></div>
-              <div class="card-title-group">
-                <div class="card-title">บันทึกการปฏิบัติงาน</div>
-                <span class="badge-solid badge-purple">บริหารงานบุคคล</span>
-              </div>
-              <div class="external-btn"><i data-lucide="arrow-up-right" size="16"></i></div>
-            </div>
-            <div class="card-desc">ระบบบันทึกการลงพื้นที่ปฏิบัติงานประจำวันของพนักงานกองช่าง</div>
-          </div>
-          <div class="card-footer-row">
-            <span><span class="status-dot"></span>พร้อมใช้งาน</span>
-            <span>ลงชื่อแล้ว</span>
-          </div>
-        </a>
-
-        <!-- App 6 -->
-        <a href="#" class="app-card card-cyan">
-          <div>
-            <div class="card-header-row">
-              <div class="icon-squircle icon-cyan"><i data-lucide="file-check" size="22"></i></div>
-              <div class="card-title-group">
-                <div class="card-title">ยื่นคำร้องขออนุญาต</div>
-                <span class="badge-solid badge-cyan">งานควบคุมอาคาร</span>
-              </div>
-              <div class="external-btn"><i data-lucide="arrow-up-right" size="16"></i></div>
-            </div>
-            <div class="card-desc">ระบบยื่นคำร้องขอก่อสร้าง ดัดแปลงอาคาร อ.1 และเอกสารควบคุมอาคาร</div>
-          </div>
-          <div class="card-footer-row">
-            <span><span class="status-dot"></span>พร้อมใช้งาน</span>
-            <span>รอตรวจ 1 รายการ</span>
-          </div>
-        </a>
-
-        <!-- App 7 -->
-        <a href="#" class="app-card card-emerald">
-          <div>
-            <div class="card-header-row">
-              <div class="icon-squircle icon-emerald"><i data-lucide="map-pin" size="22"></i></div>
-              <div class="card-title-group">
-                <div class="card-title">แผนที่ GIS กองช่าง</div>
-                <span class="badge-solid badge-emerald">GIS & ผังเมือง</span>
-              </div>
-              <div class="external-btn"><i data-lucide="arrow-up-right" size="16"></i></div>
-            </div>
-            <div class="card-desc">ระบบแผนที่ชั้นข้อมูลเชิงพื้นที่ ภาพถ่ายดาวเทียม และพิกัดสิ่งก่อสร้าง</div>
-          </div>
-          <div class="card-footer-row">
-            <span><span class="status-dot"></span>พร้อมใช้งาน</span>
-            <span>v2.4 Online</span>
-          </div>
-        </a>
-
-        <!-- App 8 -->
-        <a href="#" class="app-card card-indigo">
-          <div>
-            <div class="card-header-row">
-              <div class="icon-squircle icon-indigo"><i data-lucide="milestone" size="22"></i></div>
-              <div class="card-title-group">
-                <div class="card-title">ลงทะเบียนทางหลวง</div>
-                <span class="badge-solid badge-indigo">โครงสร้างพื้นฐาน</span>
-              </div>
-              <div class="external-btn"><i data-lucide="arrow-up-right" size="16"></i></div>
-            </div>
-            <div class="card-desc">ระบบลงทะเบียนสายทาง ถนน สะพาน และบัญชีทางหลวงท้องถิ่น ต.ท่าก้อ</div>
-          </div>
-          <div class="card-footer-row">
-            <span><span class="status-dot"></span>พร้อมใช้งาน</span>
-            <span>48 สายทาง</span>
-          </div>
-        </a>
-
-        <!-- App 9 -->
-        <a href="#" class="app-card card-blue">
-          <div>
-            <div class="card-header-row">
-              <div class="icon-squircle icon-blue"><i data-lucide="hand-coins" size="22"></i></div>
-              <div class="card-title-group">
-                <div class="card-title">สถานะขอรับงบสนับสนุน</div>
-                <span class="badge-solid badge-blue">การเงิน & งบประมาณ</span>
-              </div>
-              <div class="external-btn"><i data-lucide="arrow-up-right" size="16"></i></div>
-            </div>
-            <div class="card-desc">ระบบติดตามสถานะคำขอรับงบประมาณสนับสนุนจากหน่วยงานภายนอก/จังหวัด</div>
-          </div>
-          <div class="card-footer-row">
-            <span><span class="status-dot"></span>พร้อมใช้งาน</span>
-            <span>อนุมัติแล้ว</span>
-          </div>
-        </a>
-
+        <div class="bg-white p-2 rounded-2xl border border-slate-200 shadow-xs h-[780px] overflow-hidden relative">
+          <iframe id="embedIframe" src="" style="border:0; width:100%; height:100%;" allow="geolocation; camera; microphone; display-capture" allowfullscreen></iframe>
+        </div>
       </div>
+
+      <!-- TAB GIS -->
+      <div id="tab-gis" class="hidden space-y-4 w-full">
+        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between flex-wrap gap-2">
+          <div>
+            <h2 class="text-base font-bold text-slate-800"><i class="fas fa-map-marked-alt text-teal-600 mr-2"></i>ระบบแผนที่ GIS กองช่าง (Spatial Satellite Map)</h2>
+            <p class="text-xs text-slate-600">หากหน้าจอแสดงผลไม่ขึ้นเนื่องจากข้อจำกัดของมือถือ กรุณากดปุ่มเปิดหน้าต่างใหม่</p>
+          </div>
+          <a href="https://script.google.com/macros/s/AKfycbxWPamVVAn7AQBc1zYO4mk9k1xP2JPg3PS5NZXxibRaqANZOeiYboWPBbhB4z9d7M1UJw/exec" target="_blank" class="px-3.5 py-2 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs md:text-sm font-bold flex items-center gap-1.5 shadow-xs transition">
+            <i class="fas fa-external-link-alt"></i><span>เปิดหน้าต่างใหม่ (Direct Link)</span>
+          </a>
+        </div>
+        <div class="bg-white p-2 rounded-2xl border border-slate-200 shadow-xs h-[780px] overflow-hidden">
+          <iframe src="https://script.google.com/macros/s/AKfycbxWPamVVAn7AQBc1zYO4mk9k1xP2JPg3PS5NZXxibRaqANZOeiYboWPBbhB4z9d7M1UJw/exec" style="border:0; width:100%; height:100%;" allow="geolocation; microphone; camera; display-capture" allowfullscreen></iframe>
+        </div>
+      </div>
+
+      <!-- TAB: เขตรับผิดชอบ & กรรมการราคากลาง -->
+      <div id="tab-structure" class="hidden space-y-6 w-full">
+        <div class="bg-white p-4 md:p-6 rounded-2xl border border-slate-200 shadow-xs">
+          <div class="bg-slate-900 text-white p-4 md:p-5 rounded-2xl mb-6 shadow-md flex items-center justify-between flex-wrap gap-3">
+            <div>
+              <h2 class="text-base md:text-lg font-bold text-white mb-1">พื้นที่รับผิดชอบนายช่างนายตรวจ & กรรมการกำหนดราคากลาง</h2>
+              <p class="text-xs text-slate-300">กองช่าง องค์การบริหารส่วนตำบลท่าก๊อ อำเภอแม่สรวย จังหวัดเชียงราย</p>
+            </div>
+            <button onclick="loadPersonnelData(true)" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-amber-400 text-xs md:text-sm font-bold rounded-xl border border-slate-700 transition flex items-center gap-2">
+              <i class="fas fa-sync-alt"></i><span>รีเฟรชข้อมูล</span>
+            </button>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
+            <div class="bg-slate-50 p-4 md:p-5 rounded-2xl border border-slate-200 flex flex-col justify-between space-y-4">
+              <div class="border-b border-slate-200 pb-3 flex items-center justify-between">
+                <h3 class="font-bold text-slate-900 text-base flex items-center gap-2">
+                  <i class="fas fa-user-check text-blue-600"></i><span>พื้นที่รับผิดชอบนายช่างนายตรวจ</span>
+                </h3>
+                <span class="px-2.5 py-1 bg-blue-100 text-blue-800 text-xs font-bold rounded-lg">แบ่งตามเขต</span>
+              </div>
+              <div id="inspectorsContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-4 flex-grow items-stretch">
+                <div class="col-span-2 text-center py-8 text-slate-500 text-sm"><i class="fas fa-spinner fa-spin mr-2"></i>กำลังดึงข้อมูล...</div>
+              </div>
+            </div>
+
+            <div class="bg-slate-50 p-4 md:p-5 rounded-2xl border border-slate-200 flex flex-col justify-between space-y-4">
+              <div class="border-b border-slate-200 pb-3 flex items-center justify-between">
+                <h3 class="font-bold text-slate-900 text-base flex items-center gap-2">
+                  <i class="fas fa-balance-scale text-amber-600"></i><span>กรรมการกำหนดราคากลาง</span>
+                </h3>
+                <span class="px-2.5 py-1 bg-amber-100 text-amber-800 text-xs font-bold rounded-lg">งานก่อสร้าง</span>
+              </div>
+              <div id="committeeContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-4 flex-grow items-stretch">
+                <div class="col-span-2 text-center py-8 text-slate-500 text-sm"><i class="fas fa-spinner fa-spin mr-2"></i>กำลังดึงข้อมูล...</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: พื้นที่ควบคุมงานช่าง -->
+      <div id="tab-engineers" class="hidden space-y-6 w-full">
+        <div class="bg-white p-4 md:p-6 rounded-2xl border border-slate-200 shadow-xs">
+          <div class="bg-gradient-to-r from-slate-900 via-blue-900 to-indigo-900 text-white p-4 md:p-6 rounded-2xl mb-6 shadow-md flex items-center justify-between flex-wrap gap-3">
+            <div>
+              <h2 class="text-base md:text-xl font-bold text-white mb-1">พื้นที่ควบคุมงานที่อยู่ในความดูแลของช่าง</h2>
+              <p class="text-xs md:text-sm text-blue-200">แบ่งพื้นที่การดูแลครอบคลุมทั้ง 28 หมู่บ้าน และ ศพด. ตำบลท่าก๊อ</p>
+            </div>
+            <button onclick="loadPersonnelData(true)" class="px-3.5 py-2 bg-white/10 hover:bg-white/20 text-white text-xs md:text-sm font-bold rounded-xl border border-white/20 transition flex items-center gap-2">
+              <i class="fas fa-sync-alt"></i><span>รีเฟรชข้อมูล</span>
+            </button>
+          </div>
+
+          <div id="engineersContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
+            <div class="col-span-6 text-center py-12 text-slate-500 text-sm"><i class="fas fa-spinner fa-spin mr-2"></i>กำลังดึงข้อมูล...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB Calendar -->
+      <div id="tab-calendar" class="hidden space-y-4 w-full">
+        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between flex-wrap gap-2">
+          <div>
+            <h2 class="text-base font-bold text-slate-800"><i class="fas fa-calendar-alt text-amber-500 mr-2"></i>ปฏิทินงานปฏิบัติงาน กองช่าง</h2>
+            <p class="text-xs text-slate-600">แสดงผลรวมทั้ง 4 ปฏิทิน (อัปเดตข้อมูลอัตโนมัติ)</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <button onclick="reloadCalendarIframe()" class="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs md:text-sm font-bold flex items-center gap-1.5 transition">
+              <i class="fas fa-sync-alt text-amber-500"></i><span>รีเฟรชปฏิทิน</span>
+            </button>
+            <a href="https://calendar.google.com/calendar/u/0/r/eventedit" target="_blank" class="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs md:text-sm font-bold flex items-center gap-1.5 shadow-xs transition">
+              <i class="fas fa-plus-circle"></i><span>➕ บันทึก/เพิ่มกิจกรรมลงปฏิทิน</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="bg-white p-3 rounded-2xl border border-slate-200 shadow-xs h-[750px]">
+          <iframe id="calendarIframe" src="https://calendar.google.com/calendar/embed?height=750&wkst=1&ctz=Asia%2FBangkok&showTitle=0&showPrint=0&showTabs=1&src=dGVjaG5pY2lhbi50aGFraG9AZ21haWwuY29t&color=%23039BE5&src=Mzk3NTY4MTY5YWJjMzE0MDM3NTYzMWQ0MTBmZTk2MWQ4ZDE3NDhlODkxYWNlOThiOTAzNmVkY2I2MDU0YmYyYkBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&color=%2333B679&src=YjQ2MWFmM2FkMGY0NDY5OTFlZGFiZjQ1NWVkOWYxNDkwM2ZhYjE5NTFmODk1ZDE1ODdjMWFjZThhZThkYzYyNUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&color=%23D50000&src=ZWNlZmY3MWU3MGVmYzVjMjhiNGE3NGIzZjliMWU5ZjJlZjFmMWZjMjBjMTQyYzNjOTI0Y2Y4ZWNjMDAzMWYyOUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&color=%23F6BF26" style="border:0; width:100%; height:100%;" frameborder="0" scrolling="no"></iframe>
+        </div>
+      </div>
+
+      <!-- TAB Work Reports -->
+      <div id="tab-workreports" class="hidden space-y-4 w-full">
+        <div class="flex items-center justify-between bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex-wrap gap-2">
+          <div>
+            <h2 class="font-bold text-slate-800 text-base"><i class="fas fa-images text-purple-600 mr-2"></i>รายงานผลการปฏิบัติงาน (Google Drive Group Slide)</h2>
+            <p class="text-xs text-slate-600">แสดงผลแบบ 3 ชุดต่อแถว สัดส่วนภาพ 16:9 ไวด์สกรีนเต็มตา</p>
+          </div>
+          <button onclick="loadDriveActivitySlides(true)" class="px-3.5 py-2 rounded-xl bg-purple-600 hover:bg-purple-700 text-white text-xs md:text-sm font-bold flex items-center gap-1.5 shadow-xs transition">
+            <i class="fas fa-sync-alt"></i><span>รีเฟรชสไลด์ภาพ</span>
+          </button>
+        </div>
+
+        <div id="driveSlidesContainer" class="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <div class="col-span-3 text-center py-12 text-slate-500 text-sm"><i class="fas fa-spinner fa-spin mr-2"></i>กำลังดึงสไลด์กิจกรรมจาก Google Drive...</div>
+        </div>
+      </div>
+
+      <!-- TAB: คลังความรู้กองช่าง -->
+      <div id="tab-knowledge" class="hidden space-y-4 w-full">
+        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between flex-wrap gap-2">
+          <div>
+            <h2 class="font-bold text-slate-800 text-base"><i class="fas fa-book-reader text-teal-600 mr-2"></i>คลังความรู้กองช่าง (Knowledge Center)</h2>
+            <p class="text-xs text-slate-600">ระบบจัดการคลังความรู้ แบบแปลนมาตรฐาน กฎหมาย และคู่มือปฏิบัติงาน</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <button onclick="reloadKnowledgeIframe()" class="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs md:text-sm font-bold flex items-center gap-1.5 transition">
+              <i class="fas fa-sync-alt text-teal-600"></i><span>รีเฟรช</span>
+            </button>
+            <a href="https://technicianthakho-art.github.io/Knowledge-Center/" target="_blank" class="px-3.5 py-2 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs md:text-sm font-bold flex items-center gap-1.5 shadow-xs transition">
+              <i class="fas fa-external-link-alt"></i><span>เปิดในหน้าต่างใหม่ (Direct Link)</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="bg-white p-2 rounded-2xl border border-slate-200 shadow-xs h-[780px] overflow-hidden">
+          <iframe id="knowledgeIframe" src="https://technicianthakho-art.github.io/Knowledge-Center/" style="border:0; width:100%; height:100%;" allow="geolocation; microphone; camera; display-capture" allowfullscreen></iframe>
+        </div>
+      </div>
+
     </main>
   </div>
 
+  <!-- ========================================================================= -->
+  <!-- MODAL: ระบบจัดการแอดมิน (Admin PIN & Admin Panel Modal) -->
+  <!-- ========================================================================= -->
+
+  <!-- Modal 1: ป้อนรหัส PIN -->
+  <div id="adminPinModal" class="fixed inset-0 bg-slate-900/70 z-50 hidden flex items-center justify-center p-4 backdrop-blur-xs">
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-sm overflow-hidden border border-slate-200">
+      <div class="bg-slate-900 text-white p-4 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <i class="fas fa-shield-halved text-amber-400"></i>
+          <h3 class="font-bold text-sm md:text-base">ยืนยันสิทธิ์ผู้ดูแลระบบ (Admin)</h3>
+        </div>
+        <button onclick="closeAdminPinModal()" class="text-slate-400 hover:text-white"><i class="fas fa-times"></i></button>
+      </div>
+      <form onsubmit="submitAdminPin(event)" class="p-5 space-y-4">
+        <div>
+          <label class="block text-xs md:text-sm font-bold text-slate-700 mb-1.5">กรุณาป้อนรหัส PIN 5 หลัก:</label>
+          <input type="password" id="adminPinInput" maxlength="5" placeholder="•••••" class="w-full px-4 py-2 text-center text-xl font-bold tracking-widest bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-amber-400 focus:outline-none" required>
+        </div>
+        <button type="submit" class="w-full py-2.5 bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold rounded-xl text-xs md:text-sm shadow-md transition">
+          <i class="fas fa-key mr-1.5"></i>เข้าสู่แผงควบคุม
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 2: แผงควบคุมแอดมิน (Admin Control Center) -->
+  <div id="adminPanelModal" class="fixed inset-0 bg-slate-900/80 z-50 hidden flex items-center justify-center p-3 md:p-6 backdrop-blur-xs">
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-5xl h-[90vh] flex flex-col overflow-hidden border border-slate-200">
+      
+      <div class="bg-slate-900 text-white p-4 flex items-center justify-between flex-shrink-0">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-lg">
+            <i class="fas fa-sliders-h"></i>
+          </div>
+          <div>
+            <h3 class="font-bold text-base md:text-lg">แผงควบคุมระบบแอปพลิเคชัน (Admin Control Panel)</h3>
+            <p class="text-xs text-slate-400">จัดการ การแสดงผล/ซ่อน/สลับลำดับขึ้น-ลง/เพิ่ม/แก้ไข แอปพลิเคชันกองช่าง</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="openAppEditModal()" class="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs md:text-sm font-bold rounded-xl transition flex items-center gap-1.5 shadow-xs">
+            <i class="fas fa-plus-circle"></i><span>เพิ่มแอปใหม่</span>
+          </button>
+          <button onclick="closeAdminPanelModal()" class="w-8 h-8 text-slate-400 hover:text-white flex items-center justify-center rounded-lg hover:bg-slate-800">
+            <i class="fas fa-times text-base"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="p-3 md:p-4 bg-slate-50 border-b border-slate-200 flex items-center justify-between flex-wrap gap-2 flex-shrink-0 text-xs md:text-sm text-slate-700">
+        <div class="flex items-center gap-2 flex-grow max-w-md">
+          <i class="fas fa-search text-slate-400"></i>
+          <input type="text" id="adminSearchInput" oninput="filterAdminApps(this.value)" placeholder="ค้นหาแอปในแผงควบคุม..." class="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-xl text-xs md:text-sm font-semibold focus:outline-none focus:border-amber-400 shadow-inner">
+        </div>
+        <div class="flex items-center gap-3">
+          <span class="hidden lg:inline"><i class="fas fa-info-circle text-blue-500 mr-1"></i>กดปุ่ม <b>▲/▼</b> เพื่อเลื่อนปรับตำแหน่งแอป</span>
+          <button onclick="fetchAdminAppsData(true)" class="text-emerald-700 font-bold hover:underline flex items-center gap-1.5 bg-white px-3 py-1.5 rounded-xl border border-slate-200 shadow-2xs">
+            <i class="fas fa-sync-alt"></i><span>รีเฟรช</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- รายการแอปสำหรับแอดมิน -->
+      <div class="flex-grow p-4 overflow-y-auto space-y-3" id="adminAppsListContainer">
+        <div class="text-center py-12 text-slate-500 text-sm"><i class="fas fa-spinner fa-spin mr-2"></i>กำลังโหลดรายการแอปพลิเคชัน...</div>
+      </div>
+
+      <div class="p-3 bg-slate-100 border-t border-slate-200 flex-shrink-0 flex items-center justify-between text-xs text-slate-600">
+        <span>สถานะสิทธิ์: <strong class="text-emerald-700">ผู้ดูแลระบบ (Admin Authenticated)</strong></span>
+        <button onclick="logoutAdmin()" class="text-red-600 hover:underline font-bold"><i class="fas fa-sign-out-alt mr-1"></i>ออกจากระบบแอดมิน</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 3: ฟอร์ม เพิ่ม / แก้ไข ข้อมูลแอปพลิเคชัน -->
+  <div id="appEditModal" class="fixed inset-0 bg-slate-900/80 z-50 hidden flex items-center justify-center p-4 backdrop-blur-xs">
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden border border-slate-200">
+      <div class="bg-slate-900 text-white p-4 flex items-center justify-between">
+        <h3 class="font-bold text-sm md:text-base" id="appEditModalTitle"><i class="fas fa-edit text-amber-400 mr-2"></i>แก้ไขข้อมูลแอปพลิเคชัน</h3>
+        <button onclick="closeAppEditModal()" class="text-slate-400 hover:text-white"><i class="fas fa-times"></i></button>
+      </div>
+
+      <form onsubmit="submitSaveAppForm(event)" class="p-4 md:p-5 space-y-3.5 text-xs md:text-sm">
+        <input type="hidden" id="edit_app_id">
+        
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-slate-800 mb-1">รหัสแอป (App ID):</label>
+            <input type="text" id="edit_app_id_display" placeholder="เช่น APP-010" class="w-full p-2 bg-slate-50 border rounded-xl font-semibold text-slate-800" required>
+          </div>
+          <div>
+            <label class="block font-bold text-slate-800 mb-1">ลำดับแสดงผล (Sort Order):</label>
+            <input type="number" id="edit_sort_order" value="1" min="1" class="w-full p-2 bg-slate-50 border rounded-xl font-semibold text-slate-800" required>
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-800 mb-1">ชื่อแอปพลิเคชัน:</label>
+          <input type="text" id="edit_name" placeholder="ชื่อแอปพลิเคชัน" class="w-full p-2 bg-slate-50 border rounded-xl font-semibold text-slate-800" required>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-slate-800 mb-1">หมวดหมู่ระบบ:</label>
+            <input type="text" id="edit_category" placeholder="เช่น บริหารโครงการ" class="w-full p-2 bg-slate-50 border rounded-xl font-semibold text-slate-800" required>
+          </div>
+          <div>
+            <label class="block font-bold text-slate-800 mb-1">โทนสีการ์ด (Color):</label>
+            <select id="edit_color" class="w-full p-2 bg-slate-50 border rounded-xl font-semibold text-slate-800">
+              <option value="blue">Blue (น้ำเงิน)</option>
+              <option value="amber">Amber (ส้ม/เหลือง)</option>
+              <option value="emerald">Emerald (เขียว)</option>
+              <option value="purple">Purple (ม่วง)</option>
+              <option value="sky">Sky (ฟ้า)</option>
+              <option value="red">Red (แดง)</option>
+              <option value="cyan">Cyan (ฟ้าคราม)</option>
+              <option value="teal">Teal (เขียวมะนาว)</option>
+              <option value="indigo">Indigo (คราม)</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-800 mb-1">คำอธิบายสั้นๆ (Description):</label>
+          <textarea id="edit_desc" rows="2" placeholder="รายละเอียดแอปพลิเคชันสั้นๆ" class="w-full p-2 bg-slate-50 border rounded-xl font-semibold text-slate-800"></textarea>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-800 mb-1">URL เว็บแอป (GAS Exec Link):</label>
+          <input type="text" id="edit_url" placeholder="https://script.google.com/..." class="w-full p-2 bg-slate-50 border rounded-xl font-semibold text-slate-800" required>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-slate-800 mb-1">ไอคอน (FontAwesome Class):</label>
+            <input type="text" id="edit_icon" placeholder="fa-solid fa-rocket" class="w-full p-2 bg-slate-50 border rounded-xl font-semibold text-slate-800" required>
+          </div>
+          <div>
+            <label class="block font-bold text-slate-800 mb-1">รูปแบบการเปิดใช้งาน:</label>
+            <select id="edit_open_type" class="w-full p-2 bg-slate-50 border rounded-xl font-semibold text-slate-800">
+              <option value="embedded">Embedded (เปิดในเว็บ)</option>
+              <option value="external">External (เปิดแท็บใหม่)</option>
+              <option value="tab_gis">GIS Tab (สลับ Tab)</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-800 mb-1">คำค้นหาเพิ่มเติม (Keywords):</label>
+          <input type="text" id="edit_keywords" placeholder="เช่น สั่งงาน ค้นหา แผนงาน" class="w-full p-2 bg-slate-50 border rounded-xl font-semibold text-slate-800">
+        </div>
+
+        <div class="pt-2 flex items-center justify-end gap-2">
+          <button type="button" onclick="closeAppEditModal()" class="px-4 py-2 bg-slate-200 text-slate-800 rounded-xl font-bold">ยกเลิก</button>
+          <button type="submit" class="px-5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold shadow-xs">บันทึกข้อมูล</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <script>
-    // Initialize Lucide Icons
-    lucide.createIcons();
+    // URL Web App ตรงตามเป้าหมาย
+    const GAS_API_URL = "https://script.google.com/macros/s/AKfycbyykY41f__bf2ChoZtveV8ISwIIrMFufU4hF2mJaCs6ENp74azXxkkAYTyFmd7WnnUz/exec";
+
+    let currentAdminPin = "";
+    let globalAppsData = [];
+    let globalAdminAppsData = [];
+    let globalDataStore = {
+      personnel: [],
+      apps: [],
+      orgInfo: [
+        { name: "องค์การบริหารส่วนตำบลท่าก๊อ", desc: "179 ม.26 ต.ท่าก๊อ อ.แม่สรวย จ.เชียงราย 57180", phone: "053-724217-8", email: "saraban@thakho.go.th", keywords: "ที่อยู่ อบต ท่าก๊อ เบอร์โทร สำนักงาน อีเมล สารบรรณ" }
+      ]
+    };
+
+    let recognition = null;
+    let isRecording = false;
+
+    // Helper Function ส่ง API ด้วย URL-Encoded (ป้องกัน CORS Preflight OPTIONS 100%)
+    async function sendApiRequest(payloadObj) {
+      const bodyParams = new URLSearchParams();
+      for (const key in payloadObj) {
+        if (typeof payloadObj[key] === 'object') {
+          bodyParams.append(key, JSON.stringify(payloadObj[key]));
+        } else {
+          bodyParams.append(key, payloadObj[key]);
+        }
+      }
+
+      const res = await fetch(GAS_API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8' },
+        body: bodyParams.toString()
+      });
+      return await res.json();
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      loadAppsDataFromLocal();
+      loadPersonnelDataFromLocal();
+      loadDriveActivitySlidesFromLocal();
+
+      // สั่งซิงค์ข้อมูลสด (ส่ง refresh=true เพื่อเคลียร์ Cache สดบน Server)
+      syncAppsDataStore(true);
+      syncPersonnelDataStore();
+      initSpeechRecognition();
+
+      const savedPin = sessionStorage.getItem('admin_pin_token');
+      if (savedPin) currentAdminPin = savedPin;
+    });
+
+    function toggleSidebarCollapse() {
+      const sidebar = document.getElementById('mainSidebar');
+      const toggleIcon = document.getElementById('toggleIcon');
+      sidebar.classList.toggle('sidebar-collapsed');
+      
+      if (sidebar.classList.contains('sidebar-collapsed')) {
+        toggleIcon.className = 'fas fa-chevron-right text-xs transition-transform duration-300';
+      } else {
+        toggleIcon.className = 'fas fa-chevron-left text-xs transition-transform duration-300';
+      }
+    }
+
+    function toggleMobileSidebar() {
+      const sidebar = document.getElementById('mainSidebar');
+      const backdrop = document.getElementById('mobileSidebarBackdrop');
+      const isClosed = sidebar.classList.contains('-translate-x-full');
+
+      if (isClosed) {
+        sidebar.classList.remove('-translate-x-full');
+        backdrop.classList.remove('hidden');
+      } else {
+        sidebar.classList.add('-translate-x-full');
+        backdrop.classList.add('hidden');
+      }
+    }
+
+    function closeMobileSidebar() {
+      const sidebar = document.getElementById('mainSidebar');
+      const backdrop = document.getElementById('mobileSidebarBackdrop');
+      if (window.innerWidth < 768) {
+        sidebar.classList.add('-translate-x-full');
+        backdrop.classList.add('hidden');
+      }
+    }
+
+    function loadAppsDataFromLocal() {
+      const cached = localStorage.getItem('local_apps_data');
+      if (cached) {
+        try {
+          const apps = JSON.parse(cached);
+          globalAppsData = apps;
+          globalDataStore.apps = apps;
+          renderAppsUI(apps);
+        } catch (e) {}
+      }
+    }
+
+    async function syncAppsDataStore(forceRefresh = false) {
+      try {
+        const url = `${GAS_API_URL}?action=getAppsData${forceRefresh ? '&refresh=true' : ''}`;
+        const res = await fetch(url);
+        const apps = await res.json();
+        
+        if (Array.isArray(apps)) {
+          localStorage.setItem('local_apps_data', JSON.stringify(apps));
+          globalAppsData = apps;
+          globalDataStore.apps = apps;
+          renderAppsUI(apps);
+        }
+      } catch (e) {
+        console.error("Sync apps data error:", e);
+      }
+    }
+
+    function renderAppsUI(apps) {
+      const gridContainer = document.getElementById('appsGridContainer');
+      const subAppMenu = document.getElementById('subAppMenu');
+
+      if (!apps || apps.length === 0) {
+        gridContainer.innerHTML = '<div class="col-span-full text-center py-12 text-slate-500 text-sm">ไม่พบข้อมูลแอปพลิเคชันที่เปิดใช้งาน</div>';
+        subAppMenu.innerHTML = '<div class="text-xs text-slate-500 py-1 px-2">ไม่พบรายการแอป</div>';
+        return;
+      }
+
+      let gridHtml = '';
+      let menuHtml = '';
+
+      apps.forEach(app => {
+        const color = app.color || 'blue';
+        const icon = app.icon || 'fa-solid fa-shapes';
+        
+        let actionClick = '';
+        if (app.open_type === 'external') {
+          actionClick = `openAppExternal('${app.url}')`;
+        } else if (app.open_type === 'tab_gis' || app.url === '#') {
+          actionClick = `switchTab('gis')`;
+        } else {
+          actionClick = `loadEmbeddedApp('${app.url}', '${app.name}')`;
+        }
+
+        gridHtml += `
+          <div onclick="${actionClick}" class="widget-card p-4 md:p-5 border border-${color}-200/80 flex flex-col justify-between group">
+            <div>
+              <div class="flex items-center justify-between mb-3">
+                <div class="flex items-center gap-3">
+                  <div class="w-10 h-10 rounded-xl bg-${color}-100 text-${color}-600 flex items-center justify-center font-bold text-lg">
+                    <i class="${icon}"></i>
+                  </div>
+                  <div>
+                    <h3 class="font-bold text-slate-900 text-sm md:text-base group-hover:text-${color}-600 transition">${app.name}</h3>
+                    <span class="text-xs font-semibold px-2 py-0.5 rounded bg-${color}-50 text-${color}-800 border border-${color}-100">${app.category}</span>
+                  </div>
+                </div>
+                <i class="fas fa-arrow-up-right-from-square text-slate-400 group-hover:text-${color}-600 text-sm transition"></i>
+              </div>
+              <p class="text-xs md:text-sm text-slate-600 leading-relaxed">${app.desc}</p>
+            </div>
+          </div>
+        `;
+
+        menuHtml += `
+          <button onclick="${actionClick}" class="w-full text-left px-2.5 py-1.5 rounded-lg text-xs text-slate-300 sub-app-item flex items-center gap-2">
+            <i class="${icon} text-${color}-400 w-3 text-center"></i><span class="line-clamp-1">${app.name}</span>
+          </button>
+        `;
+      });
+
+      gridContainer.innerHTML = gridHtml;
+      subAppMenu.innerHTML = menuHtml;
+    }
+
+    // -------------------------------------------------------------------------
+    // Admin Functions (ระบบจัดการแอดมิน PIN: 12345)
+    // -------------------------------------------------------------------------
+
+    function openAdminPinModal() {
+      if (currentAdminPin === "12345") {
+        openAdminPanelModal();
+      } else {
+        document.getElementById('adminPinInput').value = '';
+        document.getElementById('adminPinModal').classList.remove('hidden');
+      }
+    }
+
+    function closeAdminPinModal() {
+      document.getElementById('adminPinModal').classList.add('hidden');
+    }
+
+    async function submitAdminPin(e) {
+      e.preventDefault();
+      const pin = document.getElementById('adminPinInput').value.trim();
+
+      Swal.fire({ title: 'กำลังตรวจสอบ PIN...', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } });
+
+      try {
+        const result = await sendApiRequest({ action: 'verifyAdminPin', pin: pin });
+
+        if (result.success) {
+          currentAdminPin = pin;
+          sessionStorage.setItem('admin_pin_token', pin);
+          Swal.close();
+          closeAdminPinModal();
+          openAdminPanelModal();
+        } else {
+          Swal.fire('รหัสผ่านไม่ถูกต้อง', 'กรุณาตรวจสอบรหัส PIN 5 หลักแล้วลองใหม่อีกครั้ง', 'error');
+        }
+      } catch (err) {
+        Swal.fire('เกิดข้อผิดพลาด', err.toString(), 'error');
+      }
+    }
+
+    function openAdminPanelModal() {
+      document.getElementById('adminPanelModal').classList.remove('hidden');
+      fetchAdminAppsData(true);
+    }
+
+    function closeAdminPanelModal() {
+      document.getElementById('adminPanelModal').classList.add('hidden');
+      syncAppsDataStore(true);
+    }
+
+    function logoutAdmin() {
+      currentAdminPin = "";
+      sessionStorage.removeItem('admin_pin_token');
+      closeAdminPanelModal();
+      Swal.fire('ออกจากระบบ', 'ออกจากระบบแอดมินเรียบร้อยแล้ว', 'success');
+    }
+
+    async function fetchAdminAppsData(forceRefresh = false) {
+      const container = document.getElementById('adminAppsListContainer');
+      container.innerHTML = '<div class="text-center py-12 text-slate-500 text-sm"><i class="fas fa-spinner fa-spin mr-2"></i>กำลังดึงข้อมูลแอปพลิเคชันฝั่งแอดมิน...</div>';
+
+      try {
+        const url = `${GAS_API_URL}?action=getAppsData&admin=true${forceRefresh ? '&refresh=true' : ''}`;
+        const res = await fetch(url);
+        const apps = await res.json();
+
+        globalAdminAppsData = apps;
+        renderAdminAppsListUI(apps);
+      } catch (err) {
+        container.innerHTML = `<div class="text-center py-8 text-red-500 text-xs md:text-sm">เกิดข้อผิดพลาด: ${err.toString()}</div>`;
+      }
+    }
+
+    function filterAdminApps(query) {
+      const cleanQ = query.trim().toLowerCase();
+      if (!cleanQ) {
+        renderAdminAppsListUI(globalAdminAppsData);
+        return;
+      }
+      const filtered = globalAdminAppsData.filter(app => 
+        app.name.toLowerCase().includes(cleanQ) || 
+        app.desc.toLowerCase().includes(cleanQ) || 
+        app.category.toLowerCase().includes(cleanQ)
+      );
+      renderAdminAppsListUI(filtered);
+    }
+
+    function renderAdminAppsListUI(apps) {
+      const container = document.getElementById('adminAppsListContainer');
+
+      if (!apps || apps.length === 0) {
+        container.innerHTML = '<div class="text-center py-8 text-slate-500 text-sm">ไม่พบรายการแอปพลิเคชัน</div>';
+        return;
+      }
+
+      let html = '';
+      apps.forEach((app, index) => {
+        const isChecked = app.is_visible ? 'checked' : '';
+        const badgeColor = app.is_visible ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-200 text-slate-600';
+        const badgeText = app.is_visible ? 'เปิดแสดงผล' : 'ซ่อนอยู่';
+
+        const isFirst = index === 0;
+        const isLast = index === apps.length - 1;
+
+        html += `
+          <div class="p-3.5 md:p-4 bg-white rounded-xl border border-slate-200 shadow-2xs flex items-center justify-between flex-wrap gap-3">
+            <div class="flex items-center gap-3">
+              <!-- ปุ่มปรับลำดับ ขึ้น/ลง -->
+              <div class="flex flex-col gap-1 pr-1 border-r border-slate-200">
+                <button onclick="moveAppOrder('${app.app_id}', 'up')" ${isFirst ? 'disabled class="opacity-20 cursor-not-allowed text-slate-400"' : 'class="p-1 hover:bg-slate-100 text-slate-700 rounded transition"'} title="ขยับขึ้น">
+                  <i class="fas fa-chevron-up text-xs"></i>
+                </button>
+                <button onclick="moveAppOrder('${app.app_id}', 'down')" ${isLast ? 'disabled class="opacity-20 cursor-not-allowed text-slate-400"' : 'class="p-1 hover:bg-slate-100 text-slate-700 rounded transition"'} title="ขยับลง">
+                  <i class="fas fa-chevron-down text-xs"></i>
+                </button>
+              </div>
+
+              <div class="w-10 h-10 rounded-xl bg-${app.color}-100 text-${app.color}-600 flex items-center justify-center font-bold text-base flex-shrink-0">
+                <i class="${app.icon}"></i>
+              </div>
+              <div>
+                <div class="flex items-center gap-2">
+                  <h4 class="font-bold text-slate-900 text-xs md:text-sm">${app.name}</h4>
+                  <span class="text-[10px] md:text-xs font-bold px-2 py-0.5 rounded-full ${badgeColor}">${badgeText}</span>
+                  <span class="text-[10px] md:text-xs text-slate-500 font-semibold">ลำดับ: ${app.sort_order}</span>
+                </div>
+                <p class="text-xs text-slate-600 line-clamp-1">${app.desc || '-'}</p>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" ${isChecked} onchange="toggleAppStatus('${app.app_id}', this.checked)" class="sr-only peer">
+                <div class="w-9 h-5 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-emerald-500"></div>
+              </label>
+
+              <button onclick="editAppItem('${app.app_id}')" class="p-2 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-lg text-xs md:text-sm font-bold" title="แก้ไข">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button onclick="deleteAppItem('${app.app_id}', '${app.name}')" class="p-2 bg-red-50 hover:bg-red-100 text-red-600 rounded-lg text-xs md:text-sm font-bold" title="ลบ">
+                <i class="fas fa-trash-alt"></i>
+              </button>
+            </div>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+    }
+
+    async function moveAppOrder(appId, direction) {
+      try {
+        const result = await sendApiRequest({
+          action: 'moveAppOrder',
+          pin: currentAdminPin,
+          appId: appId,
+          direction: direction
+        });
+        if (result.success) {
+          fetchAdminAppsData(true);
+        } else {
+          Swal.fire('ข้อผิดพลาด', result.message, 'error');
+        }
+      } catch (err) {
+        Swal.fire('ข้อผิดพลาด', err.toString(), 'error');
+      }
+    }
+
+    async function toggleAppStatus(appId, isVisible) {
+      try {
+        const result = await sendApiRequest({
+          action: 'toggleAppVisibility',
+          pin: currentAdminPin,
+          appId: appId,
+          isVisible: isVisible
+        });
+        if (result.success) {
+          fetchAdminAppsData(true);
+        } else {
+          Swal.fire('ข้อผิดพลาด', result.message, 'error');
+        }
+      } catch (err) {
+        Swal.fire('ข้อผิดพลาด', err.toString(), 'error');
+      }
+    }
+
+    function openAppEditModal(appData = null) {
+      const modal = document.getElementById('appEditModal');
+      const title = document.getElementById('appEditModalTitle');
+
+      if (appData) {
+        title.innerHTML = '<i class="fas fa-edit text-amber-400 mr-2"></i>แก้ไขข้อมูลแอปพลิเคชัน';
+        document.getElementById('edit_app_id').value = appData.app_id;
+        document.getElementById('edit_app_id_display').value = appData.app_id;
+        document.getElementById('edit_app_id_display').readOnly = true;
+        document.getElementById('edit_sort_order').value = appData.sort_order || 1;
+        document.getElementById('edit_name').value = appData.name;
+        document.getElementById('edit_category').value = appData.category;
+        document.getElementById('edit_color').value = appData.color || 'blue';
+        document.getElementById('edit_desc').value = appData.desc;
+        document.getElementById('edit_url').value = appData.url;
+        document.getElementById('edit_icon').value = appData.icon;
+        document.getElementById('edit_open_type').value = appData.open_type || 'embedded';
+        document.getElementById('edit_keywords').value = appData.keywords || '';
+      } else {
+        title.innerHTML = '<i class="fas fa-plus-circle text-emerald-400 mr-2"></i>เพิ่มแอปพลิเคชันใหม่';
+        document.getElementById('edit_app_id').value = '';
+        document.getElementById('edit_app_id_display').value = 'APP-' + Math.floor(100 + Math.random() * 900);
+        document.getElementById('edit_app_id_display').readOnly = false;
+        document.getElementById('edit_sort_order').value = (globalAppsData.length + 1);
+        document.getElementById('edit_name').value = '';
+        document.getElementById('edit_category').value = 'ทั่วไป';
+        document.getElementById('edit_color').value = 'blue';
+        document.getElementById('edit_desc').value = '';
+        document.getElementById('edit_url').value = '';
+        document.getElementById('edit_icon').value = 'fa-solid fa-shapes';
+        document.getElementById('edit_open_type').value = 'embedded';
+        document.getElementById('edit_keywords').value = '';
+      }
+
+      modal.classList.remove('hidden');
+    }
+
+    function closeAppEditModal() {
+      document.getElementById('appEditModal').classList.add('hidden');
+    }
+
+    async function editAppItem(appId) {
+      try {
+        const url = `${GAS_API_URL}?action=getAppsData&admin=true`;
+        const res = await fetch(url);
+        const apps = await res.json();
+        const app = apps.find(a => a.app_id === appId);
+
+        if (app) {
+          openAppEditModal(app);
+        }
+      } catch (e) {}
+    }
+
+    async function submitSaveAppForm(e) {
+      e.preventDefault();
+
+      const appData = {
+        app_id: document.getElementById('edit_app_id_display').value.trim(),
+        sort_order: parseInt(document.getElementById('edit_sort_order').value),
+        name: document.getElementById('edit_name').value.trim(),
+        category: document.getElementById('edit_category').value.trim(),
+        color: document.getElementById('edit_color').value,
+        desc: document.getElementById('edit_desc').value.trim(),
+        url: document.getElementById('edit_url').value.trim(),
+        icon: document.getElementById('edit_icon').value.trim(),
+        open_type: document.getElementById('edit_open_type').value,
+        keywords: document.getElementById('edit_keywords').value.trim(),
+        is_visible: true
+      };
+
+      Swal.fire({ title: 'กำลังบันทึกข้อมูล...', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } });
+
+      try {
+        const result = await sendApiRequest({
+          action: 'saveAppData',
+          pin: currentAdminPin,
+          appData: appData
+        });
+
+        if (result.success) {
+          Swal.fire('บันทึกสำเร็จ', result.message, 'success');
+          closeAppEditModal();
+          fetchAdminAppsData(true);
+        } else {
+          Swal.fire('เกิดข้อผิดพลาด', result.message, 'error');
+        }
+      } catch (err) {
+        Swal.fire('เกิดข้อผิดพลาด', err.toString(), 'error');
+      }
+    }
+
+    async function deleteAppItem(appId, appName) {
+      const confirm = await Swal.fire({
+        title: 'ยืนยันการลบ?',
+        text: `คุณต้องการลบแอปพลิเคชัน "${appName}" หรือไม่?`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#ef4444',
+        confirmButtonText: 'ใช่, ลบทันที',
+        cancelButtonText: 'ยกเลิก'
+      });
+
+      if (confirm.isConfirmed) {
+        Swal.fire({ title: 'กำลังลบ...', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } });
+
+        try {
+          const result = await sendApiRequest({
+            action: 'deleteAppData',
+            pin: currentAdminPin,
+            appId: appId
+          });
+
+          if (result.success) {
+            Swal.fire('ลบสำเร็จ', result.message, 'success');
+            fetchAdminAppsData(true);
+          } else {
+            Swal.fire('เกิดข้อผิดพลาด', result.message, 'error');
+          }
+        } catch (err) {
+          Swal.fire('เกิดข้อผิดพลาด', err.toString(), 'error');
+        }
+      }
+    }
+
+    // -------------------------------------------------------------------------
+    // Helper Functions เดิม (Personnel, Drive Slides, Speech, Search)
+    // -------------------------------------------------------------------------
+
+    function loadPersonnelDataFromLocal() {
+      const cached = localStorage.getItem('local_personnel_data');
+      if (cached) {
+        try {
+          const data = JSON.parse(cached);
+          renderPersonnelUI(data);
+          globalDataStore.personnel = [
+            ...(data.inspectors || []),
+            ...(data.committee || []),
+            ...(data.engineers || [])
+          ];
+        } catch (e) {}
+      }
+    }
+
+    function loadDriveActivitySlidesFromLocal() {
+      const cached = localStorage.getItem('local_drive_slides');
+      if (cached) {
+        try {
+          const slides = JSON.parse(cached);
+          renderDriveSlidesUI(slides);
+        } catch (e) {}
+      }
+    }
+
+    async function syncPersonnelDataStore(forceRefresh = false) {
+      try {
+        const url = `${GAS_API_URL}?action=getPersonnelData${forceRefresh ? '&refresh=true' : ''}`;
+        const res = await fetch(url);
+        const data = await res.json();
+        
+        localStorage.setItem('local_personnel_data', JSON.stringify(data));
+        renderPersonnelUI(data);
+
+        globalDataStore.personnel = [
+          ...(data.inspectors || []),
+          ...(data.committee || []),
+          ...(data.engineers || [])
+        ];
+      } catch (e) {
+        console.error("Sync personnel error:", e);
+      }
+    }
+
+    function initSpeechRecognition() {
+      if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        recognition = new SpeechRecognition();
+        recognition.lang = 'th-TH';
+        recognition.continuous = false;
+        recognition.interimResults = false;
+
+        recognition.onstart = () => {
+          isRecording = true;
+          const btn = document.getElementById('voiceSearchBtn');
+          btn.classList.add('mic-recording');
+          document.getElementById('globalSearchInput').placeholder = "🎤 กำลังฟังเสียงของคุณ...";
+        };
+
+        recognition.onresult = (event) => {
+          const transcript = event.results[0][0].transcript;
+          const input = document.getElementById('globalSearchInput');
+          input.value = transcript;
+          handleSearchInput(transcript);
+        };
+
+        recognition.onerror = (event) => {
+          stopVoiceSearch();
+          if (event.error === 'not-allowed') {
+            Swal.fire('ขอสิทธิ์ใช้งานไมโครโฟน', 'กรุณากด "อนุญาต" การใช้งานไมโครโฟนบนเบราว์เซอร์', 'warning');
+          }
+        };
+
+        recognition.onend = () => { stopVoiceSearch(); };
+      }
+    }
+
+    function toggleVoiceSearch() {
+      if (!recognition) {
+        Swal.fire('เบราว์เซอร์ไม่รองรับ', 'เบราว์เซอร์ของคุณไม่รองรับการสั่งงานด้วยเสียง', 'warning');
+        return;
+      }
+      if (isRecording) {
+        recognition.stop();
+      } else {
+        try { recognition.start(); } catch (e) { stopVoiceSearch(); }
+      }
+    }
+
+    function stopVoiceSearch() {
+      isRecording = false;
+      const btn = document.getElementById('voiceSearchBtn');
+      if (btn) btn.classList.remove('mic-recording');
+      const input = document.getElementById('globalSearchInput');
+      if (input) input.placeholder = "พิมพ์หรือกด 🎙️ พูดค้นหา: ม.15, เบอร์ช่าง, แปลนท่อ, ที่อยู่...";
+    }
+
+    function clearGlobalSearch() {
+      const input = document.getElementById('globalSearchInput');
+      input.value = '';
+      handleSearchInput('');
+      input.focus();
+    }
+
+    function closeSearchDropdown(e) {
+      const dropdown = document.getElementById('searchResultsDropdown');
+      if (dropdown) dropdown.classList.add('hidden');
+    }
+
+    function handleSearchInput(query) {
+      const dropdown = document.getElementById('searchResultsDropdown');
+      const clearBtn = document.getElementById('clearSearchBtn');
+      const cleanQuery = query.toString().trim().toLowerCase();
+
+      if (!cleanQuery) {
+        dropdown.classList.add('hidden');
+        dropdown.innerHTML = '';
+        clearBtn.classList.add('hidden');
+        clearBtn.classList.remove('flex');
+        return;
+      }
+
+      clearBtn.classList.remove('hidden');
+      clearBtn.classList.add('flex');
+
+      let html = '';
+      let matchCount = 0;
+
+      const matchedPersonnel = globalDataStore.personnel.filter(p => 
+        (p.name && p.name.toLowerCase().includes(cleanQuery)) ||
+        (p.phone && p.phone.toLowerCase().includes(cleanQuery)) ||
+        (p.type && p.type.toLowerCase().includes(cleanQuery)) ||
+        (p.zone && p.zone.toLowerCase().includes(cleanQuery)) ||
+        (p.villages && p.villages.toLowerCase().includes(cleanQuery)) ||
+        (p.centers && p.centers.toLowerCase().includes(cleanQuery))
+      );
+
+      if (matchedPersonnel.length > 0) {
+        html += `<div class="text-xs font-bold text-slate-500 px-2 pb-1 border-b"><i class="fas fa-users text-blue-500 mr-1.5"></i>บุคลากร & พื้นที่รับผิดชอบ (${matchedPersonnel.length})</div>`;
+        matchedPersonnel.slice(0, 6).forEach(item => {
+          matchCount++;
+          let targetTab = 'structure';
+          if (item.type === 'พื้นที่ควบคุมงาน' || item.type.indexOf('ช่าง') !== -1) {
+            targetTab = 'engineers';
+          }
+
+          html += `
+            <div onclick="navigateToPersonnelCard('${targetTab}', '${item.id || ''}', '${item.name}')" class="p-2.5 hover:bg-slate-50 rounded-xl cursor-pointer transition flex items-center justify-between border border-transparent hover:border-slate-200">
+              <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-xs flex-shrink-0">
+                  <i class="fas fa-user-tie"></i>
+                </div>
+                <div>
+                  <h4 class="font-bold text-slate-900 text-xs md:text-sm">${item.name} <span class="text-xs text-blue-600 font-semibold">(${item.type || item.zone || 'ผู้รับผิดชอบ'})</span></h4>
+                  <p class="text-xs text-slate-600"><i class="fas fa-phone text-emerald-500 mr-1"></i>${item.phone} | หมู่บ้าน: ${item.villages || '-'}</p>
+                </div>
+              </div>
+              <i class="fas fa-chevron-right text-slate-400 text-xs"></i>
+            </div>
+          `;
+        });
+      }
+
+      const matchedApps = globalDataStore.apps.filter(a => 
+        a.name.toLowerCase().includes(cleanQuery) ||
+        a.desc.toLowerCase().includes(cleanQuery) ||
+        (a.keywords && a.keywords.toLowerCase().includes(cleanQuery))
+      );
+
+      if (matchedApps.length > 0) {
+        html += `<div class="text-xs font-bold text-slate-500 px-2 pt-2 pb-1 border-b"><i class="fas fa-th-large text-purple-500 mr-1.5"></i>ระบบแอปพลิเคชัน & เมนู (${matchedApps.length})</div>`;
+        matchedApps.forEach(app => {
+          matchCount++;
+          let actionClick = app.open_type === 'external' ? `openAppExternal('${app.url}')` : `loadEmbeddedApp('${app.url}', '${app.name}')`;
+          html += `
+            <div onclick="${actionClick}" class="p-3 bg-gradient-to-r from-purple-50/50 to-indigo-50/50 hover:from-purple-100/60 hover:to-indigo-100/60 rounded-xl cursor-pointer transition flex items-center justify-between border border-purple-100 shadow-2xs">
+              <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-full bg-purple-600 text-white flex items-center justify-center font-bold text-xs flex-shrink-0">
+                  <i class="${app.icon || 'fas fa-rocket'}"></i>
+                </div>
+                <div>
+                  <div class="flex items-center gap-2">
+                    <h4 class="font-bold text-slate-900 text-xs md:text-sm">${app.name}</h4>
+                    <span class="text-[10px] bg-purple-200 text-purple-800 px-1.5 py-0.2 rounded font-bold">แอปพลิเคชัน</span>
+                  </div>
+                  <p class="text-xs text-slate-600">${app.desc}</p>
+                </div>
+              </div>
+              <span class="text-xs font-bold text-purple-700 bg-white px-2.5 py-1 rounded-lg border border-purple-200 shadow-2xs">เปิดใช้งาน ↗</span>
+            </div>
+          `;
+        });
+      }
+
+      if (matchCount === 0) {
+        html = `
+          <div class="text-center py-6 text-slate-500 space-y-1">
+            <i class="fas fa-search text-2xl text-slate-300"></i>
+            <p class="text-xs md:text-sm font-semibold">ไม่พบข้อมูลที่ตรงกับ "${query}"</p>
+          </div>
+        `;
+      }
+
+      dropdown.innerHTML = html;
+      dropdown.classList.remove('hidden');
+    }
+
+    function navigateToPersonnelCard(tabName, cardId, nameStr) {
+      switchTab(tabName);
+      closeSearchDropdown();
+
+      setTimeout(() => {
+        let cardElem = null;
+        if (cardId) cardElem = document.getElementById(cardId);
+        
+        if (!cardElem) {
+          const cards = document.querySelectorAll(`#tab-${tabName} h4, #tab-${tabName} h3`);
+          cards.forEach(c => {
+            if (c.innerText.indexOf(nameStr) !== -1) {
+              cardElem = c.closest('.bg-white, .bg-slate-50');
+            }
+          });
+        }
+
+        if (cardElem) {
+          cardElem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          cardElem.classList.add('card-highlight');
+          setTimeout(() => { cardElem.classList.remove('card-highlight'); }, 3500);
+        }
+      }, 300);
+    }
+
+    function toggleAppDropdown() {
+      const subMenu = document.getElementById('subAppMenu');
+      const icon = document.getElementById('dropdownIcon');
+      subMenu.classList.toggle('hidden');
+      icon.classList.toggle('rotate-180');
+    }
+
+    function openAppExternal(url) {
+      window.open(url, '_blank');
+    }
+
+    function updateMobileTabHighlight(activeTab) {
+      const mTabs = ['analytics', 'gis', 'structure', 'engineers', 'calendar', 'workreports', 'knowledge'];
+      mTabs.forEach(t => {
+        const btn = document.getElementById(`m-tab-${t}`);
+        if (btn) {
+          if (t === activeTab) {
+            btn.className = "flex-shrink-0 px-3 py-1.5 rounded-xl bg-emerald-600 text-white text-xs font-bold flex items-center gap-1.5 transition shadow-xs";
+          } else {
+            btn.className = "flex-shrink-0 px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300 text-xs font-semibold flex items-center gap-1.5 transition";
+          }
+        }
+      });
+    }
+
+    function switchTab(tab) {
+      const tabs = ['analytics', 'gis', 'structure', 'engineers', 'calendar', 'workreports', 'knowledge', 'embedded'];
+      tabs.forEach(t => {
+        document.getElementById(`tab-${t}`).classList.add('hidden');
+      });
+
+      document.getElementById(`tab-${tab}`).classList.remove('hidden');
+      updateMobileTabHighlight(tab);
+
+      if (tab === 'analytics') document.getElementById('pageTitle').innerText = 'ภาพรวมแอฟทั้งหมด';
+      if (tab === 'gis') document.getElementById('pageTitle').innerText = 'ระบบแผนที่ GIS กองช่าง (Spatial Satellite Map)';
+      if (tab === 'structure') {
+        document.getElementById('pageTitle').innerText = 'เขตรับผิดชอบนายช่างนายตรวจ & กรรมการราคากลาง';
+        loadPersonnelData();
+      }
+      if (tab === 'engineers') {
+        document.getElementById('pageTitle').innerText = 'พื้นที่ควบคุมงานที่อยู่ในความดูแลของช่าง';
+        loadPersonnelData();
+      }
+      if (tab === 'calendar') {
+        document.getElementById('pageTitle').innerText = 'ปฏิทินงานปฏิบัติงาน กองช่าง';
+        reloadCalendarIframe();
+      }
+      if (tab === 'workreports') {
+        document.getElementById('pageTitle').innerText = 'รายงานผลการปฏิบัติงาน กองช่าง';
+        loadDriveActivitySlides();
+      }
+      if (tab === 'knowledge') {
+        document.getElementById('pageTitle').innerText = 'คลังความรู้กองช่าง (Knowledge Center)';
+      }
+      
+      closeSearchDropdown();
+      closeMobileSidebar();
+    }
+
+    function loadEmbeddedApp(url, appTitle) {
+      switchTab('embedded');
+      document.getElementById('pageTitle').innerText = appTitle;
+      document.getElementById('embedAppTitle').innerText = appTitle;
+      
+      const externalLink = document.getElementById('embedAppExternalLink');
+      const iframe = document.getElementById('embedIframe');
+
+      externalLink.href = url;
+      iframe.src = url;
+      closeMobileSidebar();
+    }
+
+    function reloadCalendarIframe() {
+      const iframe = document.getElementById('calendarIframe');
+      iframe.src = iframe.src;
+    }
+
+    function reloadKnowledgeIframe() {
+      const iframe = document.getElementById('knowledgeIframe');
+      iframe.src = iframe.src;
+    }
+
+    function formatMultilineItems(textStr) {
+      if (!textStr || textStr.trim() === '') return '<p class="text-xs font-semibold text-slate-500">-</p>';
+      let items = textStr.includes(',') ? textStr.split(',') : textStr.split(/\s(?=ม\.)|\s(?=ศพด\.)|\s(?=ศูนย์)/);
+      if (items.length <= 1 && !textStr.includes(',')) items = textStr.split(' ');
+
+      let html = '';
+      items.forEach(item => {
+        const cleanItem = item.trim();
+        if (cleanItem) html += `<p class="text-xs font-semibold leading-relaxed text-slate-800">${cleanItem}</p>`;
+      });
+      return html || `<p class="text-xs font-semibold text-slate-800">${textStr}</p>`;
+    }
+
+    function renderPersonnelUI(data) {
+      const inspContainer = document.getElementById('inspectorsContainer');
+      const comContainer = document.getElementById('committeeContainer');
+      const engContainer = document.getElementById('engineersContainer');
+
+      if (data.inspectors && data.inspectors.length > 0) {
+        let html = '';
+        data.inspectors.forEach((item, idx) => {
+          const cardId = item.id || `inspector-${idx}`;
+          const avatar = item.imgUrl ? `<img src="${item.imgUrl}" loading="lazy" class="w-full h-full object-cover">` : `<i class="fas fa-user-tie text-blue-500 text-3xl"></i>`;
+          html += `
+            <div id="${cardId}" class="bg-white p-4 rounded-xl border border-slate-200 shadow-xs flex flex-col justify-between items-center text-center h-full transition-all">
+              <div class="flex flex-col items-center w-full">
+                <span class="px-3 py-0.5 bg-blue-600 text-white text-xs font-bold rounded-full mb-3">${item.zone}</span>
+                <div class="w-24 h-28 rounded-2xl overflow-hidden border-2 border-blue-500 mb-3 bg-white p-1 shadow-xs flex items-center justify-center">
+                  <div class="w-full h-full rounded-xl overflow-hidden flex items-center justify-center bg-slate-100">
+                    ${avatar}
+                  </div>
+                </div>
+                <p class="text-xs text-slate-500 font-bold">ผู้รับผิดชอบ</p>
+                <h4 class="font-bold text-slate-900 text-sm md:text-base mb-1">${item.name}</h4>
+                <p class="text-xs md:text-sm text-blue-600 font-bold mb-3"><i class="fas fa-phone mr-1"></i>โทร ${item.phone}</p>
+              </div>
+              <p class="text-xs md:text-sm text-slate-800 bg-slate-100 px-3 py-1.5 rounded-md w-full font-semibold">หมู่บ้าน: ${item.villages}</p>
+            </div>
+          `;
+        });
+        inspContainer.innerHTML = html;
+      }
+
+      if (data.committee && data.committee.length > 0) {
+        let html = '';
+        data.committee.forEach((item, idx) => {
+          const cardId = item.id || `committee-${idx}`;
+          const avatar = item.imgUrl ? `<img src="${item.imgUrl}" loading="lazy" class="w-full h-full object-cover">` : `<i class="fas fa-user-tie text-amber-500 text-3xl"></i>`;
+          html += `
+            <div id="${cardId}" class="bg-white p-4 rounded-xl border border-slate-200 shadow-xs flex flex-col justify-between items-center text-center h-full transition-all">
+              <div class="flex flex-col items-center w-full">
+                <span class="px-3 py-0.5 bg-amber-500 text-white text-xs font-bold rounded-full mb-3">${item.zone || 'กรรมการ'}</span>
+                <div class="w-24 h-28 rounded-2xl overflow-hidden border-2 border-amber-500 mb-3 bg-white p-1 shadow-xs flex items-center justify-center">
+                  <div class="w-full h-full rounded-xl overflow-hidden flex items-center justify-center bg-slate-100">
+                    ${avatar}
+                  </div>
+                </div>
+                <p class="text-xs text-slate-500 font-bold">กรรมการราคากลาง</p>
+                <h4 class="font-bold text-slate-900 text-sm md:text-base mb-1">${item.name}</h4>
+                <p class="text-xs md:text-sm text-emerald-700 font-bold mb-3"><i class="fas fa-phone mr-1"></i>โทร ${item.phone}</p>
+              </div>
+              <p class="text-xs md:text-sm text-slate-800 bg-amber-50 border border-amber-200 px-3 py-1.5 rounded-md w-full font-semibold">ผู้รับผิดชอบ: ${item.villages}</p>
+            </div>
+          `;
+        });
+        comContainer.innerHTML = html;
+      }
+
+      if (data.engineers && data.engineers.length > 0) {
+        const colors = ['blue', 'amber', 'emerald', 'purple', 'sky', 'red'];
+        let html = '';
+        data.engineers.forEach((item, idx) => {
+          const cardId = item.id || `engineer-${idx}`;
+          const color = colors[idx % colors.length];
+          const avatar = item.imgUrl ? `<img src="${item.imgUrl}" loading="lazy" class="w-full h-full object-cover">` : `<i class="fas fa-user-tie text-slate-400 text-2xl"></i>`;
+          
+          const villagesHtml = formatMultilineItems(item.villages);
+          const centersHtml = formatMultilineItems(item.centers);
+
+          html += `
+            <div id="${cardId}" class="bg-slate-50 p-4 rounded-xl border border-slate-200 flex flex-col justify-between transition-all">
+              <div>
+                <div class="w-20 h-24 rounded-2xl bg-white p-1 border-2 border-${color}-400 shadow-xs mx-auto mb-2 overflow-hidden">
+                  <div class="w-full h-full rounded-xl overflow-hidden flex items-center justify-center bg-${color}-50">
+                    ${avatar}
+                  </div>
+                </div>
+                <h3 class="font-bold text-slate-900 text-xs md:text-sm text-center">${item.name}</h3>
+                <p class="text-xs text-${color}-700 font-bold text-center mb-3">โทร ${item.phone}</p>
+                <div class="text-xs space-y-1 text-slate-800 bg-white p-2.5 rounded-lg border border-slate-200 mb-2">
+                  <p class="font-bold text-slate-900 border-b pb-1 mb-1.5 text-xs">หมู่บ้าน:</p>
+                  <div class="space-y-1">${villagesHtml}</div>
+                </div>
+              </div>
+              <div class="text-xs bg-${color}-50 p-2.5 rounded-lg text-${color}-900 border border-${color}-100">
+                <p class="font-bold border-b border-${color}-200/60 pb-1 mb-1.5 text-xs">ศพด./ศูนย์:</p>
+                <div class="space-y-1">${centersHtml}</div>
+              </div>
+            </div>
+          `;
+        });
+        engContainer.innerHTML = html;
+      }
+    }
+
+    async function loadPersonnelData(forceRefresh = false) {
+      syncPersonnelDataStore(forceRefresh);
+    }
+
+    function moveSlide(idx, direction) {
+      const container = document.getElementById(`carousel-${idx}`);
+      const scrollAmount = container.clientWidth;
+      container.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
+    }
+
+    function renderDriveSlidesUI(slides) {
+      const container = document.getElementById('driveSlidesContainer');
+
+      if (!slides || slides.length === 0) {
+        container.innerHTML = '<div class="col-span-3 text-center py-12 text-slate-500 text-sm">ไม่พบโฟลเดอร์ภาพกิจกรรมใน Google Drive</div>';
+        return;
+      }
+
+      let html = '';
+      slides.forEach((slide, idx) => {
+        let imageItemsHtml = '';
+        slide.images.forEach((imgUrl, imgIdx) => {
+          const loadingAttr = imgIdx === 0 ? 'loading="eager"' : 'loading="lazy"';
+          imageItemsHtml += `
+            <div class="carousel-slide flex-shrink-0 w-full aspect-video rounded-xl overflow-hidden relative bg-slate-900">
+              <img src="${imgUrl}" ${loadingAttr} class="w-full h-full object-cover">
+              <div class="absolute bottom-2 right-2 bg-black/70 text-white text-xs px-2 py-0.5 rounded-full font-bold">
+                ${imgIdx + 1}/${slide.images.length}
+              </div>
+            </div>
+          `;
+        });
+
+        html += `
+          <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex flex-col justify-between space-y-3">
+            <div class="flex items-center justify-between border-b pb-2">
+              <div>
+                <span class="inline-block px-2 py-0.5 bg-purple-50 text-purple-800 text-xs font-bold rounded mb-1">${slide.reporter}</span>
+                <h3 class="font-bold text-slate-900 text-xs md:text-sm line-clamp-1">${slide.title}</h3>
+              </div>
+              <a href="${slide.folderUrl}" target="_blank" class="p-1.5 bg-slate-100 hover:bg-slate-200 text-emerald-600 rounded-lg text-xs md:text-sm" title="เปิดโฟลเดอร์">
+                <i class="fab fa-google-drive"></i>
+              </a>
+            </div>
+
+            <div class="relative group">
+              <div id="carousel-${idx}" class="carousel-container flex overflow-x-hidden scroll-smooth">
+                ${imageItemsHtml}
+              </div>
+              ${slide.images.length > 1 ? `
+                <button onclick="moveSlide(${idx}, -1)" class="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/60 text-white text-xs flex items-center justify-center opacity-80 hover:opacity-100 transition shadow-md">
+                  <i class="fas fa-chevron-left"></i>
+                </button>
+                <button onclick="moveSlide(${idx}, 1)" class="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/60 text-white text-xs flex items-center justify-center opacity-80 hover:opacity-100 transition shadow-md">
+                  <i class="fas fa-chevron-right"></i>
+                </button>
+              ` : ''}
+            </div>
+
+            <div class="text-right text-xs text-slate-500">
+              <i class="far fa-clock mr-1"></i>${slide.dateDisplay}
+            </div>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+    }
+
+    async function loadDriveActivitySlides(forceRefresh = false) {
+      try {
+        const url = `${GAS_API_URL}?action=getDriveActivitySlides${forceRefresh ? '&refresh=true' : ''}`;
+        const res = await fetch(url);
+        const slides = await res.json();
+
+        localStorage.setItem('local_drive_slides', JSON.stringify(slides));
+        renderDriveSlidesUI(slides);
+      } catch (err) {
+        console.error("Load drive activity slides error:", err);
+      }
+    }
   </script>
 </body>
 </html>
