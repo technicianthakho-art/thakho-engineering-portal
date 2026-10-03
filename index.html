@@ -15,7 +15,7 @@
     * { font-family: 'Sarabun', 'Plus Jakarta Sans', sans-serif; box-sizing: border-box; }
     body { background-color: #ffffff; color: #0f172a; overflow-x: hidden; }
     
-    /* Modern Custom Scrollbar สำหรับ Sidebar */
+    /* Custom Scrollbar สำหรับ Sidebar และพื้นที่สโครล */
     .sidebar-custom-scroll::-webkit-scrollbar {
       width: 5px;
     }
@@ -23,23 +23,24 @@
       background: transparent;
     }
     .sidebar-custom-scroll::-webkit-scrollbar-thumb {
-      background: transparent;
+      background: #334155;
       border-radius: 10px;
     }
     .sidebar-custom-scroll:hover::-webkit-scrollbar-thumb {
-      background: #334155;
+      background: #475569;
     }
 
+    /* สไตล์การ์ดแอปพลิเคชันแบบ Vibrant Tile Solid Icon */
     .widget-card {
       background: #ffffff;
       border: 1px solid #e2e8f0;
       border-radius: 1.25rem;
-      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03);
       transition: all 0.25s ease;
       cursor: pointer;
     }
     .widget-card:hover {
-      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 12px 28px -6px rgba(15, 23, 42, 0.12);
       transform: translateY(-3px);
     }
     .sidebar-active { background-color: #374151; border-left: 4px solid #059669; }
@@ -53,6 +54,15 @@
       .sidebar-collapsed .contact-info-card,
       .sidebar-collapsed #subAppMenu { display: none !important; }
       .sidebar-collapsed .nav-item { justify-content: center !important; padding-left: 0 !important; padding-right: 0 !important; }
+    }
+
+    /* ปรับปรุง Responsive สำหรับจอโน้ตบุ๊กที่มีความสูงจำกัด (Low Vertical Viewport Height) */
+    @media (max-height: 800px) {
+      .sidebar-header-padding { padding-top: 0.5rem !important; padding-bottom: 0.5rem !important; }
+      .nav-space { margin-top: 0.5rem !important; }
+      .nav-item-pad { padding-top: 0.5rem !important; padding-bottom: 0.5rem !important; }
+      .contact-card-compact { padding-top: 0.5rem !important; margin-top: 0.5rem !important; space-y: 0.25rem !important; }
+      .contact-desc-text { display: none !important; }
     }
 
     .floating-toggle-btn {
@@ -108,89 +118,88 @@
   <!-- Mobile Overlay Backdrop -->
   <div id="mobileSidebarBackdrop" onclick="toggleMobileSidebar()" class="fixed inset-0 bg-black/60 z-40 hidden md:hidden transition-opacity duration-300"></div>
 
-  <!-- Sidebar Container -->
+  <!-- Sidebar Container (ล็อกความสูง h-screen + overflow-hidden แก้ปัญหาจอโน้ตบุ๊ก) -->
   <div class="relative flex-shrink-0">
-    <aside id="mainSidebar" class="w-64 bg-slate-900 text-white flex-shrink-0 flex flex-col justify-between p-3 border-r border-slate-800 fixed md:sticky top-0 h-screen overflow-y-visible transition-all duration-300 z-50 -translate-x-full md:translate-x-0">
+    <aside id="mainSidebar" class="w-64 bg-slate-900 text-white flex-shrink-0 flex flex-col justify-between p-3 border-r border-slate-800 fixed md:sticky top-0 h-screen overflow-hidden transition-all duration-300 z-50 -translate-x-full md:translate-x-0">
       
       <button onclick="toggleSidebarCollapse()" class="hidden md:flex floating-toggle-btn" title="กดยุบ / ขยาย แถบข้าง" id="floatingToggleBtn">
         <i class="fas fa-chevron-left text-xs transition-transform duration-300" id="toggleIcon"></i>
       </button>
 
-      <div class="overflow-y-auto h-full flex flex-col justify-between sidebar-custom-scroll pr-1">
-        <div>
-          <div class="flex items-center justify-between px-2 py-3 border-b border-slate-800">
-            <div class="flex items-center gap-3">
-              <div class="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center flex-shrink-0 border-2 border-amber-400 shadow-md bg-white">
-                <img src="https://lh3.googleusercontent.com/d/1MNeJFoDWNE9Bsg_lKzUDNdKhiowFle63" alt="ตรา อบต.ท่าก๊อ" class="w-full h-full object-cover">
-              </div>
-              <div class="sidebar-header-text">
-                <h2 class="font-bold text-base leading-tight text-amber-400">กองช่าง อบต.ท่าก๊อ</h2>
-              </div>
-            </div>
-            <button onclick="toggleMobileSidebar()" class="md:hidden w-8 h-8 rounded-xl bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center">
-              <i class="fas fa-times text-base"></i>
-            </button>
+      <!-- ส่วนหัว Sidebar -->
+      <div class="flex items-center justify-between px-2 py-2.5 border-b border-slate-800 flex-shrink-0 sidebar-header-padding">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center flex-shrink-0 border-2 border-amber-400 shadow-md bg-white">
+            <img src="https://lh3.googleusercontent.com/d/1MNeJFoDWNE9Bsg_lKzUDNdKhiowFle63" alt="ตรา อบต.ท่าก๊อ" class="w-full h-full object-cover">
           </div>
+          <div class="sidebar-header-text">
+            <h2 class="font-bold text-base leading-tight text-amber-400">กองช่าง อบต.ท่าก๊อ</h2>
+          </div>
+        </div>
+        <button onclick="toggleMobileSidebar()" class="md:hidden w-8 h-8 rounded-xl bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center">
+          <i class="fas fa-times text-base"></i>
+        </button>
+      </div>
 
-          <!-- Navigation Menu -->
-          <nav class="mt-4 space-y-1.5">
-            <div>
-              <button onclick="switchTab('analytics'); toggleAppDropdown();" id="nav-analytics-btn" class="nav-item w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs md:text-sm font-semibold hover:bg-slate-800 transition text-left sidebar-active" title="ภาพรวมแอฟทั้งหมด">
-                <div class="flex items-center gap-3">
-                  <i class="fas fa-th-large text-emerald-400 w-4 text-center"></i>
-                  <span class="nav-text">ภาพรวมแอฟทั้งหมด</span>
-                </div>
-                <i class="fas fa-chevron-down text-[10px] transition-transform duration-200 nav-text" id="dropdownIcon"></i>
-              </button>
-              
-              <!-- Dynamic SubAppMenu จาก Sheet -->
-              <div id="subAppMenu" class="pl-4 pr-1 py-1 space-y-1 mt-1">
-                <div class="text-xs text-slate-500 py-1 px-2"><i class="fas fa-spinner fa-spin mr-1"></i>กำลังโหลดเมนู...</div>
+      <!-- ส่วนเมนูสโครลนุ่มนวลแยกอิสระ (flex-1 overflow-y-auto) -->
+      <div class="flex-1 overflow-y-auto sidebar-custom-scroll pr-1 my-2 nav-space">
+        <nav class="space-y-1.5">
+          <div>
+            <button onclick="switchTab('analytics'); toggleAppDropdown();" id="nav-analytics-btn" class="nav-item nav-item-pad w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs md:text-sm font-semibold hover:bg-slate-800 transition text-left sidebar-active" title="ภาพรวมแอฟทั้งหมด">
+              <div class="flex items-center gap-3">
+                <i class="fas fa-th-large text-emerald-400 w-4 text-center"></i>
+                <span class="nav-text">ภาพรวมแอฟทั้งหมด</span>
               </div>
-            </div>
-
-            <button onclick="switchTab('gis')" id="nav-gis" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs md:text-sm font-semibold hover:bg-slate-800 transition text-left" title="ระบบแผนที่ GIS กองช่าง">
-              <i class="fas fa-globe-asia text-cyan-400 w-4 text-center"></i><span class="nav-text">ระบบแผนที่ GIS กองช่าง</span>
+              <i class="fas fa-chevron-down text-[10px] transition-transform duration-200 nav-text" id="dropdownIcon"></i>
             </button>
             
-            <button onclick="switchTab('structure')" id="nav-structure" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs md:text-sm font-semibold hover:bg-slate-800 transition text-left" title="เขตรับผิดชอบ & กรรมการราคากลาง">
-              <i class="fas fa-users-gear text-amber-400 w-4 text-center"></i><span class="nav-text">เขตรับผิดชอบ & กรรมการราคากลาง</span>
-            </button>
-
-            <button onclick="switchTab('engineers')" id="nav-engineers" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs md:text-sm font-semibold hover:bg-slate-800 transition text-left" title="พื้นที่ควบคุมงานช่าง">
-              <i class="fas fa-user-shield text-indigo-400 w-4 text-center"></i><span class="nav-text">พื้นที่ควบคุมงานช่าง</span>
-            </button>
-
-            <button onclick="switchTab('calendar')" id="nav-calendar" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs md:text-sm font-semibold hover:bg-slate-800 transition text-left" title="ปฏิทินงานปฏิบัติงาน">
-              <i class="fas fa-calendar-alt text-rose-400 w-4 text-center"></i><span class="nav-text">ปฏิทินงานปฏิบัติงาน</span>
-            </button>
-
-            <button onclick="switchTab('workreports')" id="nav-workreports" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs md:text-sm font-semibold hover:bg-slate-800 transition text-left" title="รายงานผลปฏิบัติงาน">
-              <i class="fas fa-clipboard-list text-purple-400 w-4 text-center"></i><span class="nav-text">รายงานผลปฏิบัติงาน</span>
-            </button>
-
-            <button onclick="switchTab('knowledge')" id="nav-knowledge" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs md:text-sm font-semibold hover:bg-slate-800 transition text-left" title="คลังความรู้กองช่าง">
-              <i class="fas fa-book-reader text-teal-400 w-4 text-center"></i><span class="nav-text">คลังความรู้กองช่าง</span>
-            </button>
-          </nav>
-        </div>
-
-        <!-- ส่วนท้าย Sidebar พร้อมปุ่มล็อกอินแอดมิน -->
-        <div class="mt-6 pt-3 border-t border-slate-800 space-y-2 contact-info-card text-xs">
-          <div class="flex items-center justify-between">
-            <p class="font-bold text-slate-200 text-xs md:text-sm"><i class="fas fa-address-card text-emerald-400 mr-1.5"></i>ข้อมูลการติดต่อ</p>
-            <button onclick="openAdminPinModal()" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-amber-400 text-xs font-bold border border-slate-700 transition flex items-center gap-1" title="เข้าสู่ระบบจัดการแอดมิน">
-              <i class="fas fa-lock"></i><span>แอดมิน</span>
-            </button>
+            <!-- Dynamic SubAppMenu จาก Sheet -->
+            <div id="subAppMenu" class="pl-4 pr-1 py-1 space-y-1 mt-1">
+              <div class="text-xs text-slate-500 py-1 px-2"><i class="fas fa-spinner fa-spin mr-1"></i>กำลังโหลดเมนู...</div>
+            </div>
           </div>
-          <p class="text-slate-300 leading-relaxed text-xs">องค์การบริหารส่วนตำบลท่าก๊อ<br>179 ม.26 ต.ท่าก๊อ อ.แม่สรวย จ.เชียงราย 57180</p>
-          <div class="space-y-1 text-slate-300 pt-1 text-xs">
-            <p><i class="fas fa-phone text-amber-400 w-4"></i>053-724217-8</p>
-            <p><i class="fas fa-envelope text-sky-400 w-4"></i>saraban@thakho.go.th</p>
-            <p><i class="fas fa-globe text-emerald-400 w-4"></i>thakho.go.th</p>
-          </div>
-          <p class="text-[11px] text-slate-500 text-center pt-2">© 2026 อบต.ท่าก๊อ</p>
+
+          <button onclick="switchTab('gis')" id="nav-gis" class="nav-item nav-item-pad w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs md:text-sm font-semibold hover:bg-slate-800 transition text-left" title="ระบบแผนที่ GIS กองช่าง">
+            <i class="fas fa-globe-asia text-cyan-400 w-4 text-center"></i><span class="nav-text">ระบบแผนที่ GIS กองช่าง</span>
+          </button>
+          
+          <button onclick="switchTab('structure')" id="nav-structure" class="nav-item nav-item-pad w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs md:text-sm font-semibold hover:bg-slate-800 transition text-left" title="เขตรับผิดชอบ & กรรมการราคากลาง">
+            <i class="fas fa-users-gear text-amber-400 w-4 text-center"></i><span class="nav-text">เขตรับผิดชอบ & กรรมการราคากลาง</span>
+          </button>
+
+          <button onclick="switchTab('engineers')" id="nav-engineers" class="nav-item nav-item-pad w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs md:text-sm font-semibold hover:bg-slate-800 transition text-left" title="พื้นที่ควบคุมงานช่าง">
+            <i class="fas fa-user-shield text-indigo-400 w-4 text-center"></i><span class="nav-text">พื้นที่ควบคุมงานช่าง</span>
+          </button>
+
+          <button onclick="switchTab('calendar')" id="nav-calendar" class="nav-item nav-item-pad w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs md:text-sm font-semibold hover:bg-slate-800 transition text-left" title="ปฏิทินงานปฏิบัติงาน">
+            <i class="fas fa-calendar-alt text-rose-400 w-4 text-center"></i><span class="nav-text">ปฏิทินงานปฏิบัติงาน</span>
+          </button>
+
+          <button onclick="switchTab('workreports')" id="nav-workreports" class="nav-item nav-item-pad w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs md:text-sm font-semibold hover:bg-slate-800 transition text-left" title="รายงานผลปฏิบัติงาน">
+            <i class="fas fa-clipboard-list text-purple-400 w-4 text-center"></i><span class="nav-text">รายงานผลปฏิบัติงาน</span>
+          </button>
+
+          <button onclick="switchTab('knowledge')" id="nav-knowledge" class="nav-item nav-item-pad w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs md:text-sm font-semibold hover:bg-slate-800 transition text-left" title="คลังความรู้กองช่าง">
+            <i class="fas fa-book-reader text-teal-400 w-4 text-center"></i><span class="nav-text">คลังความรู้กองช่าง</span>
+          </button>
+        </nav>
+      </div>
+
+      <!-- ส่วนท้าย Sidebar ล็อกแน่นพอดีขอบจอด้านล่างเสมอ -->
+      <div class="pt-2 border-t border-slate-800 space-y-1.5 contact-info-card contact-card-compact text-xs flex-shrink-0">
+        <div class="flex items-center justify-between">
+          <p class="font-bold text-slate-200 text-xs md:text-sm"><i class="fas fa-address-card text-emerald-400 mr-1.5"></i>ข้อมูลการติดต่อ</p>
+          <button onclick="openAdminPinModal()" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-amber-400 text-xs font-bold border border-slate-700 transition flex items-center gap-1" title="เข้าสู่ระบบจัดการแอดมิน">
+            <i class="fas fa-lock"></i><span>แอดมิน</span>
+          </button>
         </div>
+        <p class="text-slate-300 leading-tight text-[11px] md:text-xs contact-desc-text">องค์การบริหารส่วนตำบลท่าก๊อ<br>179 ม.26 ต.ท่าก๊อ อ.แม่สรวย จ.เชียงราย 57180</p>
+        <div class="space-y-0.5 text-slate-300 text-[11px] md:text-xs">
+          <p><i class="fas fa-phone text-amber-400 w-4"></i>053-724217-8</p>
+          <p><i class="fas fa-envelope text-sky-400 w-4"></i>saraban@thakho.go.th</p>
+          <p><i class="fas fa-globe text-emerald-400 w-4"></i>thakho.go.th</p>
+        </div>
+        <p class="text-[10px] text-slate-500 text-center pt-1">© 2026 อบต.ท่าก๊อ</p>
       </div>
     </aside>
   </div>
@@ -433,7 +442,7 @@
         </div>
 
         <div class="bg-white p-3 rounded-2xl border border-slate-200 shadow-xs h-[750px]">
-          <iframe id="calendarIframe" src="https://calendar.google.com/calendar/embed?height=750&wkst=1&ctz=Asia%2FBangkok&showTitle=0&showPrint=0&showTabs=1&src=dGVjaG5pY2lhbi50aGFraG9AZ21haWwuY29t&color=%23039BE5&src=Mzk3NTY4MTY5YWJjMzE0MDM3NTYzMWQ0MTBmZTk2MWQ4ZDE3NDhlODkxYWNlOThiOTAzNmVkY2I2MDU0YmYyYkBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&color=%2333B679&src=YjQ2MWFmM2FkMGY0NDY5OTFlZGFiZjQ1NWVkOWYxNDkwM2ZhYjE5NTFmODk1ZDE1ODdjMWFjZThhZThkYzYyNUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&color=%23D50000&src=ZWNlZmY3MWU3MGVmYzVjMjhiNGE3NGIzZjliMWU5ZjJlZjFmMWZjMjBjMTQyYzNjOTI0Y2Y4ZWNjMDAzMWYyOUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&color=%23F6BF26" style="border:0; width:100%; height:100%;" frameborder="0" scrolling="no"></iframe>
+          <iframe id="calendarIframe" src="https://calendar.google.com/calendar/embed?height=750&wkst=1&ctz=Asia%2FBangkok&showTitle=0&showPrint=0&showTabs=1&src=dGVjaG5pY2lhbi50aGFraG9AZ21haWwuY29t&color=%23039BE5&src=Mzk3NTY4MTY5YWJjMzE0MDM3NTYzMWQ4ZDE3NDhlODkxYWNlOThiOTAzNmVkY2I2MDU0YmYyYkBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&color=%2333B679&src=YjQ2MWFmM2FkMGY0NDY5OTFlZGFiZjQ1NWVkOWYxNDkwM2ZhYjE5NTFmODk1ZDE1ODdjMWFjZThhZThkYzYyNUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&color=%23D50000&src=ZWNlZmY3MWU3MGVmYzVjMjhiNGE3NGIzZjliMWU5ZjJlZjFmMWZjMjBjMTQyYzNjOTI0Y2Y4ZWNjMDAzMWYyOUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&color=%23F6BF26" style="border:0; width:100%; height:100%;" frameborder="0" scrolling="no"></iframe>
         </div>
       </div>
 
@@ -658,6 +667,82 @@
     let recognition = null;
     let isRecording = false;
 
+    // Mapping โทนสีสำหรับการ์ดและไอคอนสีสดแบบ Vibrant Solid Icon Tile
+    const colorStyleMap = {
+      blue: {
+        bg: "bg-blue-600",
+        badgeBg: "bg-blue-100",
+        badgeText: "text-blue-800",
+        badgeBorder: "border-blue-200",
+        hoverText: "group-hover:text-blue-600",
+        border: "border-blue-200/90"
+      },
+      amber: {
+        bg: "bg-amber-500",
+        badgeBg: "bg-amber-100",
+        badgeText: "text-amber-800",
+        badgeBorder: "border-amber-200",
+        hoverText: "group-hover:text-amber-600",
+        border: "border-amber-200/90"
+      },
+      emerald: {
+        bg: "bg-emerald-600",
+        badgeBg: "bg-emerald-100",
+        badgeText: "text-emerald-800",
+        badgeBorder: "border-emerald-200",
+        hoverText: "group-hover:text-emerald-600",
+        border: "border-emerald-200/90"
+      },
+      purple: {
+        bg: "bg-purple-600",
+        badgeBg: "bg-purple-100",
+        badgeText: "text-purple-800",
+        badgeBorder: "border-purple-200",
+        hoverText: "group-hover:text-purple-600",
+        border: "border-purple-200/90"
+      },
+      sky: {
+        bg: "bg-sky-500",
+        badgeBg: "bg-sky-100",
+        badgeText: "text-sky-800",
+        badgeBorder: "border-sky-200",
+        hoverText: "group-hover:text-sky-600",
+        border: "border-sky-200/90"
+      },
+      red: {
+        bg: "bg-rose-600",
+        badgeBg: "bg-rose-100",
+        badgeText: "text-rose-800",
+        badgeBorder: "border-rose-200",
+        hoverText: "group-hover:text-rose-600",
+        border: "border-rose-200/90"
+      },
+      cyan: {
+        bg: "bg-cyan-600",
+        badgeBg: "bg-cyan-100",
+        badgeText: "text-cyan-800",
+        badgeBorder: "border-cyan-200",
+        hoverText: "group-hover:text-cyan-600",
+        border: "border-cyan-200/90"
+      },
+      teal: {
+        bg: "bg-teal-600",
+        badgeBg: "bg-teal-100",
+        badgeText: "text-teal-800",
+        badgeBorder: "border-teal-200",
+        hoverText: "group-hover:text-teal-600",
+        border: "border-teal-200/90"
+      },
+      indigo: {
+        bg: "bg-indigo-600",
+        badgeBg: "bg-indigo-100",
+        badgeText: "text-indigo-800",
+        badgeBorder: "border-indigo-200",
+        hoverText: "group-hover:text-indigo-600",
+        border: "border-indigo-200/90"
+      }
+    };
+
     // Helper Function ส่ง API ด้วย URL-Encoded (ป้องกัน CORS Preflight OPTIONS 100%)
     async function sendApiRequest(payloadObj) {
       const bodyParams = new URLSearchParams();
@@ -769,7 +854,8 @@
       let menuHtml = '';
 
       apps.forEach(app => {
-        const color = app.color || 'blue';
+        const colorKey = app.color || 'blue';
+        const style = colorStyleMap[colorKey] || colorStyleMap['blue'];
         const icon = app.icon || 'fa-solid fa-shapes';
         
         let actionClick = '';
@@ -781,29 +867,37 @@
           actionClick = `loadEmbeddedApp('${app.url}', '${app.name}')`;
         }
 
+        /* ตกแต่งการ์ดแสดงผลด้วย Vibrant Solid Icon Tile (กล่องสีสด + ไอคอนสีขาว) */
         gridHtml += `
-          <div onclick="${actionClick}" class="widget-card p-4 md:p-5 border border-${color}-200/80 flex flex-col justify-between group">
+          <div onclick="${actionClick}" class="widget-card p-4 md:p-5 ${style.border} flex flex-col justify-between group">
             <div>
               <div class="flex items-center justify-between mb-3">
                 <div class="flex items-center gap-3">
-                  <div class="w-10 h-10 rounded-xl bg-${color}-100 text-${color}-600 flex items-center justify-center font-bold text-lg">
+                  <!-- Vibrant Solid Icon Box -->
+                  <div class="w-11 h-11 rounded-2xl ${style.bg} text-white flex items-center justify-center font-bold text-xl shadow-md group-hover:scale-105 transition-transform flex-shrink-0">
                     <i class="${icon}"></i>
                   </div>
                   <div>
-                    <h3 class="font-bold text-slate-900 text-sm md:text-base group-hover:text-${color}-600 transition">${app.name}</h3>
-                    <span class="text-xs font-semibold px-2 py-0.5 rounded bg-${color}-50 text-${color}-800 border border-${color}-100">${app.category}</span>
+                    <h3 class="font-bold text-slate-900 text-sm md:text-base ${style.hoverText} transition line-clamp-1">${app.name}</h3>
+                    <span class="text-[11px] font-bold px-2 py-0.5 rounded-md ${style.badgeBg} ${style.badgeText} border ${style.badgeBorder}">${app.category}</span>
                   </div>
                 </div>
-                <i class="fas fa-arrow-up-right-from-square text-slate-400 group-hover:text-${color}-600 text-sm transition"></i>
+                <div class="w-8 h-8 rounded-full bg-slate-100 group-hover:bg-slate-200 text-slate-400 ${style.hoverText} flex items-center justify-center transition flex-shrink-0">
+                  <i class="fas fa-arrow-up-right-from-square text-xs"></i>
+                </div>
               </div>
-              <p class="text-xs md:text-sm text-slate-600 leading-relaxed">${app.desc}</p>
+              <p class="text-xs md:text-sm text-slate-600 leading-relaxed line-clamp-2">${app.desc || '-'}</p>
+            </div>
+            <div class="mt-4 pt-2.5 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-600 font-semibold">
+              <span class="flex items-center gap-1 text-emerald-700 font-bold"><i class="fas fa-circle text-[8px] text-emerald-500"></i> พร้อมใช้งาน</span>
+              <span class="text-slate-600">เปิดใช้งาน ↗</span>
             </div>
           </div>
         `;
 
         menuHtml += `
           <button onclick="${actionClick}" class="w-full text-left px-2.5 py-1.5 rounded-lg text-xs text-slate-300 sub-app-item flex items-center gap-2">
-            <i class="${icon} text-${color}-400 w-3 text-center"></i><span class="line-clamp-1">${app.name}</span>
+            <i class="${icon} text-emerald-400 w-3 text-center"></i><span class="line-clamp-1">${app.name}</span>
           </button>
         `;
       });
@@ -912,6 +1006,8 @@
         const isChecked = app.is_visible ? 'checked' : '';
         const badgeColor = app.is_visible ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-200 text-slate-600';
         const badgeText = app.is_visible ? 'เปิดแสดงผล' : 'ซ่อนอยู่';
+        const colorKey = app.color || 'blue';
+        const style = colorStyleMap[colorKey] || colorStyleMap['blue'];
 
         const isFirst = index === 0;
         const isLast = index === apps.length - 1;
@@ -929,7 +1025,8 @@
                 </button>
               </div>
 
-              <div class="w-10 h-10 rounded-xl bg-${app.color}-100 text-${app.color}-600 flex items-center justify-center font-bold text-base flex-shrink-0">
+              <!-- Vibrant Solid Icon ในฝั่งแอดมิน -->
+              <div class="w-10 h-10 rounded-xl ${style.bg} text-white flex items-center justify-center font-bold text-lg shadow-sm flex-shrink-0">
                 <i class="${app.icon}"></i>
               </div>
               <div>
@@ -1124,7 +1221,7 @@
     }
 
     // -------------------------------------------------------------------------
-    // Helper Functions เดิม (Personnel, Drive Slides, Speech, Search)
+    // Helper Functions (Personnel, Drive Slides, Speech, Search)
     // -------------------------------------------------------------------------
 
     function loadPersonnelDataFromLocal() {
