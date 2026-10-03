@@ -184,7 +184,7 @@
   <!-- Main Area -->
   <div class="flex-grow flex flex-col min-w-0 w-full overflow-x-hidden">
 
-    <!-- Header พร้อม Dynamic Back Button & Universal Search -->
+    <!-- Header พร้อม Dynamic Back Button & Universal Search (นำปุ่มจัดการแอปออกแล้ว) -->
     <header class="bg-white border-b border-slate-200 sticky top-0 z-30 px-4 md:px-6 py-3 flex items-center justify-between shadow-xs flex-wrap gap-2 md:gap-3 w-full">
       <div class="flex items-center gap-2 md:gap-3" id="headerTitleContainer">
         <button onclick="toggleMobileSidebar()" class="md:hidden w-9 h-9 rounded-xl bg-slate-900 text-amber-400 flex items-center justify-center text-sm border border-slate-800">
@@ -221,14 +221,11 @@
       </div>
 
       <div class="flex items-center gap-1.5 md:gap-2">
-        <button onclick="openAdminPinModal()" class="px-3 py-1.5 rounded-xl bg-amber-50 text-amber-800 hover:bg-amber-100 border border-amber-200 text-xs md:text-sm font-bold flex items-center gap-1.5 transition" title="จัดการแอปพลิเคชัน">
-          <i class="fas fa-lock text-amber-600"></i><span class="hidden sm:inline">จัดการแอป</span>
-        </button>
         <a href="https://tk.e-service.me/Main.php?View=AA_sb_report" target="_blank" class="px-3 py-1.5 rounded-xl bg-emerald-50 text-emerald-800 hover:bg-emerald-100 border border-emerald-200 text-xs md:text-sm font-bold flex items-center gap-1.5 transition">
-          <i class="fas fa-folder-open text-emerald-600"></i><span class="hidden sm:inline">ระบบสารบรรณ</span>
+          <i class="fas fa-folder-open text-emerald-600"></i><span>ระบบสารบรรณ</span>
         </a>
         <a href="https://www.thakho.go.th/index.php/web/Home" target="_blank" class="px-3 py-1.5 rounded-xl bg-blue-50 text-blue-800 hover:bg-blue-100 border border-blue-200 text-xs md:text-sm font-bold flex items-center gap-1.5 transition">
-          <i class="fas fa-globe text-blue-600"></i><span class="hidden sm:inline">เว็บไซต์ อบต.ท่าก๊อ</span>
+          <i class="fas fa-globe text-blue-600"></i><span>เว็บไซต์ อบต.ท่าก๊อ</span>
         </a>
       </div>
     </header>
@@ -402,7 +399,7 @@
         </div>
       </div>
 
-      <!-- TAB Calendar (อัปเดตรหัสสี iframe ให้ตรงกับ Google Calendar จริง + ปุ่มเพิ่มกิจกรรมเจาะจงกองช่าง) -->
+      <!-- TAB Calendar (แก้ไข URL Encoding 100% + ปุ่มบันทึกเจาะจงกองช่าง) -->
       <div id="tab-calendar" class="hidden space-y-4 w-full">
         <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between flex-wrap gap-2">
           <div>
@@ -413,14 +410,14 @@
             <button onclick="reloadCalendarIframe()" class="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs md:text-sm font-bold flex items-center gap-1.5 transition">
               <i class="fas fa-sync-alt text-amber-500"></i><span>รีเฟรชปฏิทิน</span>
             </button>
-            <a href="https://calendar.google.com/calendar/u/0/r/eventedit?add=technician.thakho@gmail.com&src=technician.thakho@gmail.com" target="_blank" class="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs md:text-sm font-bold flex items-center gap-1.5 shadow-xs transition">
+            <a href="https://calendar.google.com/calendar/u/technician.thakho@gmail.com/r/eventedit?authuser=technician.thakho@gmail.com&add=technician.thakho@gmail.com" target="_blank" class="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs md:text-sm font-bold flex items-center gap-1.5 shadow-xs transition">
               <i class="fas fa-plus-circle"></i><span>➕ บันทึก/เพิ่มกิจกรรมลงปฏิทิน</span>
             </a>
           </div>
         </div>
 
         <div class="bg-white p-3 rounded-2xl border border-slate-200 shadow-xs h-[750px]">
-          <iframe id="calendarIframe" src="https://calendar.google.com/calendar/embed?height=750&wkst=1&ctz=Asia%2FBangkok&showTitle=0&showPrint=0&showTabs=1&src=technician.thakho%40gmail.com&color=%23039BE5&src=Mzk3NTY4MTY5YWJjMzE0MDM3NTYzMWQ4ZDE3NDhlODkxYWNlOThiOTAzNmVkY2I2MDU0YmYyYkBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&color=%23E65100&src=YjQ6MWFmM2FkMGY0NDY5OTFlZGFiZjQ1NWVkOWYxNDkwM2ZhYjE5NTFmODk1ZDE1ODdjMWFjZThhZThkYzYyNUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&color=%233F51B5&src=ZWNlZmY3MWU3MGVmYzVjMjhiNGE3NGIzZjliMWU5ZjJlZjFmMWZjMjBjMTQyYzNjOTI0Y2Y4ZWNjMDAzMWYyOUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&color=%23F6BF26" style="border:0; width:100%; height:100%;" frameborder="0" scrolling="no"></iframe>
+          <iframe id="calendarIframe" src="https://calendar.google.com/calendar/embed?height=750&wkst=1&ctz=Asia%2FBangkok&showTitle=0&showPrint=0&showTabs=1&src=technician.thakho%40gmail.com&color=%23039BE5&src=397568169abc3140375631d410fe961d8d1748e891ace98b9036edcb6054bf2b%40group.calendar.google.com&color=%23E65100&src=b461af3ad0f446991edabf455ed9f14903fab1951f895d1587c1ace8ae8dc625%40group.calendar.google.com&color=%233F51B5&src=eceff71e70efc5c28b4a74b3f9b1e9f2ef1f1fc20c142c3c924cf8ecc0031f29%40group.calendar.google.com&color=%23F6BF26" style="border:0; width:100%; height:100%;" frameborder="0" scrolling="no"></iframe>
         </div>
       </div>
 
