@@ -402,7 +402,7 @@
         </div>
       </div>
 
-      <!-- TAB Calendar (แก้ไข URL รวมทั้ง 4 Calendar ID แล้วเรียบร้อย) -->
+      <!-- TAB Calendar (อัปเดตรหัสสี iframe ให้ตรงกับ Google Calendar จริง + ปุ่มเพิ่มกิจกรรมเจาะจงกองช่าง) -->
       <div id="tab-calendar" class="hidden space-y-4 w-full">
         <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between flex-wrap gap-2">
           <div>
@@ -413,14 +413,14 @@
             <button onclick="reloadCalendarIframe()" class="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs md:text-sm font-bold flex items-center gap-1.5 transition">
               <i class="fas fa-sync-alt text-amber-500"></i><span>รีเฟรชปฏิทิน</span>
             </button>
-            <a href="https://calendar.google.com/calendar/u/0/r/eventedit" target="_blank" class="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs md:text-sm font-bold flex items-center gap-1.5 shadow-xs transition">
+            <a href="https://calendar.google.com/calendar/u/0/r/eventedit?add=technician.thakho@gmail.com&src=technician.thakho@gmail.com" target="_blank" class="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs md:text-sm font-bold flex items-center gap-1.5 shadow-xs transition">
               <i class="fas fa-plus-circle"></i><span>➕ บันทึก/เพิ่มกิจกรรมลงปฏิทิน</span>
             </a>
           </div>
         </div>
 
         <div class="bg-white p-3 rounded-2xl border border-slate-200 shadow-xs h-[750px]">
-          <iframe id="calendarIframe" src="https://calendar.google.com/calendar/embed?height=750&wkst=1&ctz=Asia%2FBangkok&showTitle=0&showPrint=0&showTabs=1&src=technician.thakho%40gmail.com&color=%23039BE5&src=Mzk3NTY4MTY5YWJjMzE0MDM3NTYzMWQ4ZDE3NDhlODkxYWNlOThiOTAzNmVkY2I2MDU0YmYyYkBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&color=%2333B679&src=YjQ2MWFmM2FkMGY0NDY5OTFlZGFiZjQ1NWVkOWYxNDkwM2ZhYjE5NTFmODk1ZDE1ODdjMWFjZThhZThkYzYyNUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&color=%23F6BF26&src=ZWNlZmY3MWU3MGVmYzVjMjhiNGE3NGIzZjliMWU5ZjJlZjFmMWZjMjBjMTQyYzNjOTI0Y2Y4ZWNjMDAzMWYyOUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&color=%23D50000" style="border:0; width:100%; height:100%;" frameborder="0" scrolling="no"></iframe>
+          <iframe id="calendarIframe" src="https://calendar.google.com/calendar/embed?height=750&wkst=1&ctz=Asia%2FBangkok&showTitle=0&showPrint=0&showTabs=1&src=technician.thakho%40gmail.com&color=%23039BE5&src=Mzk3NTY4MTY5YWJjMzE0MDM3NTYzMWQ4ZDE3NDhlODkxYWNlOThiOTAzNmVkY2I2MDU0YmYyYkBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&color=%23E65100&src=YjQ6MWFmM2FkMGY0NDY5OTFlZGFiZjQ1NWVkOWYxNDkwM2ZhYjE5NTFmODk1ZDE1ODdjMWFjZThhZThkYzYyNUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&color=%233F51B5&src=ZWNlZmY3MWU3MGVmYzVjMjhiNGE3NGIzZjliMWU5ZjJlZjFmMWZjMjBjMTQyYzNjOTI0Y2Y4ZWNjMDAzMWYyOUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&color=%23F6BF26" style="border:0; width:100%; height:100%;" frameborder="0" scrolling="no"></iframe>
         </div>
       </div>
 
@@ -817,7 +817,6 @@
       }
     }
 
-    /* Render การ์ดแบบ Clean Minimal: แสดงรายละเอียดสูงสุด 2 บรรทัด และถอดสถานะด้านล่างออก 100% */
     function renderAppsUI(apps) {
       const gridContainer = document.getElementById('appsGridContainer');
 
@@ -1278,7 +1277,7 @@
       const btn = document.getElementById('voiceSearchBtn');
       if (btn) btn.classList.remove('mic-recording');
       const input = document.getElementById('globalSearchInput');
-      if (input) input.placeholder = "พิมพ์หรือกด 🎙️️ พูดค้นหา: ม.15, เบอร์ช่าง, แปลนท่อ, ที่อยู่...";
+      if (input) input.placeholder = "พิมพ์หรือกด 🎙️ พูดค้นหา: ม.15, เบอร์ช่าง, แปลนท่อ, ที่อยู่...";
     }
 
     function clearGlobalSearch() {
