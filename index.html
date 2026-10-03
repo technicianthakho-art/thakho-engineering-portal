@@ -263,7 +263,7 @@
       <!-- TAB 1: หน้าหลัก & แอปทั้งหมด -->
       <div id="tab-analytics" class="space-y-5 w-full">
 
-        <!-- Single Row Header & Services (ข้อความ + ปุ่ม ต่อท้ายในชั้นเดียว) -->
+        <!-- Single Row Header & Services -->
         <div class="bg-slate-900 px-4 py-3 rounded-2xl border border-slate-800 shadow-md flex items-center justify-between flex-wrap gap-3 w-full">
           <div class="flex items-center gap-2 flex-shrink-0">
             <i class="fas fa-star text-amber-400 text-sm md:text-base"></i>
@@ -303,7 +303,7 @@
           </div>
         </div>
 
-        <!-- Dynamic Apps Grid: จัดเป็น 4 แอปพลิเคชันต่อหนึ่งแถว (lg:grid-cols-4) แบบคลีนทรงสวย -->
+        <!-- Dynamic Apps Grid (4 Apps Per Row) -->
         <div id="appsGridContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 md:gap-4 w-full">
           <div class="col-span-full text-center py-12 text-slate-500 text-sm"><i class="fas fa-spinner fa-spin mr-2"></i>กำลังดึงข้อมูลระบบแอปพลิเคชัน...</div>
         </div>
@@ -402,7 +402,7 @@
         </div>
       </div>
 
-      <!-- TAB Calendar -->
+      <!-- TAB Calendar (แก้ไข URL รวมทั้ง 4 Calendar ID แล้วเรียบร้อย) -->
       <div id="tab-calendar" class="hidden space-y-4 w-full">
         <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between flex-wrap gap-2">
           <div>
@@ -420,7 +420,7 @@
         </div>
 
         <div class="bg-white p-3 rounded-2xl border border-slate-200 shadow-xs h-[750px]">
-          <iframe id="calendarIframe" src="https://calendar.google.com/calendar/embed?height=750&wkst=1&ctz=Asia%2FBangkok&showTitle=0&showPrint=0&showTabs=1&src=dGVjaG5pY2lhbi50aGFraG9AZ21haWwuY29t&color=%23039BE5&src=Mzk3NTY4MTY5YWJjMzE0MDM3NTYzMWQ4ZDE3NDhlODkxYWNlOThiOTAzNmVkY2I2MDU0YmYyYkBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&color=%2333B679&src=YjQ2MWFmM2FkMGY0NDY5OTFlZGFiZjQ1NWVkOWYxNDkwM2ZhYjE5NTFmODk1ZDE1ODdjMWFjZThhZThkYzYyNUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&color=%23D50000&src=ZWNlZmY3MWU3MGVmYzVjMjhiNGE3NGIzZjliMWU5ZjJlZjFmMWZjMjBjMTQyYzNjOTI0Y2Y4ZWNjMDAzMWYyOUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&color=%23F6BF26" style="border:0; width:100%; height:100%;" frameborder="0" scrolling="no"></iframe>
+          <iframe id="calendarIframe" src="https://calendar.google.com/calendar/embed?height=750&wkst=1&ctz=Asia%2FBangkok&showTitle=0&showPrint=0&showTabs=1&src=technician.thakho%40gmail.com&color=%23039BE5&src=Mzk3NTY4MTY5YWJjMzE0MDM3NTYzMWQ4ZDE3NDhlODkxYWNlOThiOTAzNmVkY2I2MDU0YmYyYkBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&color=%2333B679&src=YjQ2MWFmM2FkMGY0NDY5OTFlZGFiZjQ1NWVkOWYxNDkwM2ZhYjE5NTFmODk1ZDE1ODdjMWFjZThhZThkYzYyNUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&color=%23F6BF26&src=ZWNlZmY3MWU3MGVmYzVjMjhiNGE3NGIzZjliMWU5ZjJlZjFmMWZjMjBjMTQyYzNjOTI0Y2Y4ZWNjMDAzMWYyOUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&color=%23D50000" style="border:0; width:100%; height:100%;" frameborder="0" scrolling="no"></iframe>
         </div>
       </div>
 
@@ -1278,7 +1278,7 @@
       const btn = document.getElementById('voiceSearchBtn');
       if (btn) btn.classList.remove('mic-recording');
       const input = document.getElementById('globalSearchInput');
-      if (input) input.placeholder = "พิมพ์หรือกด 🎙️ พูดค้นหา: ม.15, เบอร์ช่าง, แปลนท่อ, ที่อยู่...";
+      if (input) input.placeholder = "พิมพ์หรือกด 🎙️️ พูดค้นหา: ม.15, เบอร์ช่าง, แปลนท่อ, ที่อยู่...";
     }
 
     function clearGlobalSearch() {
