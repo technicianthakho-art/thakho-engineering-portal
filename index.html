@@ -130,14 +130,17 @@
       border-color: #059669 !important;
     }
 
-    /* Watermark Background สไตล์ลอยมุมขวาล่าง */
+    /* Watermark Background ล็อคขนาดตามพื้นที่กรอบสีแดงมุมขวาล่าง 420x280px */
     #watermarkBackground {
       position: fixed;
-      bottom: 1rem;
-      right: 1rem;
-      width: 300px;
-      max-width: 25vw;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      width: 100%;
+      max-width: 420px;
+      max-height: 280px;
       height: auto;
+      object-fit: contain;
+      object-position: bottom right;
       pointer-events: none;
       z-index: 0;
       opacity: 0.05;
@@ -147,16 +150,17 @@
 
     @media (max-width: 768px) {
       #watermarkBackground {
-        width: 170px;
-        bottom: 0.5rem;
-        right: 0.5rem;
+        max-width: 220px;
+        max-height: 150px;
+        bottom: 0.75rem;
+        right: 0.75rem;
       }
     }
   </style>
 </head>
 <body class="bg-white flex min-h-screen text-slate-800 relative w-full overflow-x-hidden" onclick="closeSearchDropdown(event)">
 
-  <!-- Watermark Background (แสดงผลมุมขวาล่าง) -->
+  <!-- Watermark Background (แสดงผลในกรอบสีแดงมุมขวาล่าง) -->
   <img id="watermarkBackground" src="" alt="Watermark Background">
 
   <!-- Mobile Overlay Backdrop -->
@@ -571,17 +575,17 @@
         </div>
       </div>
 
-      <!-- ส่วนตั้งค่า Watermark Background -->
+      <!-- ส่วนตั้งค่า Watermark Background แสดงผลบริเวณกรอบสีแดงมุมขวาล่าง -->
       <div class="bg-amber-50/80 p-3 md:p-4 border-b border-amber-200 flex-shrink-0">
         <div class="flex items-center justify-between mb-2">
           <h4 class="font-bold text-slate-900 text-xs md:text-sm flex items-center gap-2">
-            <i class="fas fa-image text-amber-600"></i><span>การตั้งค่าภาพพื้นหลัง Watermark (มุมขวาล่าง)</span>
+            <i class="fas fa-image text-amber-600"></i><span>การตั้งค่าภาพพื้นหลัง Watermark (แสดงในกรอบมุมขวาล่าง 420x280px)</span>
           </h4>
           <span class="text-[11px] text-slate-500">โฟลเดอร์ Google Drive: <b>0. รวมลิงค์กองช่าง</b></span>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-12 gap-2.5 items-center">
           <div class="md:col-span-6">
-            <input type="text" id="settingWatermarkUrl" placeholder="วาง URL ลิงก์ไฟล์ภาพ Google Drive จากโฟลเดอร์..." class="w-full px-3 py-1.5 bg-white border border-amber-300 rounded-xl text-xs font-semibold focus:outline-none focus:border-amber-500 shadow-inner">
+            <input type="text" id="settingWatermarkUrl" placeholder="วาง URL ลิงก์ไฟล์ภาพ Google Drive..." class="w-full px-3 py-1.5 bg-white border border-amber-300 rounded-xl text-xs font-semibold focus:outline-none focus:border-amber-500 shadow-inner">
           </div>
           <div class="md:col-span-3 flex items-center gap-2">
             <label class="text-xs font-bold text-slate-700 whitespace-nowrap">ความโปร่งใส:</label>
