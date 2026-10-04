@@ -15,20 +15,10 @@
     * { font-family: 'Sarabun', 'Plus Jakarta Sans', sans-serif; box-sizing: border-box; }
     body { background-color: #ffffff; color: #0f172a; overflow-x: hidden; position: relative; min-height: 100vh; }
     
-    /* Custom Scrollbar สำหรับ Sidebar */
-    .sidebar-custom-scroll::-webkit-scrollbar {
-      width: 5px;
-    }
-    .sidebar-custom-scroll::-webkit-scrollbar-track {
-      background: transparent;
-    }
-    .sidebar-custom-scroll::-webkit-scrollbar-thumb {
-      background: transparent;
-      border-radius: 10px;
-    }
-    .sidebar-custom-scroll:hover::-webkit-scrollbar-thumb {
-      background: #334155;
-    }
+    .sidebar-custom-scroll::-webkit-scrollbar { width: 5px; }
+    .sidebar-custom-scroll::-webkit-scrollbar-track { background: transparent; }
+    .sidebar-custom-scroll::-webkit-scrollbar-thumb { background: transparent; border-radius: 10px; }
+    .sidebar-custom-scroll:hover::-webkit-scrollbar-thumb { background: #334155; }
 
     .widget-card {
       background: #ffffff;
@@ -44,7 +34,6 @@
     }
     .sidebar-active { background-color: #374151; border-left: 4px solid #059669; }
 
-    /* รูปดาวแนะนำมุมขวาบนนอกขอบการ์ด */
     .featured-star-badge {
       position: absolute;
       top: -10px;
@@ -82,7 +71,6 @@
       .sidebar-collapsed .nav-item { justify-content: center !important; padding-left: 0 !important; padding-right: 0 !important; }
     }
 
-    /* ปุ่มไอคอนซ่อน/ขยาย Sidebar คาบเกี่ยวรอยต่อเต็มวง */
     .floating-toggle-btn {
       position: absolute;
       right: -14px;
@@ -130,7 +118,6 @@
       border-color: #059669 !important;
     }
 
-    /* Watermark Background ล็อคขนาดตามพื้นที่กรอบสีแดงมุมขวาล่าง 420x280px */
     #watermarkBackground {
       position: fixed;
       bottom: 1.5rem;
@@ -156,11 +143,29 @@
         right: 0.75rem;
       }
     }
+
+    /* Drag and Drop Admin Card Styling */
+    .admin-drag-card {
+      cursor: grab;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+    }
+    .admin-drag-card:active {
+      cursor: grabbing;
+    }
+    .admin-drag-card.dragging {
+      opacity: 0.4;
+      border: 2px dashed #3b82f6 !important;
+      background-color: #eff6ff !important;
+    }
+    .admin-drag-card.drag-over {
+      border: 2px solid #2563eb !important;
+      transform: scale(1.02);
+    }
   </style>
 </head>
 <body class="bg-white flex min-h-screen text-slate-800 relative w-full overflow-x-hidden" onclick="closeSearchDropdown(event)">
 
-  <!-- Watermark Background (แสดงผลในกรอบสีแดงมุมขวาล่าง) -->
+  <!-- Watermark Background -->
   <img id="watermarkBackground" src="" alt="Watermark Background">
 
   <!-- Mobile Overlay Backdrop -->
@@ -223,7 +228,6 @@
           </nav>
         </div>
 
-        <!-- ส่วนท้าย Sidebar -->
         <div class="mt-6 pt-3 border-t border-slate-800 space-y-2 contact-info-card text-xs">
           <div class="flex items-center justify-between">
             <p class="font-bold text-slate-200 text-xs md:text-sm"><i class="fas fa-address-card text-emerald-400 mr-1.5"></i>ข้อมูลการติดต่อ</p>
@@ -246,7 +250,6 @@
   <!-- Main Area -->
   <div class="flex-grow flex flex-col min-w-0 w-full overflow-x-hidden z-10">
 
-    <!-- Header พร้อม Dynamic Back Button & Universal Search -->
     <header class="bg-white/90 backdrop-blur-md border-b border-slate-200 sticky top-0 z-30 px-4 md:px-6 py-3 flex items-center justify-between shadow-xs flex-wrap gap-2 md:gap-3 w-full">
       <div class="flex items-center gap-2 md:gap-3" id="headerTitleContainer">
         <button onclick="toggleMobileSidebar()" class="md:hidden w-9 h-9 rounded-xl bg-slate-900 text-amber-400 flex items-center justify-center text-sm border border-slate-800">
@@ -262,7 +265,6 @@
         </button>
       </div>
 
-      <!-- ค้นหาอัจฉริยะ -->
       <div class="flex-grow max-w-md relative order-last md:order-none w-full md:w-auto mt-2 md:mt-0" onclick="event.stopPropagation()">
         <div class="relative flex items-center">
           <i class="fas fa-search absolute left-3.5 text-slate-400 text-xs md:text-sm"></i>
@@ -321,8 +323,6 @@
 
       <!-- TAB 1: หน้าหลัก & แอปทั้งหมด -->
       <div id="tab-analytics" class="space-y-5 w-full">
-
-        <!-- Single Row Header & Services -->
         <div class="bg-slate-900 px-4 py-3 rounded-2xl border border-slate-800 shadow-md flex items-center justify-between flex-wrap gap-3 w-full">
           <div class="flex items-center gap-2 flex-shrink-0">
             <i class="fas fa-star text-amber-400 text-sm md:text-base"></i>
@@ -362,7 +362,6 @@
           </div>
         </div>
 
-        <!-- Dynamic Apps Grid -->
         <div id="appsGridContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 md:gap-4 w-full">
           <div class="col-span-full text-center py-12 text-slate-500 text-sm"><i class="fas fa-spinner fa-spin mr-2"></i>กำลังดึงข้อมูลระบบแอปพลิเคชัน...</div>
         </div>
@@ -525,11 +524,7 @@
     </main>
   </div>
 
-  <!-- ========================================================================= -->
-  <!-- MODAL: ระบบจัดการแอดมิน (Admin PIN & Admin Panel Modal) -->
-  <!-- ========================================================================= -->
-
-  <!-- Modal 1: ป้อนรหัส PIN -->
+  <!-- MODAL 1: ป้อนรหัส PIN -->
   <div id="adminPinModal" class="fixed inset-0 bg-slate-900/70 z-50 hidden flex items-center justify-center p-4 backdrop-blur-xs">
     <div class="bg-white rounded-2xl shadow-2xl w-full max-w-sm overflow-hidden border border-slate-200">
       <div class="bg-slate-900 text-white p-4 flex items-center justify-between">
@@ -551,22 +546,25 @@
     </div>
   </div>
 
-  <!-- Modal 2: แผงควบคุมแอดมิน (Admin Control Center) -->
-  <div id="adminPanelModal" class="fixed inset-0 bg-slate-900/80 z-50 hidden flex items-center justify-center p-3 md:p-6 backdrop-blur-xs">
-    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-5xl h-[92vh] flex flex-col overflow-hidden border border-slate-200">
+  <!-- MODAL 2: แผงควบคุมแอดมิน (Compact Drag-and-Drop View) -->
+  <div id="adminPanelModal" class="fixed inset-0 bg-slate-900/80 z-50 hidden flex items-center justify-center p-2 md:p-4 backdrop-blur-xs">
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-6xl h-[94vh] flex flex-col overflow-hidden border border-slate-200">
       
-      <div class="bg-slate-900 text-white p-4 flex items-center justify-between flex-shrink-0">
+      <div class="bg-slate-900 text-white px-4 py-3 flex items-center justify-between flex-shrink-0">
         <div class="flex items-center gap-3">
-          <div class="w-9 h-9 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-lg">
+          <div class="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-base">
             <i class="fas fa-sliders-h"></i>
           </div>
           <div>
-            <h3 class="font-bold text-base md:text-lg">แผงควบคุมระบบแอปพลิเคชัน (Admin Control Panel)</h3>
-            <p class="text-xs text-slate-400">จัดการ การแสดงผล/ซ่อน/สลับลำดับขึ้น-ลง/ติดดาว ⭐ แนะนำผู้บริหาร และภาพ Watermark</p>
+            <h3 class="font-bold text-sm md:text-base">แผงควบคุมระบบแอปพลิเคชัน (Admin Control Panel)</h3>
+            <p class="text-[11px] text-slate-400">ลากวางการ์ดด้วยเมาส์ซ้ายเพื่อสลับลำดับ | คลิกเปิด/ปิด หรือติดดาว ⭐ ได้ทันที</p>
           </div>
         </div>
         <div class="flex items-center gap-2">
-          <button onclick="openAppEditModal()" class="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs md:text-sm font-bold rounded-xl transition flex items-center gap-1.5 shadow-xs">
+          <button id="saveBatchOrderBtn" onclick="saveBatchAppOrder()" class="hidden px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-xl transition flex items-center gap-1.5 shadow-xs">
+            <i class="fas fa-save"></i><span>บันทึกลำดับใหม่</span>
+          </button>
+          <button onclick="openAppEditModal()" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl transition flex items-center gap-1.5 shadow-xs">
             <i class="fas fa-plus-circle"></i><span>เพิ่มแอปใหม่</span>
           </button>
           <button onclick="closeAdminPanelModal()" class="w-8 h-8 text-slate-400 hover:text-white flex items-center justify-center rounded-lg hover:bg-slate-800">
@@ -575,74 +573,69 @@
         </div>
       </div>
 
-      <!-- ส่วนตั้งค่า Watermark Background แสดงผลบริเวณกรอบสีแดงมุมขวาล่าง -->
-      <div class="bg-amber-50/80 p-3 md:p-4 border-b border-amber-200 flex-shrink-0">
-        <div class="flex items-center justify-between mb-2">
-          <h4 class="font-bold text-slate-900 text-xs md:text-sm flex items-center gap-2">
-            <i class="fas fa-image text-amber-600"></i><span>การตั้งค่าภาพพื้นหลัง Watermark (แสดงในกรอบมุมขวาล่าง 420x280px)</span>
+      <!-- Watermark Settings Panel -->
+      <div class="bg-amber-50/80 p-2.5 md:p-3 border-b border-amber-200 flex-shrink-0 text-xs">
+        <div class="flex items-center justify-between mb-1.5">
+          <h4 class="font-bold text-slate-900 flex items-center gap-1.5 text-xs">
+            <i class="fas fa-image text-amber-600"></i><span>ตั้งค่า Watermark Background</span>
           </h4>
-          <span class="text-[11px] text-slate-500">โฟลเดอร์ Google Drive: <b>0. รวมลิงค์กองช่าง</b></span>
+          <span class="text-[10px] text-slate-500">Google Drive: <b>0. รวมลิงค์กองช่าง</b></span>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-12 gap-2.5 items-center">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-2 items-center">
           <div class="md:col-span-6">
-            <input type="text" id="settingWatermarkUrl" placeholder="วาง URL ลิงก์ไฟล์ภาพ Google Drive..." class="w-full px-3 py-1.5 bg-white border border-amber-300 rounded-xl text-xs font-semibold focus:outline-none focus:border-amber-500 shadow-inner">
+            <input type="text" id="settingWatermarkUrl" placeholder="วาง URL ลิงก์ไฟล์ภาพ Google Drive..." class="w-full px-2.5 py-1 bg-white border border-amber-300 rounded-lg text-xs font-semibold focus:outline-none focus:border-amber-500 shadow-inner">
           </div>
-          <div class="md:col-span-3 flex items-center gap-2">
-            <label class="text-xs font-bold text-slate-700 whitespace-nowrap">ความโปร่งใส:</label>
-            <select id="settingWatermarkOpacity" class="w-full px-2.5 py-1.5 bg-white border border-amber-300 rounded-xl text-xs font-semibold">
+          <div class="md:col-span-3 flex items-center gap-1.5">
+            <label class="text-xs font-bold text-slate-700 whitespace-nowrap">โปร่งใส:</label>
+            <select id="settingWatermarkOpacity" class="w-full px-2 py-1 bg-white border border-amber-300 rounded-lg text-xs font-semibold">
               <option value="0.03">3% (จางมาก)</option>
               <option value="0.05">5% (แนะนำ)</option>
               <option value="0.10">10%</option>
               <option value="0.20">20%</option>
               <option value="0.30">30%</option>
-              <option value="0.40">40%</option>
-              <option value="0.50">50% (ปานกลาง)</option>
-              <option value="0.60">60%</option>
-              <option value="0.70">70%</option>
-              <option value="0.80">80%</option>
-              <option value="0.90">90%</option>
-              <option value="1.00">100% (ชัดเจนเต็มร้อย)</option>
+              <option value="0.50">50%</option>
+              <option value="1.00">100%</option>
             </select>
           </div>
           <div class="md:col-span-3 flex items-center justify-end gap-2">
-            <label class="relative inline-flex items-center cursor-pointer mr-2">
+            <label class="relative inline-flex items-center cursor-pointer">
               <input type="checkbox" id="settingWatermarkEnabled" class="sr-only peer">
-              <div class="w-9 h-5 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-amber-500"></div>
-              <span class="ml-1.5 text-xs font-bold text-slate-700">เปิดแสดงผล</span>
+              <div class="w-8 h-4 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-amber-500"></div>
+              <span class="ml-1 text-xs font-bold text-slate-700">เปิดแสดงผล</span>
             </label>
-            <button onclick="submitSaveSettings()" class="px-3.5 py-1.5 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-xl text-xs shadow-xs transition flex-shrink-0">
-              <i class="fas fa-save mr-1"></i>บันทึก Watermark
+            <button onclick="submitSaveSettings()" class="px-2.5 py-1 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-lg text-xs shadow-xs transition">
+              <i class="fas fa-save mr-1"></i>บันทึก
             </button>
           </div>
         </div>
       </div>
 
-      <div class="p-3 md:p-4 bg-slate-50 border-b border-slate-200 flex items-center justify-between flex-wrap gap-2 flex-shrink-0 text-xs md:text-sm text-slate-700">
-        <div class="flex items-center gap-2 flex-grow max-w-md">
+      <div class="p-2.5 bg-slate-50 border-b border-slate-200 flex items-center justify-between flex-wrap gap-2 flex-shrink-0 text-xs text-slate-700">
+        <div class="flex items-center gap-2 flex-grow max-w-sm">
           <i class="fas fa-search text-slate-400"></i>
-          <input type="text" id="adminSearchInput" oninput="filterAdminApps(this.value)" placeholder="ค้นหาแอปในแผงควบคุม..." class="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-xl text-xs md:text-sm font-semibold focus:outline-none focus:border-amber-400 shadow-inner">
+          <input type="text" id="adminSearchInput" oninput="filterAdminApps(this.value)" placeholder="ค้นหาแอป..." class="w-full px-2.5 py-1 bg-white border border-slate-200 rounded-lg text-xs font-semibold focus:outline-none focus:border-amber-400 shadow-inner">
         </div>
-        <div class="flex items-center gap-3">
-          <span class="hidden lg:inline"><i class="fas fa-info-circle text-blue-500 mr-1"></i>ติ๊ก ⭐ เพื่อแสดงสัญลักษณ์แอปแนะนำผู้บริหาร</span>
-          <button onclick="fetchAdminAppsData(true)" class="text-emerald-700 font-bold hover:underline flex items-center gap-1.5 bg-white px-3 py-1.5 rounded-xl border border-slate-200 shadow-2xs">
+        <div class="flex items-center gap-2">
+          <span class="text-[11px] text-slate-500"><i class="fas fa-hand-pointer text-blue-500 mr-1"></i>คลิกค้างเมาส์ซ้ายเพื่อลากวางสลับตำแหน่ง</span>
+          <button onclick="fetchAdminInitialData(true)" class="text-emerald-700 font-bold hover:underline flex items-center gap-1 bg-white px-2.5 py-1 rounded-lg border border-slate-200 shadow-2xs">
             <i class="fas fa-sync-alt"></i><span>รีเฟรช</span>
           </button>
         </div>
       </div>
 
-      <!-- รายการแอปสำหรับแอดมิน -->
-      <div class="flex-grow p-4 overflow-y-auto space-y-3" id="adminAppsListContainer">
+      <!-- Compact Apps Grid Container (Drag & Drop Compatible) -->
+      <div class="flex-grow p-3 overflow-y-auto" id="adminAppsListContainer">
         <div class="text-center py-12 text-slate-500 text-sm"><i class="fas fa-spinner fa-spin mr-2"></i>กำลังโหลดรายการแอปพลิเคชัน...</div>
       </div>
 
-      <div class="p-3 bg-slate-100 border-t border-slate-200 flex-shrink-0 flex items-center justify-between text-xs text-slate-600">
-        <span>สถานะสิทธิ์: <strong class="text-emerald-700">ผู้ดูแลระบบ (Admin Authenticated)</strong></span>
+      <div class="p-2.5 bg-slate-100 border-t border-slate-200 flex-shrink-0 flex items-center justify-between text-xs text-slate-600">
+        <span>สถานะ: <strong class="text-emerald-700">ผู้ดูแลระบบ (Admin Authenticated)</strong></span>
         <button onclick="logoutAdmin()" class="text-red-600 hover:underline font-bold"><i class="fas fa-sign-out-alt mr-1"></i>ออกจากระบบแอดมิน</button>
       </div>
     </div>
   </div>
 
-  <!-- Modal 3: ฟอร์ม เพิ่ม / แก้ไข ข้อมูลแอปพลิเคชัน -->
+  <!-- MODAL 3: ฟอร์ม เพิ่ม / แก้ไข ข้อมูลแอปพลิเคชัน -->
   <div id="appEditModal" class="fixed inset-0 bg-slate-900/80 z-50 hidden flex items-center justify-center p-4 backdrop-blur-xs">
     <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden border border-slate-200">
       <div class="bg-slate-900 text-white p-4 flex items-center justify-between">
@@ -734,12 +727,12 @@
   </div>
 
   <script>
-    // URL Web App
     const GAS_API_URL = "https://script.google.com/macros/s/AKfycbyykY41f__bf2ChoZtveV8ISwIIrMFufU4hF2mJaCs6ENp74azXxkkAYTyFmd7WnnUz/exec";
 
     let currentAdminPin = "";
     let globalAppsData = [];
     let globalAdminAppsData = [];
+    let draggedAppId = null;
     let globalDataStore = {
       personnel: [],
       apps: [],
@@ -751,83 +744,18 @@
     let recognition = null;
     let isRecording = false;
 
-    // Mapping โทนสีการ์ด + เส้นขอบหนา 2px
     const colorStyleMap = {
-      blue: {
-        bg: "bg-blue-600",
-        badgeBg: "bg-blue-100",
-        badgeText: "text-blue-800",
-        badgeBorder: "border-blue-200",
-        hoverText: "group-hover:text-blue-600",
-        border: "border-2 border-blue-200"
-      },
-      amber: {
-        bg: "bg-amber-500",
-        badgeBg: "bg-amber-100",
-        badgeText: "text-amber-800",
-        badgeBorder: "border-amber-200",
-        hoverText: "group-hover:text-amber-600",
-        border: "border-2 border-amber-200"
-      },
-      emerald: {
-        bg: "bg-emerald-600",
-        badgeBg: "bg-emerald-100",
-        badgeText: "text-emerald-800",
-        badgeBorder: "border-emerald-200",
-        hoverText: "group-hover:text-emerald-600",
-        border: "border-2 border-emerald-200"
-      },
-      purple: {
-        bg: "bg-purple-600",
-        badgeBg: "bg-purple-100",
-        badgeText: "text-purple-800",
-        badgeBorder: "border-purple-200",
-        hoverText: "group-hover:text-purple-600",
-        border: "border-2 border-purple-200"
-      },
-      sky: {
-        bg: "bg-sky-500",
-        badgeBg: "bg-sky-100",
-        badgeText: "text-sky-800",
-        badgeBorder: "border-sky-200",
-        hoverText: "group-hover:text-sky-600",
-        border: "border-2 border-sky-200"
-      },
-      red: {
-        bg: "bg-rose-600",
-        badgeBg: "bg-rose-100",
-        badgeText: "text-rose-800",
-        badgeBorder: "border-rose-200",
-        hoverText: "group-hover:text-rose-600",
-        border: "border-2 border-rose-200"
-      },
-      cyan: {
-        bg: "bg-cyan-600",
-        badgeBg: "bg-cyan-100",
-        badgeText: "text-cyan-800",
-        badgeBorder: "border-cyan-200",
-        hoverText: "group-hover:text-cyan-600",
-        border: "border-2 border-cyan-200"
-      },
-      teal: {
-        bg: "bg-teal-600",
-        badgeBg: "bg-teal-100",
-        badgeText: "text-teal-800",
-        badgeBorder: "border-teal-200",
-        hoverText: "group-hover:text-teal-600",
-        border: "border-2 border-teal-200"
-      },
-      indigo: {
-        bg: "bg-indigo-600",
-        badgeBg: "bg-indigo-100",
-        badgeText: "text-indigo-800",
-        badgeBorder: "border-indigo-200",
-        hoverText: "group-hover:text-indigo-600",
-        border: "border-2 border-indigo-200"
-      }
+      blue: { bg: "bg-blue-600", badgeBg: "bg-blue-100", badgeText: "text-blue-800", badgeBorder: "border-blue-200", hoverText: "group-hover:text-blue-600", border: "border-2 border-blue-200" },
+      amber: { bg: "bg-amber-500", badgeBg: "bg-amber-100", badgeText: "text-amber-800", badgeBorder: "border-amber-200", hoverText: "group-hover:text-amber-600", border: "border-2 border-amber-200" },
+      emerald: { bg: "bg-emerald-600", badgeBg: "bg-emerald-100", badgeText: "text-emerald-800", badgeBorder: "border-emerald-200", hoverText: "group-hover:text-emerald-600", border: "border-2 border-emerald-200" },
+      purple: { bg: "bg-purple-600", badgeBg: "bg-purple-100", badgeText: "text-purple-800", badgeBorder: "border-purple-200", hoverText: "group-hover:text-purple-600", border: "border-2 border-purple-200" },
+      sky: { bg: "bg-sky-500", badgeBg: "bg-sky-100", badgeText: "text-sky-800", badgeBorder: "border-sky-200", hoverText: "group-hover:text-sky-600", border: "border-2 border-sky-200" },
+      red: { bg: "bg-rose-600", badgeBg: "bg-rose-100", badgeText: "text-rose-800", badgeBorder: "border-rose-200", hoverText: "group-hover:text-rose-600", border: "border-2 border-rose-200" },
+      cyan: { bg: "bg-cyan-600", badgeBg: "bg-cyan-100", badgeText: "text-cyan-800", badgeBorder: "border-cyan-200", hoverText: "group-hover:text-cyan-600", border: "border-2 border-cyan-200" },
+      teal: { bg: "bg-teal-600", badgeBg: "bg-teal-100", badgeText: "text-teal-800", badgeBorder: "border-teal-200", hoverText: "group-hover:text-teal-600", border: "border-2 border-teal-200" },
+      indigo: { bg: "bg-indigo-600", badgeBg: "bg-indigo-100", badgeText: "text-indigo-800", badgeBorder: "border-indigo-200", hoverText: "group-hover:text-indigo-600", border: "border-2 border-indigo-200" }
     };
 
-    // Helper Function ส่ง API ด้วย URL-Encoded
     async function sendApiRequest(payloadObj) {
       const bodyParams = new URLSearchParams();
       for (const key in payloadObj) {
@@ -851,7 +779,7 @@
       loadPersonnelDataFromLocal();
       loadDriveActivitySlidesFromLocal();
 
-      syncAppsDataStore(true);
+      syncAppsDataStore(false);
       syncPersonnelDataStore();
       syncSystemSettings();
       initSpeechRecognition();
@@ -865,7 +793,6 @@
         const url = `${GAS_API_URL}?action=getSystemSettings${forceRefresh ? '&refresh=true' : ''}`;
         const res = await fetch(url);
         const settings = await res.json();
-
         applyWatermarkSettings(settings);
       } catch (e) {
         console.error("Sync settings error:", e);
@@ -883,7 +810,6 @@
           watermark.style.display = 'none';
         }
 
-        // เติมค่าใส่ฟอร์ม Admin
         const inputUrl = document.getElementById('settingWatermarkUrl');
         const selectOpacity = document.getElementById('settingWatermarkOpacity');
         const checkEnabled = document.getElementById('settingWatermarkEnabled');
@@ -1084,8 +1010,7 @@
 
     function openAdminPanelModal() {
       document.getElementById('adminPanelModal').classList.remove('hidden');
-      fetchAdminAppsData(true);
-      syncSystemSettings(true);
+      fetchAdminInitialData(false);
     }
 
     function closeAdminPanelModal() {
@@ -1101,17 +1026,21 @@
       Swal.fire('ออกจากระบบ', 'ออกจากระบบแอดมินเรียบร้อยแล้ว', 'success');
     }
 
-    async function fetchAdminAppsData(forceRefresh = false) {
+    // [OPTIMIZATION] ดึงข้อมูลแอปทั้งหมดและตั้งค่า Watermark ใน Single Request ถ่ายเดียวจบ
+    async function fetchAdminInitialData(forceRefresh = false) {
       const container = document.getElementById('adminAppsListContainer');
-      container.innerHTML = '<div class="text-center py-12 text-slate-500 text-sm"><i class="fas fa-spinner fa-spin mr-2"></i>กำลังดึงข้อมูลแอปพลิเคชันฝั่งแอดมิน...</div>';
+      container.innerHTML = '<div class="text-center py-12 text-slate-500 text-sm"><i class="fas fa-spinner fa-spin mr-2"></i>กำลังดึงข้อมูลระบบแอดมิน...</div>';
 
       try {
-        const url = `${GAS_API_URL}?action=getAppsData&admin=true${forceRefresh ? '&refresh=true' : ''}`;
+        const url = `${GAS_API_URL}?action=getAdminInitialData${forceRefresh ? '&refresh=true' : ''}`;
         const res = await fetch(url);
-        const apps = await res.json();
+        const data = await res.json();
 
-        globalAdminAppsData = apps;
-        renderAdminAppsListUI(apps);
+        if (data.settings) applyWatermarkSettings(data.settings);
+        if (data.apps) {
+          globalAdminAppsData = data.apps;
+          renderAdminAppsGridUI(globalAdminAppsData);
+        }
       } catch (err) {
         container.innerHTML = `<div class="text-center py-8 text-red-500 text-xs md:text-sm">เกิดข้อผิดพลาด: ${err.toString()}</div>`;
       }
@@ -1120,7 +1049,7 @@
     function filterAdminApps(query) {
       const cleanQ = query.trim().toLowerCase();
       if (!cleanQ) {
-        renderAdminAppsListUI(globalAdminAppsData);
+        renderAdminAppsGridUI(globalAdminAppsData);
         return;
       }
       const filtered = globalAdminAppsData.filter(app => 
@@ -1128,10 +1057,11 @@
         app.desc.toLowerCase().includes(cleanQ) || 
         app.category.toLowerCase().includes(cleanQ)
       );
-      renderAdminAppsListUI(filtered);
+      renderAdminAppsGridUI(filtered);
     }
 
-    function renderAdminAppsListUI(apps) {
+    // Render Compact Drag-and-Drop Cards Grid
+    function renderAdminAppsGridUI(apps) {
       const container = document.getElementById('adminAppsListContainer');
 
       if (!apps || apps.length === 0) {
@@ -1139,67 +1069,146 @@
         return;
       }
 
-      let html = '';
+      let gridHtml = '<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3" id="adminDragGrid">';
+
       apps.forEach((app, index) => {
         const isChecked = app.is_visible ? 'checked' : '';
         const isFeaturedChecked = app.is_featured ? 'checked' : '';
-        const badgeColor = app.is_visible ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-200 text-slate-600';
-        const badgeText = app.is_visible ? 'เปิดแสดงผล' : 'ซ่อนอยู่';
         const colorKey = app.color || 'blue';
         const style = colorStyleMap[colorKey] || colorStyleMap['blue'];
 
-        const isFirst = index === 0;
-        const isLast = index === apps.length - 1;
-
-        html += `
-          <div class="p-3.5 md:p-4 bg-white rounded-xl border border-slate-200 shadow-2xs flex items-center justify-between flex-wrap gap-3">
-            <div class="flex items-center gap-3">
-              <div class="flex flex-col gap-1 pr-1 border-r border-slate-200">
-                <button onclick="moveAppOrder('${app.app_id}', 'up')" ${isFirst ? 'disabled class="opacity-20 cursor-not-allowed text-slate-400"' : 'class="p-1 hover:bg-slate-100 text-slate-700 rounded transition"'} title="ขยับขึ้น">
-                  <i class="fas fa-chevron-up text-xs"></i>
-                </button>
-                <button onclick="moveAppOrder('${app.app_id}', 'down')" ${isLast ? 'disabled class="opacity-20 cursor-not-allowed text-slate-400"' : 'class="p-1 hover:bg-slate-100 text-slate-700 rounded transition"'} title="ขยับลง">
-                  <i class="fas fa-chevron-down text-xs"></i>
-                </button>
-              </div>
-
-              <div class="w-10 h-10 rounded-xl ${style.bg} text-white flex items-center justify-center font-bold text-lg shadow-sm flex-shrink-0 relative">
-                <i class="${app.icon}"></i>
-              </div>
-              <div>
-                <div class="flex items-center gap-2">
-                  <h4 class="font-bold text-slate-900 text-xs md:text-sm">${app.name}</h4>
-                  ${app.is_featured ? '<span class="text-xs text-amber-500 font-bold" title="แอปแนะนำผู้บริหาร"><i class="fas fa-star"></i></span>' : ''}
-                  <span class="text-[10px] md:text-xs font-bold px-2 py-0.5 rounded-full ${badgeColor}">${badgeText}</span>
-                  <span class="text-[10px] md:text-xs text-slate-500 font-semibold">ลำดับ: ${app.sort_order}</span>
+        gridHtml += `
+          <div draggable="true" 
+               data-app-id="${app.app_id}" 
+               data-index="${index}"
+               ondragstart="handleDragStart(event)" 
+               ondragover="handleDragOver(event)" 
+               ondragleave="handleDragLeave(event)" 
+               ondrop="handleDrop(event)" 
+               ondragend="handleDragEnd(event)"
+               class="admin-drag-card p-3 bg-white rounded-xl border border-slate-200 shadow-xs flex flex-col justify-between space-y-2 hover:border-blue-400">
+            
+            <div class="flex items-start justify-between gap-2">
+              <div class="flex items-center gap-2 min-w-0">
+                <div class="w-8 h-8 rounded-lg ${style.bg} text-white flex items-center justify-center font-bold text-sm shadow-xs flex-shrink-0">
+                  <i class="${app.icon}"></i>
                 </div>
-                <p class="text-xs text-slate-600 line-clamp-1">${app.desc || '-'}</p>
+                <div class="min-w-0">
+                  <h4 class="font-bold text-slate-900 text-xs truncate" title="${app.name}">${app.name}</h4>
+                  <span class="text-[10px] text-slate-500 font-semibold">ลำดับที่: <b class="text-blue-600">${index + 1}</b></span>
+                </div>
+              </div>
+
+              <div class="flex items-center gap-1 flex-shrink-0">
+                <button onclick="editAppItem('${app.app_id}')" class="w-6 h-6 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-md text-[11px] flex items-center justify-center" title="แก้ไข">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button onclick="deleteAppItem('${app.app_id}', '${app.name}')" class="w-6 h-6 bg-red-50 hover:bg-red-100 text-red-600 rounded-md text-[11px] flex items-center justify-center" title="ลบ">
+                  <i class="fas fa-trash-alt"></i>
+                </button>
               </div>
             </div>
 
-            <div class="flex items-center gap-3">
-              <label class="flex items-center gap-1 cursor-pointer bg-amber-50 hover:bg-amber-100 border border-amber-200 px-2 py-1 rounded-lg transition" title="ติดดาวแนะนำผู้บริหาร">
-                <input type="checkbox" ${isFeaturedChecked} onchange="toggleAppFeaturedStatus('${app.app_id}', this.checked)" class="w-3.5 h-3.5 text-amber-500 rounded focus:ring-amber-400">
-                <span class="text-xs font-bold text-amber-800">⭐ ติดดาว</span>
+            <p class="text-[11px] text-slate-500 line-clamp-1">${app.desc || '-'}</p>
+
+            <div class="pt-1.5 border-t border-slate-100 flex items-center justify-between text-xs">
+              <label class="flex items-center gap-1 cursor-pointer bg-amber-50 hover:bg-amber-100 border border-amber-200 px-1.5 py-0.5 rounded transition" title="ติดดาวแนะนำผู้บริหาร">
+                <input type="checkbox" ${isFeaturedChecked} onchange="toggleAppFeaturedStatus('${app.app_id}', this.checked)" class="w-3 h-3 text-amber-500 rounded focus:ring-amber-400">
+                <span class="text-[10px] font-bold text-amber-800">⭐ แนะนำ</span>
               </label>
 
-              <label class="relative inline-flex items-center cursor-pointer">
+              <label class="relative inline-flex items-center cursor-pointer" title="เปิด/ปิด การแสดงผล">
                 <input type="checkbox" ${isChecked} onchange="toggleAppStatus('${app.app_id}', this.checked)" class="sr-only peer">
-                <div class="w-9 h-5 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-emerald-500"></div>
+                <div class="w-7 h-4 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-emerald-500"></div>
               </label>
-
-              <button onclick="editAppItem('${app.app_id}')" class="p-2 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-lg text-xs md:text-sm font-bold" title="แก้ไข">
-                <i class="fas fa-edit"></i>
-              </button>
-              <button onclick="deleteAppItem('${app.app_id}', '${app.name}')" class="p-2 bg-red-50 hover:bg-red-100 text-red-600 rounded-lg text-xs md:text-sm font-bold" title="ลบ">
-                <i class="fas fa-trash-alt"></i>
-              </button>
             </div>
           </div>
         `;
       });
 
-      container.innerHTML = html;
+      gridHtml += '</div>';
+      container.innerHTML = gridHtml;
+    }
+
+    // HTML5 Drag and Drop Event Handlers
+    function handleDragStart(e) {
+      draggedAppId = e.currentTarget.getAttribute('data-app-id');
+      e.currentTarget.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+    }
+
+    function handleDragOver(e) {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      const card = e.currentTarget;
+      if (card && card.getAttribute('data-app-id') !== draggedAppId) {
+        card.classList.add('drag-over');
+      }
+    }
+
+    function handleDragLeave(e) {
+      e.currentTarget.classList.remove('drag-over');
+    }
+
+    function handleDrop(e) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      const targetCard = e.currentTarget;
+      targetCard.classList.remove('drag-over');
+
+      const targetAppId = targetCard.getAttribute('data-app-id');
+      if (!draggedAppId || draggedAppId === targetAppId) return;
+
+      const fromIndex = globalAdminAppsData.findIndex(a => a.app_id === draggedAppId);
+      const toIndex = globalAdminAppsData.findIndex(a => a.app_id === targetAppId);
+
+      if (fromIndex !== -1 && toIndex !== -1) {
+        // สลับตำแหน่งใน Memory Array
+        const movedItem = globalAdminAppsData.splice(fromIndex, 1)[0];
+        globalAdminAppsData.splice(toIndex, 0, movedItem);
+
+        // Render UI ใหม่ทันที
+        renderAdminAppsGridUI(globalAdminAppsData);
+
+        // แสดงปุ่มบันทึกลำดับใหม่
+        document.getElementById('saveBatchOrderBtn').classList.remove('hidden');
+      }
+    }
+
+    function handleDragEnd(e) {
+      e.currentTarget.classList.remove('dragging');
+      document.querySelectorAll('.admin-drag-card').forEach(c => c.classList.remove('drag-over'));
+    }
+
+    // [OPTIMIZATION] บันทึกการจัดลำดับใหม่จากการลากวางในรอบเดียวจบ
+    async function saveBatchAppOrder() {
+      if (!currentAdminPin) return;
+
+      const orderList = globalAdminAppsData.map((app, index) => ({
+        app_id: app.app_id,
+        sort_order: index + 1
+      }));
+
+      Swal.fire({ title: 'กำลังบันทึกลำดับใหม่...', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } });
+
+      try {
+        const result = await sendApiRequest({
+          action: 'saveBatchAppOrder',
+          pin: currentAdminPin,
+          orderList: orderList
+        });
+
+        if (result.success) {
+          Swal.fire('บันทึกเรียบร้อย', result.message, 'success');
+          document.getElementById('saveBatchOrderBtn').classList.add('hidden');
+          fetchAdminInitialData(true);
+        } else {
+          Swal.fire('เกิดข้อผิดพลาด', result.message, 'error');
+        }
+      } catch (err) {
+        Swal.fire('เกิดข้อผิดพลาด', err.toString(), 'error');
+      }
     }
 
     async function toggleAppFeaturedStatus(appId, isFeatured) {
@@ -1211,25 +1220,7 @@
           isFeatured: isFeatured
         });
         if (result.success) {
-          fetchAdminAppsData(true);
-        } else {
-          Swal.fire('ข้อผิดพลาด', result.message, 'error');
-        }
-      } catch (err) {
-        Swal.fire('ข้อผิดพลาด', err.toString(), 'error');
-      }
-    }
-
-    async function moveAppOrder(appId, direction) {
-      try {
-        const result = await sendApiRequest({
-          action: 'moveAppOrder',
-          pin: currentAdminPin,
-          appId: appId,
-          direction: direction
-        });
-        if (result.success) {
-          fetchAdminAppsData(true);
+          fetchAdminInitialData(true);
         } else {
           Swal.fire('ข้อผิดพลาด', result.message, 'error');
         }
@@ -1247,7 +1238,7 @@
           isVisible: isVisible
         });
         if (result.success) {
-          fetchAdminAppsData(true);
+          fetchAdminInitialData(true);
         } else {
           Swal.fire('ข้อผิดพลาด', result.message, 'error');
         }
@@ -1300,16 +1291,8 @@
     }
 
     async function editAppItem(appId) {
-      try {
-        const url = `${GAS_API_URL}?action=getAppsData&admin=true`;
-        const res = await fetch(url);
-        const apps = await res.json();
-        const app = apps.find(a => a.app_id === appId);
-
-        if (app) {
-          openAppEditModal(app);
-        }
-      } catch (e) {}
+      const app = globalAdminAppsData.find(a => a.app_id === appId);
+      if (app) openAppEditModal(app);
     }
 
     async function submitSaveAppForm(e) {
@@ -1342,7 +1325,7 @@
         if (result.success) {
           Swal.fire('บันทึกสำเร็จ', result.message, 'success');
           closeAppEditModal();
-          fetchAdminAppsData(true);
+          fetchAdminInitialData(true);
         } else {
           Swal.fire('เกิดข้อผิดพลาด', result.message, 'error');
         }
@@ -1374,7 +1357,7 @@
 
           if (result.success) {
             Swal.fire('ลบสำเร็จ', result.message, 'success');
-            fetchAdminAppsData(true);
+            fetchAdminInitialData(true);
           } else {
             Swal.fire('เกิดข้อผิดพลาด', result.message, 'error');
           }
@@ -1384,7 +1367,6 @@
       }
     }
 
-    // Helper Functions
     function loadPersonnelDataFromLocal() {
       const cached = localStorage.getItem('local_personnel_data');
       if (cached) {
