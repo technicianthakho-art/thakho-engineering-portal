@@ -546,7 +546,7 @@
     </div>
   </div>
 
-  <!-- MODAL 2: แผงควบคุมแอดมิน (Compact Drag-and-Drop View) -->
+  <!-- MODAL 2: แผงควบคุมแอดมิน (Compact Drag-and-Drop View with Auto-Save) -->
   <div id="adminPanelModal" class="fixed inset-0 bg-slate-900/80 z-50 hidden flex items-center justify-center p-2 md:p-4 backdrop-blur-xs">
     <div class="bg-white rounded-2xl shadow-2xl w-full max-w-6xl h-[94vh] flex flex-col overflow-hidden border border-slate-200">
       
@@ -557,13 +557,10 @@
           </div>
           <div>
             <h3 class="font-bold text-sm md:text-base">แผงควบคุมระบบแอปพลิเคชัน (Admin Control Panel)</h3>
-            <p class="text-[11px] text-slate-400">ลากวางการ์ดด้วยเมาส์ซ้ายเพื่อสลับลำดับ | คลิกเปิด/ปิด หรือติดดาว ⭐ ได้ทันที</p>
+            <p class="text-[11px] text-slate-400">ลากวางการ์ดด้วยเมาส์ซ้ายเพื่อสลับลำดับ (บันทึกอัตโนมัติทันที) | คลิกเปิด/ปิด หรือติดดาว ⭐ ได้ทันที</p>
           </div>
         </div>
         <div class="flex items-center gap-2">
-          <button id="saveBatchOrderBtn" onclick="saveBatchAppOrder()" class="hidden px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-xl transition flex items-center gap-1.5 shadow-xs">
-            <i class="fas fa-save"></i><span>บันทึกลำดับใหม่</span>
-          </button>
           <button onclick="openAppEditModal()" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl transition flex items-center gap-1.5 shadow-xs">
             <i class="fas fa-plus-circle"></i><span>เพิ่มแอปใหม่</span>
           </button>
@@ -616,14 +613,14 @@
           <input type="text" id="adminSearchInput" oninput="filterAdminApps(this.value)" placeholder="ค้นหาแอป..." class="w-full px-2.5 py-1 bg-white border border-slate-200 rounded-lg text-xs font-semibold focus:outline-none focus:border-amber-400 shadow-inner">
         </div>
         <div class="flex items-center gap-2">
-          <span class="text-[11px] text-slate-500"><i class="fas fa-hand-pointer text-blue-500 mr-1"></i>คลิกค้างเมาส์ซ้ายเพื่อลากวางสลับตำแหน่ง</span>
+          <span class="text-[11px] text-slate-500"><i class="fas fa-hand-pointer text-blue-500 mr-1"></i>คลิกค้างเมาส์ซ้ายเพื่อลากวางสลับตำแหน่ง (ระบบจะบันทึกให้อัตโนมัติ)</span>
           <button onclick="fetchAdminInitialData(true)" class="text-emerald-700 font-bold hover:underline flex items-center gap-1 bg-white px-2.5 py-1 rounded-lg border border-slate-200 shadow-2xs">
             <i class="fas fa-sync-alt"></i><span>รีเฟรช</span>
           </button>
         </div>
       </div>
 
-      <!-- Compact Apps Grid Container (Drag & Drop Compatible) -->
+      <!-- Compact Apps Grid Container -->
       <div class="flex-grow p-3 overflow-y-auto" id="adminAppsListContainer">
         <div class="text-center py-12 text-slate-500 text-sm"><i class="fas fa-spinner fa-spin mr-2"></i>กำลังโหลดรายการแอปพลิเคชัน...</div>
       </div>
@@ -1026,7 +1023,6 @@
       Swal.fire('ออกจากระบบ', 'ออกจากระบบแอดมินเรียบร้อยแล้ว', 'success');
     }
 
-    // [OPTIMIZATION] ดึงข้อมูลแอปทั้งหมดและตั้งค่า Watermark ใน Single Request ถ่ายเดียวจบ
     async function fetchAdminInitialData(forceRefresh = false) {
       const container = document.getElementById('adminAppsListContainer');
       container.innerHTML = '<div class="text-center py-12 text-slate-500 text-sm"><i class="fas fa-spinner fa-spin mr-2"></i>กำลังดึงข้อมูลระบบแอดมิน...</div>';
@@ -1060,7 +1056,6 @@
       renderAdminAppsGridUI(filtered);
     }
 
-    // Render Compact Drag-and-Drop Cards Grid
     function renderAdminAppsGridUI(apps) {
       const container = document.getElementById('adminAppsListContainer');
 
@@ -1130,7 +1125,7 @@
       container.innerHTML = gridHtml;
     }
 
-    // HTML5 Drag and Drop Event Handlers
+    // HTML5 Drag and Drop Handlers
     function handleDragStart(e) {
       draggedAppId = e.currentTarget.getAttribute('data-app-id');
       e.currentTarget.classList.add('dragging');
@@ -1150,7 +1145,8 @@
       e.currentTarget.classList.remove('drag-over');
     }
 
-    function handleDrop(e) {
+    // [AUTO-SAVE ON DROP] ลากวางเสร็จปุ๊บ สลับตำแหน่ง UI + บันทึกลง Google Sheets ทันที
+    async function handleDrop(e) {
       e.preventDefault();
       e.stopPropagation();
 
@@ -1164,15 +1160,15 @@
       const toIndex = globalAdminAppsData.findIndex(a => a.app_id === targetAppId);
 
       if (fromIndex !== -1 && toIndex !== -1) {
-        // สลับตำแหน่งใน Memory Array
+        // 1. สลับตำแหน่งใน Memory Array หน้าเว็บ
         const movedItem = globalAdminAppsData.splice(fromIndex, 1)[0];
         globalAdminAppsData.splice(toIndex, 0, movedItem);
 
-        // Render UI ใหม่ทันที
+        // 2. Render UI แผงแอดมินใหม่ทันที
         renderAdminAppsGridUI(globalAdminAppsData);
 
-        // แสดงปุ่มบันทึกลำดับใหม่
-        document.getElementById('saveBatchOrderBtn').classList.remove('hidden');
+        // 3. ยิงคำสั่ง Auto-Save บันทึกลำดับลง Google Sheets ทันทีอัตโนมัติ
+        await saveBatchAppOrderAuto();
       }
     }
 
@@ -1181,8 +1177,8 @@
       document.querySelectorAll('.admin-drag-card').forEach(c => c.classList.remove('drag-over'));
     }
 
-    // [OPTIMIZATION] บันทึกการจัดลำดับใหม่จากการลากวางในรอบเดียวจบ
-    async function saveBatchAppOrder() {
+    // [AUTO-SAVE FUNCTION] ฟังก์ชันบันทึกลำดับอัตโนมัติ พร้อมแจ้งเตือนแบบ Toast
+    async function saveBatchAppOrderAuto() {
       if (!currentAdminPin) return;
 
       const orderList = globalAdminAppsData.map((app, index) => ({
@@ -1190,7 +1186,19 @@
         sort_order: index + 1
       }));
 
-      Swal.fire({ title: 'กำลังบันทึกลำดับใหม่...', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } });
+      // แสดง Toast แจ้งเตือนสั้นๆ มุมขวาบน
+      const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 2000,
+        timerProgressBar: true
+      });
+
+      Toast.fire({
+        icon: 'info',
+        title: 'กำลังบันทึกลำดับใหม่ลงระบบ...'
+      });
 
       try {
         const result = await sendApiRequest({
@@ -1200,9 +1208,12 @@
         });
 
         if (result.success) {
-          Swal.fire('บันทึกเรียบร้อย', result.message, 'success');
-          document.getElementById('saveBatchOrderBtn').classList.add('hidden');
-          fetchAdminInitialData(true);
+          Toast.fire({
+            icon: 'success',
+            title: 'บันทึกลำดับใหม่สำเร็จ!'
+          });
+          // อัปเดตข้อมูลหน้าหลักทันที
+          syncAppsDataStore(true);
         } else {
           Swal.fire('เกิดข้อผิดพลาด', result.message, 'error');
         }
@@ -1221,6 +1232,7 @@
         });
         if (result.success) {
           fetchAdminInitialData(true);
+          syncAppsDataStore(true);
         } else {
           Swal.fire('ข้อผิดพลาด', result.message, 'error');
         }
@@ -1239,6 +1251,7 @@
         });
         if (result.success) {
           fetchAdminInitialData(true);
+          syncAppsDataStore(true);
         } else {
           Swal.fire('ข้อผิดพลาด', result.message, 'error');
         }
@@ -1326,6 +1339,7 @@
           Swal.fire('บันทึกสำเร็จ', result.message, 'success');
           closeAppEditModal();
           fetchAdminInitialData(true);
+          syncAppsDataStore(true);
         } else {
           Swal.fire('เกิดข้อผิดพลาด', result.message, 'error');
         }
@@ -1358,6 +1372,7 @@
           if (result.success) {
             Swal.fire('ลบสำเร็จ', result.message, 'success');
             fetchAdminInitialData(true);
+            syncAppsDataStore(true);
           } else {
             Swal.fire('เกิดข้อผิดพลาด', result.message, 'error');
           }
