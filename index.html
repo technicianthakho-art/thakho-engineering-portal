@@ -1920,8 +1920,33 @@
   </script>
 
   <!-- ========================================== -->
-  <!-- PWA Service Worker Registration Script     -->
+  <!-- Custom PWA Install Banner & Event Script   -->
   <!-- ========================================== -->
+  <div id="pwaInstallBanner" class="fixed bottom-4 left-4 right-4 md:left-auto md:right-4 md:max-w-sm bg-slate-900 text-white p-4 rounded-2xl shadow-2xl border border-amber-400 z-50 hidden flex-col space-y-3 animate-bounce">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center gap-2.5">
+        <div class="w-9 h-9 rounded-xl bg-amber-400 text-slate-900 flex items-center justify-center font-bold text-lg shadow-md">
+          <i class="fas fa-download"></i>
+        </div>
+        <div>
+          <h4 class="font-bold text-xs md:text-sm text-amber-400">ติดตั้งแอป Thakho Tech</h4>
+          <p class="text-[11px] text-slate-300">ติดตั้งลงหน้าจอมือถือ เข้าใช้งานได้สะดวกขึ้น</p>
+        </div>
+      </div>
+      <button onclick="closePwaBanner()" class="text-slate-400 hover:text-white p-1">
+        <i class="fas fa-times text-sm"></i>
+      </button>
+    </div>
+    <div class="flex items-center gap-2">
+      <button id="pwaInstallBtn" onclick="triggerPwaInstall()" class="flex-1 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl transition shadow-md flex items-center justify-center gap-1.5">
+        <i class="fas fa-plus-circle"></i><span>ติดตั้งลงหน้าจอโฮม</span>
+      </button>
+      <button onclick="closePwaBanner()" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold rounded-xl">
+        ไว้ทีหลัง
+      </button>
+    </div>
+  </div>
+
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
@@ -1934,6 +1959,47 @@
           });
       });
     }
+
+    let deferredPrompt = null;
+
+    // ดักจับ Event เมื่อเบราว์เซอร์พร้อมให้ติดตั้ง PWA
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      
+      // แสดง Banner เด้งขึ้นมาทันที
+      const banner = document.getElementById('pwaInstallBanner');
+      if (banner) {
+        banner.classList.remove('hidden');
+        banner.classList.add('flex');
+      }
+    });
+
+    // ฟังก์ชันสั่งเปิด Prompt ติดตั้งเมื่อผู้ใช้กดปุ่ม
+    async function triggerPwaInstall() {
+      if (!deferredPrompt) return;
+      
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      console.log(`User response to install prompt: ${outcome}`);
+      
+      deferredPrompt = null;
+      closePwaBanner();
+    }
+
+    function closePwaBanner() {
+      const banner = document.getElementById('pwaInstallBanner');
+      if (banner) {
+        banner.classList.add('hidden');
+        banner.classList.remove('flex');
+      }
+    }
+
+    // ซ่อน Banner เมื่อติดตั้งสำเร็จแล้ว
+    window.addEventListener('appinstalled', () => {
+      console.log('Thakho Tech PWA installed successfully');
+      closePwaBanner();
+    });
   </script>
 </body>
 </html>
