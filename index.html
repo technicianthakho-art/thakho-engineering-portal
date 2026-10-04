@@ -13,7 +13,7 @@
 
   <style>
     * { font-family: 'Sarabun', 'Plus Jakarta Sans', sans-serif; box-sizing: border-box; }
-    body { background-color: #ffffff; color: #0f172a; overflow-x: hidden; }
+    body { background-color: #ffffff; color: #0f172a; overflow-x: hidden; position: relative; min-height: 100vh; }
     
     /* Custom Scrollbar สำหรับ Sidebar */
     .sidebar-custom-scroll::-webkit-scrollbar {
@@ -36,12 +36,43 @@
       box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
       transition: all 0.25s ease;
       cursor: pointer;
+      position: relative;
     }
     .widget-card:hover {
       box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
       transform: translateY(-3px);
     }
     .sidebar-active { background-color: #374151; border-left: 4px solid #059669; }
+
+    /* รูปดาวแนะนำมุมขวาบนนอกขอบการ์ด */
+    .featured-star-badge {
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
+      color: #ffffff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 10px rgba(217, 119, 6, 0.4);
+      border: 2px solid #ffffff;
+      z-index: 10;
+      font-size: 0.85rem;
+      animation: star-pulse 2s infinite ease-in-out;
+    }
+
+    .featured-card-accent {
+      border-color: #f59e0b !important;
+      box-shadow: 0 4px 15px rgba(245, 158, 11, 0.12);
+    }
+
+    @keyframes star-pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.12); }
+    }
 
     @media (min-width: 768px) {
       .sidebar-collapsed { width: 4.5rem !important; }
@@ -97,15 +128,41 @@
       animation: highlight-card 1.8s ease-in-out infinite;
       border-color: #059669 !important;
     }
+
+    /* Watermark Background สไตล์ลอยมุมขวาล่าง */
+    #watermarkBackground {
+      position: fixed;
+      bottom: 1rem;
+      right: 1rem;
+      width: 300px;
+      max-width: 25vw;
+      height: auto;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.05;
+      transition: opacity 0.3s ease;
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      #watermarkBackground {
+        width: 170px;
+        bottom: 0.5rem;
+        right: 0.5rem;
+      }
+    }
   </style>
 </head>
 <body class="bg-white flex min-h-screen text-slate-800 relative w-full overflow-x-hidden" onclick="closeSearchDropdown(event)">
+
+  <!-- Watermark Background (แสดงผลมุมขวาล่าง) -->
+  <img id="watermarkBackground" src="" alt="Watermark Background">
 
   <!-- Mobile Overlay Backdrop -->
   <div id="mobileSidebarBackdrop" onclick="toggleMobileSidebar()" class="fixed inset-0 bg-black/60 z-40 hidden md:hidden transition-opacity duration-300"></div>
 
   <!-- Sidebar Container -->
-  <div class="relative flex-shrink-0">
+  <div class="relative flex-shrink-0 z-10">
     <aside id="mainSidebar" class="w-64 bg-slate-900 text-white flex-shrink-0 flex flex-col justify-between p-3 border-r border-slate-800 fixed md:sticky top-0 h-screen overflow-y-visible transition-all duration-300 z-50 -translate-x-full md:translate-x-0">
       
       <button onclick="toggleSidebarCollapse()" class="hidden md:flex floating-toggle-btn" title="กดยุบ / ขยาย แถบข้าง" id="floatingToggleBtn">
@@ -182,10 +239,10 @@
   </div>
 
   <!-- Main Area -->
-  <div class="flex-grow flex flex-col min-w-0 w-full overflow-x-hidden">
+  <div class="flex-grow flex flex-col min-w-0 w-full overflow-x-hidden z-10">
 
     <!-- Header พร้อม Dynamic Back Button & Universal Search -->
-    <header class="bg-white border-b border-slate-200 sticky top-0 z-30 px-4 md:px-6 py-3 flex items-center justify-between shadow-xs flex-wrap gap-2 md:gap-3 w-full">
+    <header class="bg-white/90 backdrop-blur-md border-b border-slate-200 sticky top-0 z-30 px-4 md:px-6 py-3 flex items-center justify-between shadow-xs flex-wrap gap-2 md:gap-3 w-full">
       <div class="flex items-center gap-2 md:gap-3" id="headerTitleContainer">
         <button onclick="toggleMobileSidebar()" class="md:hidden w-9 h-9 rounded-xl bg-slate-900 text-amber-400 flex items-center justify-center text-sm border border-slate-800">
           <i class="fas fa-bars"></i>
@@ -300,7 +357,7 @@
           </div>
         </div>
 
-        <!-- Dynamic Apps Grid (4 Apps Per Row) -->
+        <!-- Dynamic Apps Grid -->
         <div id="appsGridContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 md:gap-4 w-full">
           <div class="col-span-full text-center py-12 text-slate-500 text-sm"><i class="fas fa-spinner fa-spin mr-2"></i>กำลังดึงข้อมูลระบบแอปพลิเคชัน...</div>
         </div>
@@ -399,7 +456,7 @@
         </div>
       </div>
 
-      <!-- TAB Calendar (แก้ไข URL Endpoint ปุ่มเพิ่มกิจกรรมเป็นมาตรฐาน Official) -->
+      <!-- TAB Calendar -->
       <div id="tab-calendar" class="hidden space-y-4 w-full">
         <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between flex-wrap gap-2">
           <div>
@@ -491,7 +548,7 @@
 
   <!-- Modal 2: แผงควบคุมแอดมิน (Admin Control Center) -->
   <div id="adminPanelModal" class="fixed inset-0 bg-slate-900/80 z-50 hidden flex items-center justify-center p-3 md:p-6 backdrop-blur-xs">
-    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-5xl h-[90vh] flex flex-col overflow-hidden border border-slate-200">
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-5xl h-[92vh] flex flex-col overflow-hidden border border-slate-200">
       
       <div class="bg-slate-900 text-white p-4 flex items-center justify-between flex-shrink-0">
         <div class="flex items-center gap-3">
@@ -500,7 +557,7 @@
           </div>
           <div>
             <h3 class="font-bold text-base md:text-lg">แผงควบคุมระบบแอปพลิเคชัน (Admin Control Panel)</h3>
-            <p class="text-xs text-slate-400">จัดการ การแสดงผล/ซ่อน/สลับลำดับขึ้น-ลง/เพิ่ม/แก้ไข แอปพลิเคชันกองช่าง</p>
+            <p class="text-xs text-slate-400">จัดการ การแสดงผล/ซ่อน/สลับลำดับขึ้น-ลง/ติดดาว ⭐ แนะนำผู้บริหาร และภาพ Watermark</p>
           </div>
         </div>
         <div class="flex items-center gap-2">
@@ -513,13 +570,47 @@
         </div>
       </div>
 
+      <!-- ส่วนตั้งค่า Watermark Background -->
+      <div class="bg-amber-50/80 p-3 md:p-4 border-b border-amber-200 flex-shrink-0">
+        <div class="flex items-center justify-between mb-2">
+          <h4 class="font-bold text-slate-900 text-xs md:text-sm flex items-center gap-2">
+            <i class="fas fa-image text-amber-600"></i><span>การตั้งค่าภาพพื้นหลัง Watermark (มุมขวาล่าง)</span>
+          </h4>
+          <span class="text-[11px] text-slate-500">โฟลเดอร์ Google Drive: <b>0. รวมลิงค์กองช่าง</b></span>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-2.5 items-center">
+          <div class="md:col-span-6">
+            <input type="text" id="settingWatermarkUrl" placeholder="วาง URL ลิงก์ไฟล์ภาพ Google Drive จากโฟลเดอร์..." class="w-full px-3 py-1.5 bg-white border border-amber-300 rounded-xl text-xs font-semibold focus:outline-none focus:border-amber-500 shadow-inner">
+          </div>
+          <div class="md:col-span-3 flex items-center gap-2">
+            <label class="text-xs font-bold text-slate-700 whitespace-nowrap">ความโปร่งใส:</label>
+            <select id="settingWatermarkOpacity" class="w-full px-2.5 py-1.5 bg-white border border-amber-300 rounded-xl text-xs font-semibold">
+              <option value="0.03">3% (จางมาก)</option>
+              <option value="0.05">5% (แนะนำ)</option>
+              <option value="0.08">8% (ปานกลาง)</option>
+              <option value="0.10">10% (ชัดเจน)</option>
+            </select>
+          </div>
+          <div class="md:col-span-3 flex items-center justify-end gap-2">
+            <label class="relative inline-flex items-center cursor-pointer mr-2">
+              <input type="checkbox" id="settingWatermarkEnabled" class="sr-only peer">
+              <div class="w-9 h-5 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-amber-500"></div>
+              <span class="ml-1.5 text-xs font-bold text-slate-700">เปิดแสดงผล</span>
+            </label>
+            <button onclick="submitSaveSettings()" class="px-3.5 py-1.5 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-xl text-xs shadow-xs transition flex-shrink-0">
+              <i class="fas fa-save mr-1"></i>บันทึก Watermark
+            </button>
+          </div>
+        </div>
+      </div>
+
       <div class="p-3 md:p-4 bg-slate-50 border-b border-slate-200 flex items-center justify-between flex-wrap gap-2 flex-shrink-0 text-xs md:text-sm text-slate-700">
         <div class="flex items-center gap-2 flex-grow max-w-md">
           <i class="fas fa-search text-slate-400"></i>
           <input type="text" id="adminSearchInput" oninput="filterAdminApps(this.value)" placeholder="ค้นหาแอปในแผงควบคุม..." class="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-xl text-xs md:text-sm font-semibold focus:outline-none focus:border-amber-400 shadow-inner">
         </div>
         <div class="flex items-center gap-3">
-          <span class="hidden lg:inline"><i class="fas fa-info-circle text-blue-500 mr-1"></i>กดปุ่ม <b>▲/▼</b> เพื่อเลื่อนปรับตำแหน่งแอป</span>
+          <span class="hidden lg:inline"><i class="fas fa-info-circle text-blue-500 mr-1"></i>ติ๊ก ⭐ เพื่อแสดงสัญลักษณ์แอปแนะนำผู้บริหาร</span>
           <button onclick="fetchAdminAppsData(true)" class="text-emerald-700 font-bold hover:underline flex items-center gap-1.5 bg-white px-3 py-1.5 rounded-xl border border-slate-200 shadow-2xs">
             <i class="fas fa-sync-alt"></i><span>รีเฟรช</span>
           </button>
@@ -614,6 +705,11 @@
         <div>
           <label class="block font-bold text-slate-800 mb-1">คำค้นหาเพิ่มเติม (Keywords):</label>
           <input type="text" id="edit_keywords" placeholder="เช่น สั่งงาน ค้นหา แผนงาน" class="w-full p-2 bg-slate-50 border rounded-xl font-semibold text-slate-800">
+        </div>
+
+        <div class="flex items-center gap-2 pt-1">
+          <input type="checkbox" id="edit_is_featured" class="w-4 h-4 text-amber-500 rounded focus:ring-amber-400">
+          <label for="edit_is_featured" class="font-bold text-amber-800 text-xs md:text-sm">⭐ ติดดาวแอปแนะนำสำหรับผู้บริหาร</label>
         </div>
 
         <div class="pt-2 flex items-center justify-end gap-2">
@@ -744,11 +840,78 @@
 
       syncAppsDataStore(true);
       syncPersonnelDataStore();
+      syncSystemSettings();
       initSpeechRecognition();
 
       const savedPin = sessionStorage.getItem('admin_pin_token');
       if (savedPin) currentAdminPin = savedPin;
     });
+
+    async function syncSystemSettings(forceRefresh = false) {
+      try {
+        const url = `${GAS_API_URL}?action=getSystemSettings${forceRefresh ? '&refresh=true' : ''}`;
+        const res = await fetch(url);
+        const settings = await res.json();
+
+        applyWatermarkSettings(settings);
+      } catch (e) {
+        console.error("Sync settings error:", e);
+      }
+    }
+
+    function applyWatermarkSettings(settings) {
+      const watermark = document.getElementById('watermarkBackground');
+      if (watermark && settings) {
+        if (settings.watermark_enabled && settings.watermark_url) {
+          watermark.src = settings.watermark_url;
+          watermark.style.opacity = settings.watermark_opacity || '0.05';
+          watermark.style.display = 'block';
+        } else {
+          watermark.style.display = 'none';
+        }
+
+        // เติมค่าใส่ฟอร์ม Admin
+        const inputUrl = document.getElementById('settingWatermarkUrl');
+        const selectOpacity = document.getElementById('settingWatermarkOpacity');
+        const checkEnabled = document.getElementById('settingWatermarkEnabled');
+
+        if (inputUrl) inputUrl.value = settings.watermark_url || '';
+        if (selectOpacity) selectOpacity.value = settings.watermark_opacity || '0.05';
+        if (checkEnabled) checkEnabled.checked = settings.watermark_enabled;
+      }
+    }
+
+    async function submitSaveSettings() {
+      if (!currentAdminPin) {
+        Swal.fire('ปฏิเสธการเข้าถึง', 'กรุณาเข้าสู่ระบบแอดมินก่อน', 'warning');
+        return;
+      }
+
+      const settingsObj = {
+        watermark_url: document.getElementById('settingWatermarkUrl').value.trim(),
+        watermark_opacity: document.getElementById('settingWatermarkOpacity').value,
+        watermark_enabled: document.getElementById('settingWatermarkEnabled').checked
+      };
+
+      Swal.fire({ title: 'กำลังบันทึกการตั้งค่า...', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } });
+
+      try {
+        const result = await sendApiRequest({
+          action: 'saveSystemSettings',
+          pin: currentAdminPin,
+          settings: settingsObj
+        });
+
+        if (result.success) {
+          Swal.fire('บันทึกสำเร็จ', result.message, 'success');
+          syncSystemSettings(true);
+        } else {
+          Swal.fire('เกิดข้อผิดพลาด', result.message, 'error');
+        }
+      } catch (err) {
+        Swal.fire('เกิดข้อผิดพลาด', err.toString(), 'error');
+      }
+    }
 
     function toggleSidebarCollapse() {
       const sidebar = document.getElementById('mainSidebar');
@@ -838,8 +1001,13 @@
           actionClick = `loadEmbeddedApp('${app.url}', '${app.name}')`;
         }
 
+        const isFeatured = app.is_featured;
+        const starBadgeHtml = isFeatured ? `<div class="featured-star-badge" title="⭐ แอปแนะนำสำหรับผู้บริหาร"><i class="fas fa-star"></i></div>` : '';
+        const cardAccentClass = isFeatured ? 'featured-card-accent' : '';
+
         gridHtml += `
-          <div onclick="${actionClick}" class="widget-card p-4 ${style.border} flex flex-col justify-between group">
+          <div onclick="${actionClick}" class="widget-card p-4 ${style.border} ${cardAccentClass} flex flex-col justify-between group">
+            ${starBadgeHtml}
             <div>
               <div class="flex items-start justify-between gap-2 mb-2">
                 <div class="flex items-center gap-2.5 min-w-0">
@@ -904,11 +1072,13 @@
     function openAdminPanelModal() {
       document.getElementById('adminPanelModal').classList.remove('hidden');
       fetchAdminAppsData(true);
+      syncSystemSettings(true);
     }
 
     function closeAdminPanelModal() {
       document.getElementById('adminPanelModal').classList.add('hidden');
       syncAppsDataStore(true);
+      syncSystemSettings(true);
     }
 
     function logoutAdmin() {
@@ -959,6 +1129,7 @@
       let html = '';
       apps.forEach((app, index) => {
         const isChecked = app.is_visible ? 'checked' : '';
+        const isFeaturedChecked = app.is_featured ? 'checked' : '';
         const badgeColor = app.is_visible ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-200 text-slate-600';
         const badgeText = app.is_visible ? 'เปิดแสดงผล' : 'ซ่อนอยู่';
         const colorKey = app.color || 'blue';
@@ -979,12 +1150,13 @@
                 </button>
               </div>
 
-              <div class="w-10 h-10 rounded-xl ${style.bg} text-white flex items-center justify-center font-bold text-lg shadow-sm flex-shrink-0">
+              <div class="w-10 h-10 rounded-xl ${style.bg} text-white flex items-center justify-center font-bold text-lg shadow-sm flex-shrink-0 relative">
                 <i class="${app.icon}"></i>
               </div>
               <div>
                 <div class="flex items-center gap-2">
                   <h4 class="font-bold text-slate-900 text-xs md:text-sm">${app.name}</h4>
+                  ${app.is_featured ? '<span class="text-xs text-amber-500 font-bold" title="แอปแนะนำผู้บริหาร"><i class="fas fa-star"></i></span>' : ''}
                   <span class="text-[10px] md:text-xs font-bold px-2 py-0.5 rounded-full ${badgeColor}">${badgeText}</span>
                   <span class="text-[10px] md:text-xs text-slate-500 font-semibold">ลำดับ: ${app.sort_order}</span>
                 </div>
@@ -993,6 +1165,11 @@
             </div>
 
             <div class="flex items-center gap-3">
+              <label class="flex items-center gap-1 cursor-pointer bg-amber-50 hover:bg-amber-100 border border-amber-200 px-2 py-1 rounded-lg transition" title="ติดดาวแนะนำผู้บริหาร">
+                <input type="checkbox" ${isFeaturedChecked} onchange="toggleAppFeaturedStatus('${app.app_id}', this.checked)" class="w-3.5 h-3.5 text-amber-500 rounded focus:ring-amber-400">
+                <span class="text-xs font-bold text-amber-800">⭐ ติดดาว</span>
+              </label>
+
               <label class="relative inline-flex items-center cursor-pointer">
                 <input type="checkbox" ${isChecked} onchange="toggleAppStatus('${app.app_id}', this.checked)" class="sr-only peer">
                 <div class="w-9 h-5 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-emerald-500"></div>
@@ -1010,6 +1187,24 @@
       });
 
       container.innerHTML = html;
+    }
+
+    async function toggleAppFeaturedStatus(appId, isFeatured) {
+      try {
+        const result = await sendApiRequest({
+          action: 'toggleAppFeatured',
+          pin: currentAdminPin,
+          appId: appId,
+          isFeatured: isFeatured
+        });
+        if (result.success) {
+          fetchAdminAppsData(true);
+        } else {
+          Swal.fire('ข้อผิดพลาด', result.message, 'error');
+        }
+      } catch (err) {
+        Swal.fire('ข้อผิดพลาด', err.toString(), 'error');
+      }
     }
 
     async function moveAppOrder(appId, direction) {
@@ -1066,6 +1261,7 @@
         document.getElementById('edit_icon').value = appData.icon;
         document.getElementById('edit_open_type').value = appData.open_type || 'embedded';
         document.getElementById('edit_keywords').value = appData.keywords || '';
+        document.getElementById('edit_is_featured').checked = appData.is_featured || false;
       } else {
         title.innerHTML = '<i class="fas fa-plus-circle text-emerald-400 mr-2"></i>เพิ่มแอปพลิเคชันใหม่';
         document.getElementById('edit_app_id').value = '';
@@ -1080,6 +1276,7 @@
         document.getElementById('edit_icon').value = 'fa-solid fa-shapes';
         document.getElementById('edit_open_type').value = 'embedded';
         document.getElementById('edit_keywords').value = '';
+        document.getElementById('edit_is_featured').checked = false;
       }
 
       modal.classList.remove('hidden');
@@ -1116,7 +1313,8 @@
         icon: document.getElementById('edit_icon').value.trim(),
         open_type: document.getElementById('edit_open_type').value,
         keywords: document.getElementById('edit_keywords').value.trim(),
-        is_visible: true
+        is_visible: true,
+        is_featured: document.getElementById('edit_is_featured').checked
       };
 
       Swal.fire({ title: 'กำลังบันทึกข้อมูล...', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } });
