@@ -1,7 +1,7 @@
 {
   "name": "Thakho Tech Links Portal",
   "short_name": "Thakho Tech",
-  "description": "ระบบรวมลิงก์และแอปพลิเคชัน กองช่าง อบต.ท่าก๊อ",
+  "description": "ระบบรวมลิงก์และแอปพลิเคชัน กองช่าง อบต.ท่ากอ",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#ffffff",
