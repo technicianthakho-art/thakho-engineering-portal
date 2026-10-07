@@ -76,6 +76,23 @@
       50% { transform: scale(1.12); }
     }
 
+    /* CSS Animation สำหรับแสงวาบของปุ่มติดตั้ง (Glow Pulse) */
+    @keyframes soft-glow-pulse {
+      0%, 100% { 
+        transform: scale(1); 
+        box-shadow: 0 4px 15px rgba(245, 158, 11, 0.25); 
+        border-color: rgba(251, 191, 36, 0.6); 
+      }
+      50% { 
+        transform: scale(1.02); 
+        box-shadow: 0 8px 25px rgba(245, 158, 11, 0.6); 
+        border-color: rgba(251, 191, 36, 1); 
+      }
+    }
+    .pwa-banner-glow {
+      animation: soft-glow-pulse 1.2s infinite ease-in-out;
+    }
+
     @media (min-width: 768px) {
       .sidebar-collapsed { width: 4.5rem !important; }
       .sidebar-collapsed .nav-text, 
@@ -207,7 +224,7 @@
             </button>
           </div>
 
-          <!-- Navigation Menu (ตัดระบบแผนที่ GIS ออกตามคำสั่ง) -->
+          <!-- Navigation Menu -->
           <nav class="mt-4 space-y-1.5">
             <button onclick="switchTab('analytics')" id="nav-analytics" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs md:text-sm font-semibold hover:bg-slate-800 transition text-left sidebar-active" title="หน้าหลัก & แอปทั้งหมด">
               <i class="fas fa-home text-emerald-400 w-4 text-center"></i>
@@ -226,7 +243,6 @@
               <i class="fas fa-calendar-alt text-rose-400 w-4 text-center"></i><span class="nav-text">ปฏิทินงานปฏิบัติงาน</span>
             </button>
 
-            <!-- [MODIFIED]: เปลี่ยนชื่อเป็น "ภาพผลงานปฏิบัติงาน" สั้น กระชับ กว้างไม่เกินแถบปฏิทิน -->
             <button onclick="switchTab('workreports')" id="nav-workreports" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs md:text-sm font-semibold hover:bg-slate-800 transition text-left" title="ภาพผลงานปฏิบัติงาน">
               <i class="fas fa-clipboard-list text-purple-400 w-4 text-center"></i><span class="nav-text">ภาพผลงานปฏิบัติงาน</span>
             </button>
@@ -303,7 +319,7 @@
       </div>
     </header>
 
-    <!-- Mobile Horizontal Scroll Tabs (ตัดเมนู GIS ออก) -->
+    <!-- Mobile Horizontal Scroll Tabs -->
     <div class="md:hidden bg-slate-900 border-b border-slate-800 px-3 py-2 flex items-center gap-2 overflow-x-auto no-scrollbar sticky top-[57px] z-20 shadow-xs w-full">
       <button onclick="switchTab('analytics')" id="m-tab-analytics" class="flex-shrink-0 px-3 py-1.5 rounded-xl bg-emerald-600 text-white text-xs font-bold flex items-center gap-1.5 transition">
         <i class="fas fa-home"></i><span>หน้าหลัก</span>
@@ -390,7 +406,7 @@
         </div>
       </div>
 
-      <!-- TAB GIS (อัปเดต URL เป็น https://technicianthakho-art.github.io/thako-gis/ ทั้งหมด) -->
+      <!-- TAB GIS -->
       <div id="tab-gis" class="hidden space-y-4 w-full">
         <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between flex-wrap gap-2">
           <div>
@@ -488,7 +504,7 @@
         </div>
       </div>
 
-      <!-- TAB Work Reports (ปรับเปลี่ยนหัวข้อเป็นภาษาไทยล้วน ไม่มีวงเล็บภาษาอังกฤษ) -->
+      <!-- TAB Work Reports -->
       <div id="tab-workreports" class="hidden space-y-4 w-full">
         <div class="flex items-center justify-between bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex-wrap gap-2">
           <div>
@@ -524,6 +540,32 @@
 
         <div class="bg-white p-2 rounded-2xl border border-slate-200 shadow-xs h-[780px] overflow-hidden">
           <iframe id="knowledgeIframe" src="https://technicianthakho-art.github.io/Knowledge-Center/" style="border:0; width:100%; height:100%;" allow="geolocation; microphone; camera; display-capture" allowfullscreen></iframe>
+        </div>
+      </div>
+
+      <!-- [MODIFIED LOCATION]: ปุ่มติดตั้ง PWA Android/Chrome ย้ายมาไว้มุมซ้ายล่างของพื้นที่ทำงานบน Desktop (ตามกรอบสีแดง) -->
+      <div id="pwaInstallBanner" class="fixed bottom-4 left-4 right-4 md:right-auto md:left-6 md:bottom-6 md:max-w-xs bg-slate-900 text-white p-3.5 rounded-2xl shadow-2xl border border-amber-400 z-40 hidden flex-col space-y-2.5 pwa-banner-glow">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-xl bg-amber-400 text-slate-900 flex items-center justify-center font-bold text-base shadow-md flex-shrink-0">
+              <i class="fas fa-download"></i>
+            </div>
+            <div>
+              <h4 class="font-bold text-xs md:text-sm text-amber-400">ติดตั้งแอป Thakho Tech</h4>
+              <p class="text-[10px] text-slate-300">เข้าใช้งานสะดวกขึ้นผ่านหน้าจอหลัก</p>
+            </div>
+          </div>
+          <button onclick="closePwaBanner()" class="text-slate-400 hover:text-white p-1">
+            <i class="fas fa-times text-xs"></i>
+          </button>
+        </div>
+        <div class="flex items-center gap-2">
+          <button id="pwaInstallBtn" onclick="triggerPwaInstall()" class="flex-1 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl transition shadow-md flex items-center justify-center gap-1">
+            <i class="fas fa-plus-circle"></i><span>ติดตั้งทันที</span>
+          </button>
+          <button onclick="closePwaBanner()" class="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold rounded-xl">
+            ซ่อน
+          </button>
         </div>
       </div>
 
@@ -726,32 +768,6 @@
           <button type="submit" class="px-5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold shadow-xs">บันทึกข้อมูล</button>
         </div>
       </form>
-    </div>
-  </div>
-
-  <!-- Android PWA Install Banner -->
-  <div id="pwaInstallBanner" class="fixed bottom-4 left-4 right-4 md:left-auto md:right-4 md:max-w-sm bg-slate-900 text-white p-4 rounded-2xl shadow-2xl border border-amber-400 z-50 hidden flex-col space-y-3 animate-bounce">
-    <div class="flex items-center justify-between">
-      <div class="flex items-center gap-2.5">
-        <div class="w-9 h-9 rounded-xl bg-amber-400 text-slate-900 flex items-center justify-center font-bold text-lg shadow-md">
-          <i class="fas fa-download"></i>
-        </div>
-        <div>
-          <h4 class="font-bold text-xs md:text-sm text-amber-400">ติดตั้งแอป Thakho Tech</h4>
-          <p class="text-[11px] text-slate-300">ติดตั้งลงหน้าจอมือถือ เข้าใช้งานได้สะดวกขึ้น</p>
-        </div>
-      </div>
-      <button onclick="closePwaBanner()" class="text-slate-400 hover:text-white p-1">
-        <i class="fas fa-times text-sm"></i>
-      </button>
-    </div>
-    <div class="flex items-center gap-2">
-      <button id="pwaInstallBtn" onclick="triggerPwaInstall()" class="flex-1 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl transition shadow-md flex items-center justify-center gap-1.5">
-        <i class="fas fa-plus-circle"></i><span>ติดตั้งลงหน้าจอโฮม</span>
-      </button>
-      <button onclick="closePwaBanner()" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold rounded-xl">
-        ไว้ทีหลัง
-      </button>
     </div>
   </div>
 
@@ -991,7 +1007,6 @@
         const style = colorStyleMap[colorKey] || colorStyleMap['blue'];
         const icon = app.icon || 'fa-solid fa-shapes';
         
-        // [MODIFIED LOGIC]: หากเป็นแอป GIS ให้ตรวจสอบ URL ใหม่ https://technicianthakho-art.github.io/thako-gis/
         let targetUrl = app.url;
         if (app.name.indexOf("GIS") !== -1 || app.name.indexOf("จีเอส") !== -1 || app.app_id === "APP-001") {
           targetUrl = "https://technicianthakho-art.github.io/thako-gis/";
@@ -1335,7 +1350,6 @@
         document.getElementById('edit_color').value = appData.color || 'blue';
         document.getElementById('edit_desc').value = appData.desc;
 
-        // [MODIFIED LOGIC]: หากเป็นแอป GIS ตั้งต้น ให้เติม URL ใหม่ https://technicianthakho-art.github.io/thako-gis/
         if (appData.name.indexOf("GIS") !== -1 || appData.name.indexOf("จีเอส") !== -1 || appData.app_id === "APP-001") {
           document.getElementById('edit_url').value = "https://technicianthakho-art.github.io/thako-gis/";
         } else {
@@ -1928,7 +1942,6 @@
           `;
         });
 
-        // [MODIFIED LOGIC]: ตัดป้ายผู้รายงานออก แสดงผลชื่อผลงานอย่างเดียว และวันที่อัปเดตอย่างเดียว (ไม่มีเวลา)
         html += `
           <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex flex-col justify-between space-y-3">
             <div class="flex items-center justify-between border-b pb-2">
