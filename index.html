@@ -76,7 +76,7 @@
       50% { transform: scale(1.12); }
     }
 
-    /* CSS Animation สำหรับแสงวาบของปุ่มติดตั้ง (Glow Pulse) */
+    /* CSS Animation สำหรับแสงวาบของปุ่มติดตั้ง (Glow Pulse) - ปรับองศานุ่มนวล 1.2s */
     @keyframes soft-glow-pulse {
       0%, 100% { 
         transform: scale(1); 
@@ -543,7 +543,7 @@
         </div>
       </div>
 
-      <!-- [MODIFIED LOCATION]: ปุ่มติดตั้ง PWA Android/Chrome ย้ายมาไว้มุมซ้ายล่างของพื้นที่ทำงานบน Desktop (ตามกรอบสีแดง) -->
+      <!-- ปุ่มติดตั้ง PWA Android/Chrome ย้ายมาไว้มุมซ้ายล่างของพื้นที่ทำงานบน Desktop (พร้อมเอฟเฟกต์แสงวาบนุ่มนวล pwa-banner-glow) -->
       <div id="pwaInstallBanner" class="fixed bottom-4 left-4 right-4 md:right-auto md:left-6 md:bottom-6 md:max-w-xs bg-slate-900 text-white p-3.5 rounded-2xl shadow-2xl border border-amber-400 z-40 hidden flex-col space-y-2.5 pwa-banner-glow">
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-2.5">
@@ -1919,6 +1919,21 @@
       }
     }
 
+    // ฟังก์ชันสแกนตัดคำนำหน้า (นาย/นาง/นางสาว/ด.ช./ด.ญ.) และชื่อ-นามสกุลออก เหลือเฉพาะหัวข้อกิจกรรม
+    function cleanActivityTitle(rawTitle) {
+      if (!rawTitle) return '';
+      
+      // Regex ตรวจจับคำนำหน้า + ชื่อ-นามสกุล ทั้งภาษาไทยและอังกฤษ แล้วตัดทิ้ง
+      let cleaned = rawTitle.replace(/^(นาย|นางสาว|นาง|ด\.ช\.|ด\.ญ\.|Mr\.|Mrs\.|Ms\.)\s*[\u0E00-\u0E7Fa-zA-Z]+\s+[\u0E00-\u0E7Fa-zA-Z]+\s*/g, '');
+      
+      // กรณีไม่มีคำนำหน้า แต่ขึ้นต้นด้วยชื่อ-นามสกุล 2 คำแรก
+      if (cleaned === rawTitle) {
+        cleaned = rawTitle.replace(/^[\u0E00-\u0E7Fa-zA-Z]+\s+[\u0E00-\u0E7Fa-zA-Z]+\s+/g, '');
+      }
+      
+      return cleaned.trim();
+    }
+
     function renderDriveSlidesUI(slides) {
       const container = document.getElementById('driveSlidesContainer');
 
@@ -1942,11 +1957,14 @@
           `;
         });
 
+        // เรียกตัดชื่อผู้รายงานออก เหลือเฉพาะหัวข้อกิจกรรม
+        const displayTitle = cleanActivityTitle(slide.title);
+
         html += `
           <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex flex-col justify-between space-y-3">
             <div class="flex items-center justify-between border-b pb-2">
               <div class="min-w-0 pr-2">
-                <h3 class="font-bold text-slate-900 text-xs md:text-sm line-clamp-2" title="${slide.title}">${slide.title}</h3>
+                <h3 class="font-bold text-slate-900 text-xs md:text-sm line-clamp-2" title="${displayTitle}">${displayTitle}</h3>
               </div>
               <a href="${slide.folderUrl}" target="_blank" class="p-1.5 bg-slate-100 hover:bg-slate-200 text-emerald-600 rounded-lg text-xs md:text-sm flex-shrink-0" title="เปิดโฟลเดอร์ใน Google Drive">
                 <i class="fab fa-google-drive"></i>
