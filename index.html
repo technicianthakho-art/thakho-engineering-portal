@@ -204,9 +204,9 @@
   <div class="relative flex-shrink-0 z-20 overflow-visible">
     <aside id="mainSidebar" class="w-64 bg-slate-900 text-white flex-shrink-0 flex flex-col justify-between p-3 border-r border-slate-800 fixed md:sticky top-0 h-screen overflow-visible transition-all duration-300 z-50 -translate-x-full md:translate-x-0">
       
-      <button onclick="toggleSidebarCollapse()" class="hidden md:flex floating-toggle-btn" title="กดยุบ / ขยาย แถบข้าง" id="floatingToggleBtn">
-        <i class="fas fa-chevron-left text-xs transition-transform duration-300" id="toggleIcon"></i>
-      </button>
+      <button onclick="openAdminPinModal()" class="fixed bottom-6 right-6 z-[60] px-3.5 py-2.5 bg-slate-900 hover:bg-slate-800 text-amber-400 font-bold text-xs md:text-sm rounded-2xl border-2 border-amber-400 shadow-2xl transition-all hover:scale-105 flex items-center gap-2" title="เข้าสู่ระบบจัดการแอดมิน">
+  <i class="fas fa-sliders-h text-base"></i><span>ตั้งค่าระบบ (Setup)</span>
+</button>
 
       <div class="overflow-y-auto h-full flex flex-col justify-between sidebar-custom-scroll pr-1">
         <div>
