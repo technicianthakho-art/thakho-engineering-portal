@@ -6,7 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>กองช่าง อบต.ท่าก๊อ</title>
 
-  <!-- PWA Configuration for Thakho Tech Portal -->
+  <!-- ========================================== -->
+  <!-- PWA Configuration for Thakho Tech Portal   -->
+  <!-- ========================================== -->
   <link rel="manifest" href="./manifest.json">
   <meta name="theme-color" content="#0f172a">
 
@@ -205,7 +207,7 @@
             </button>
           </div>
 
-          <!-- Navigation Menu (ตัดเมนู GIS ออกตามความต้องการ) -->
+          <!-- Navigation Menu (ตัดระบบแผนที่ GIS ออกตามคำสั่ง) -->
           <nav class="mt-4 space-y-1.5">
             <button onclick="switchTab('analytics')" id="nav-analytics" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs md:text-sm font-semibold hover:bg-slate-800 transition text-left sidebar-active" title="หน้าหลัก & แอปทั้งหมด">
               <i class="fas fa-home text-emerald-400 w-4 text-center"></i>
@@ -224,8 +226,9 @@
               <i class="fas fa-calendar-alt text-rose-400 w-4 text-center"></i><span class="nav-text">ปฏิทินงานปฏิบัติงาน</span>
             </button>
 
-            <button onclick="switchTab('workreports')" id="nav-workreports" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs md:text-sm font-semibold hover:bg-slate-800 transition text-left" title="ผลงานปฏิบัติงานกองช่าง">
-              <i class="fas fa-clipboard-list text-purple-400 w-4 text-center"></i><span class="nav-text">ผลงานปฏิบัติงานกองช่าง</span>
+            <!-- [MODIFIED]: เปลี่ยนชื่อเป็น "ภาพผลงานปฏิบัติงาน" สั้น กระชับ กว้างไม่เกินแถบปฏิทิน -->
+            <button onclick="switchTab('workreports')" id="nav-workreports" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs md:text-sm font-semibold hover:bg-slate-800 transition text-left" title="ภาพผลงานปฏิบัติงาน">
+              <i class="fas fa-clipboard-list text-purple-400 w-4 text-center"></i><span class="nav-text">ภาพผลงานปฏิบัติงาน</span>
             </button>
 
             <button onclick="switchTab('knowledge')" id="nav-knowledge" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs md:text-sm font-semibold hover:bg-slate-800 transition text-left" title="คลังความรู้กองช่าง">
@@ -300,7 +303,7 @@
       </div>
     </header>
 
-    <!-- Mobile Horizontal Scroll Tabs (ตัดเมนู GIS ออกตามความต้องการ) -->
+    <!-- Mobile Horizontal Scroll Tabs (ตัดเมนู GIS ออก) -->
     <div class="md:hidden bg-slate-900 border-b border-slate-800 px-3 py-2 flex items-center gap-2 overflow-x-auto no-scrollbar sticky top-[57px] z-20 shadow-xs w-full">
       <button onclick="switchTab('analytics')" id="m-tab-analytics" class="flex-shrink-0 px-3 py-1.5 rounded-xl bg-emerald-600 text-white text-xs font-bold flex items-center gap-1.5 transition">
         <i class="fas fa-home"></i><span>หน้าหลัก</span>
@@ -315,7 +318,7 @@
         <i class="fas fa-calendar-alt text-rose-400"></i><span>ปฏิทินงาน</span>
       </button>
       <button onclick="switchTab('workreports')" id="m-tab-workreports" class="flex-shrink-0 px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300 text-xs font-semibold flex items-center gap-1.5 transition">
-        <i class="fas fa-clipboard-list text-purple-400"></i><span>ผลงานกองช่าง</span>
+        <i class="fas fa-clipboard-list text-purple-400"></i><span>ภาพผลงาน</span>
       </button>
       <button onclick="switchTab('knowledge')" id="m-tab-knowledge" class="flex-shrink-0 px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300 text-xs font-semibold flex items-center gap-1.5 transition">
         <i class="fas fa-book-reader text-teal-400"></i><span>คลังความรู้</span>
@@ -333,6 +336,11 @@
           </div>
 
           <div class="flex items-center gap-2 overflow-x-auto no-scrollbar py-0.5 max-w-full">
+            <button onclick="switchTab('gis')" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 rounded-xl border border-slate-700 flex items-center gap-2 transition group flex-shrink-0">
+              <i class="fas fa-map-marked-alt text-cyan-400 text-xs group-hover:scale-110 transition"></i>
+              <span class="text-xs font-bold text-slate-200 whitespace-nowrap">แผนที่ GIS</span>
+            </button>
+
             <button onclick="switchTab('structure')" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 rounded-xl border border-slate-700 flex items-center gap-2 transition group flex-shrink-0">
               <i class="fas fa-users-gear text-amber-400 text-xs group-hover:scale-110 transition"></i>
               <span class="text-xs font-bold text-slate-200 whitespace-nowrap">เขตรับผิดชอบ</span>
@@ -350,7 +358,7 @@
 
             <button onclick="switchTab('workreports')" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 rounded-xl border border-slate-700 flex items-center gap-2 transition group flex-shrink-0">
               <i class="fas fa-clipboard-list text-purple-400 text-xs group-hover:scale-110 transition"></i>
-              <span class="text-xs font-bold text-slate-200 whitespace-nowrap">ผลงานกองช่าง</span>
+              <span class="text-xs font-bold text-slate-200 whitespace-nowrap">ภาพผลงาน</span>
             </button>
 
             <button onclick="switchTab('knowledge')" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 rounded-xl border border-slate-700 flex items-center gap-2 transition group flex-shrink-0">
@@ -382,7 +390,7 @@
         </div>
       </div>
 
-      <!-- TAB GIS (อัปเดต URL เป็น GitHub Pages ตัวใหม่) -->
+      <!-- TAB GIS (อัปเดต URL เป็น https://technicianthakho-art.github.io/thako-gis/ ทั้งหมด) -->
       <div id="tab-gis" class="hidden space-y-4 w-full">
         <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between flex-wrap gap-2">
           <div>
@@ -480,20 +488,20 @@
         </div>
       </div>
 
-      <!-- TAB Work Reports (ผลงานปฏิบัติงานกองช่าง - ปรับแก้ภาษาไทยและรูปตาราง) -->
+      <!-- TAB Work Reports (ปรับเปลี่ยนหัวข้อเป็นภาษาไทยล้วน ไม่มีวงเล็บภาษาอังกฤษ) -->
       <div id="tab-workreports" class="hidden space-y-4 w-full">
         <div class="flex items-center justify-between bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex-wrap gap-2">
           <div>
-            <h2 class="font-bold text-slate-800 text-base"><i class="fas fa-images text-purple-600 mr-2"></i>ผลงานปฏิบัติงานกองช่าง</h2>
+            <h2 class="font-bold text-slate-800 text-base"><i class="fas fa-images text-purple-600 mr-2"></i>ภาพผลงานปฏิบัติงาน</h2>
             <p class="text-xs text-slate-600">แสดงผลแบบ 3 ชุดต่อแถว สัดส่วนภาพ 16:9 ไวด์สกรีนเต็มตา</p>
           </div>
           <button onclick="loadDriveActivitySlides(true)" class="px-3.5 py-2 rounded-xl bg-purple-600 hover:bg-purple-700 text-white text-xs md:text-sm font-bold flex items-center gap-1.5 shadow-xs transition">
-            <i class="fas fa-sync-alt"></i><span>รีเฟรชภาพผลงาน</span>
+            <i class="fas fa-sync-alt"></i><span>รีเฟรชสไลด์ภาพ</span>
           </button>
         </div>
 
         <div id="driveSlidesContainer" class="grid grid-cols-1 md:grid-cols-3 gap-5">
-          <div class="col-span-3 text-center py-12 text-slate-500 text-sm"><i class="fas fa-spinner fa-spin mr-2"></i>กำลังดึงสไลด์ภาพผลงานจาก Google Drive...</div>
+          <div class="col-span-3 text-center py-12 text-slate-500 text-sm"><i class="fas fa-spinner fa-spin mr-2"></i>กำลังดึงสไลด์กิจกรรมภาพผลงาน...</div>
         </div>
       </div>
 
@@ -618,6 +626,7 @@
         </div>
       </div>
 
+      <!-- Compact Apps Grid Container -->
       <div class="flex-grow p-3 overflow-y-auto" id="adminAppsListContainer">
         <div class="text-center py-12 text-slate-500 text-sm"><i class="fas fa-spinner fa-spin mr-2"></i>กำลังโหลดรายการแอปพลิเคชัน...</div>
       </div>
@@ -683,8 +692,8 @@
         </div>
 
         <div>
-          <label class="block font-bold text-slate-800 mb-1">URL เว็บแอป (GIS/GAS Exec Link):</label>
-          <input type="text" id="edit_url" placeholder="https://technicianthakho-art.github.io/thako-gis/ หรือ https://script.google.com/..." class="w-full p-2 bg-slate-50 border rounded-xl font-semibold text-slate-800" required>
+          <label class="block font-bold text-slate-800 mb-1">URL เว็บแอป (GAS Exec Link):</label>
+          <input type="text" id="edit_url" placeholder="https://script.google.com/..." class="w-full p-2 bg-slate-50 border rounded-xl font-semibold text-slate-800" required>
         </div>
 
         <div class="grid grid-cols-2 gap-3">
@@ -746,7 +755,7 @@
     </div>
   </div>
 
-  <!-- iOS PWA Instruction Banner -->
+  <!-- iOS PWA Instruction Banner (Apple Safari Guide) -->
   <div id="iosInstallBanner" class="fixed bottom-4 left-4 right-4 md:left-auto md:right-4 md:max-w-sm bg-slate-900 text-white p-4 rounded-2xl shadow-2xl border border-sky-400 z-50 hidden flex-col space-y-3">
     <div class="flex items-center justify-between">
       <div class="flex items-center gap-2.5">
@@ -779,7 +788,6 @@
 
   <script>
     const GAS_API_URL = "https://script.google.com/macros/s/AKfycbyykY41f__bf2ChoZtveV8ISwIIrMFufU4hF2mJaCs6ENp74azXxkkAYTyFmd7WnnUz/exec";
-    const GIS_TARGET_URL = "https://technicianthakho-art.github.io/thako-gis/";
 
     let currentAdminPin = "";
     let globalAppsData = [];
@@ -983,10 +991,10 @@
         const style = colorStyleMap[colorKey] || colorStyleMap['blue'];
         const icon = app.icon || 'fa-solid fa-shapes';
         
-        // [ปรับแก้] ตรวจสอบเงื่อนไขลิงก์ GIS ให้เชื่อมโยงกับ GitHub Pages ตัวใหม่เสมอ
+        // [MODIFIED LOGIC]: หากเป็นแอป GIS ให้ตรวจสอบ URL ใหม่ https://technicianthakho-art.github.io/thako-gis/
         let targetUrl = app.url;
-        if (app.name.indexOf('GIS') !== -1 || targetUrl.indexOf('AKfyc') !== -1 || targetUrl === '#') {
-          targetUrl = GIS_TARGET_URL;
+        if (app.name.indexOf("GIS") !== -1 || app.name.indexOf("จีเอส") !== -1 || app.app_id === "APP-001") {
+          targetUrl = "https://technicianthakho-art.github.io/thako-gis/";
         }
 
         let actionClick = '';
@@ -1326,7 +1334,14 @@
         document.getElementById('edit_category').value = appData.category;
         document.getElementById('edit_color').value = appData.color || 'blue';
         document.getElementById('edit_desc').value = appData.desc;
-        document.getElementById('edit_url').value = appData.url;
+
+        // [MODIFIED LOGIC]: หากเป็นแอป GIS ตั้งต้น ให้เติม URL ใหม่ https://technicianthakho-art.github.io/thako-gis/
+        if (appData.name.indexOf("GIS") !== -1 || appData.name.indexOf("จีเอส") !== -1 || appData.app_id === "APP-001") {
+          document.getElementById('edit_url').value = "https://technicianthakho-art.github.io/thako-gis/";
+        } else {
+          document.getElementById('edit_url').value = appData.url;
+        }
+
         document.getElementById('edit_icon').value = appData.icon;
         document.getElementById('edit_open_type').value = appData.open_type || 'embedded';
         document.getElementById('edit_keywords').value = appData.keywords || '';
@@ -1608,9 +1623,10 @@
         matchedApps.forEach(app => {
           matchCount++;
           let targetUrl = app.url;
-          if (app.name.indexOf('GIS') !== -1 || targetUrl.indexOf('AKfyc') !== -1 || targetUrl === '#') {
-            targetUrl = GIS_TARGET_URL;
+          if (app.name.indexOf("GIS") !== -1 || app.name.indexOf("จีเอส") !== -1 || app.app_id === "APP-001") {
+            targetUrl = "https://technicianthakho-art.github.io/thako-gis/";
           }
+
           let actionClick = app.open_type === 'external' ? `openAppExternal('${targetUrl}')` : `loadEmbeddedApp('${targetUrl}', '${app.name}')`;
           html += `
             <div onclick="${actionClick}" class="p-3 bg-gradient-to-r from-purple-50/50 to-indigo-50/50 hover:from-purple-100/60 hover:to-indigo-100/60 rounded-xl cursor-pointer transition flex items-center justify-between border border-purple-100 shadow-2xs">
@@ -1737,7 +1753,7 @@
           reloadCalendarIframe();
         }
         if (tab === 'workreports') {
-          headerBackBtn.querySelector('span').innerText = 'กลับหน้าหลัก (ผลงานปฏิบัติงาน)';
+          headerBackBtn.querySelector('span').innerText = 'กลับหน้าหลัก (ภาพผลงาน)';
           loadDriveActivitySlides();
         }
         if (tab === 'knowledge') headerBackBtn.querySelector('span').innerText = 'กลับหน้าหลัก (คลังความรู้)';
@@ -1750,12 +1766,6 @@
     function loadEmbeddedApp(url, appTitle) {
       switchTab('embedded');
       
-      // ปรับลิงก์ GIS ตัวใหม่ถ้าเป็นระบบ GIS
-      let targetUrl = url;
-      if (appTitle.indexOf('GIS') !== -1 || targetUrl.indexOf('AKfyc') !== -1 || targetUrl === '#') {
-        targetUrl = GIS_TARGET_URL;
-      }
-
       const headerBackBtn = document.getElementById('headerBackBtn');
       headerBackBtn.querySelector('span').innerText = `กลับหน้าหลัก (${appTitle})`;
       document.getElementById('embedAppTitle').innerText = appTitle;
@@ -1763,8 +1773,8 @@
       const externalLink = document.getElementById('embedAppExternalLink');
       const iframe = document.getElementById('embedIframe');
 
-      externalLink.href = targetUrl;
-      iframe.src = targetUrl;
+      externalLink.href = url;
+      iframe.src = url;
       closeMobileSidebar();
     }
 
@@ -1895,12 +1905,11 @@
       }
     }
 
-    // [ปรับแก้] ฟังก์ชันแสดงผลรูปภาพตารางผลงาน (ตัดชื่อบุคคล ตัดเวลาออก)
     function renderDriveSlidesUI(slides) {
       const container = document.getElementById('driveSlidesContainer');
 
       if (!slides || slides.length === 0) {
-        container.innerHTML = '<div class="col-span-3 text-center py-12 text-slate-500 text-sm">ไม่พบภาพผลงานใน Google Drive</div>';
+        container.innerHTML = '<div class="col-span-3 text-center py-12 text-slate-500 text-sm">ไม่พบโฟลเดอร์ภาพกิจกรรมใน Google Drive</div>';
         return;
       }
 
@@ -1919,13 +1928,14 @@
           `;
         });
 
+        // [MODIFIED LOGIC]: ตัดป้ายผู้รายงานออก แสดงผลชื่อผลงานอย่างเดียว และวันที่อัปเดตอย่างเดียว (ไม่มีเวลา)
         html += `
           <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex flex-col justify-between space-y-3">
             <div class="flex items-center justify-between border-b pb-2">
               <div class="min-w-0 pr-2">
-                <h3 class="font-bold text-slate-900 text-xs md:text-sm line-clamp-2">${slide.title}</h3>
+                <h3 class="font-bold text-slate-900 text-xs md:text-sm line-clamp-2" title="${slide.title}">${slide.title}</h3>
               </div>
-              <a href="${slide.folderUrl}" target="_blank" class="p-1.5 bg-slate-100 hover:bg-slate-200 text-emerald-600 rounded-lg text-xs md:text-sm flex-shrink-0" title="เปิดโฟลเดอร์ Google Drive">
+              <a href="${slide.folderUrl}" target="_blank" class="p-1.5 bg-slate-100 hover:bg-slate-200 text-emerald-600 rounded-lg text-xs md:text-sm flex-shrink-0" title="เปิดโฟลเดอร์ใน Google Drive">
                 <i class="fab fa-google-drive"></i>
               </a>
             </div>
