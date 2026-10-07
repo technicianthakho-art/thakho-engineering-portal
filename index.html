@@ -76,7 +76,6 @@
       50% { transform: scale(1.12); }
     }
 
-    /* CSS Animation สำหรับแสงวาบของปุ่มติดตั้ง (Glow Pulse) - ปรับองศานุ่มนวล 1.2s */
     @keyframes soft-glow-pulse {
       0%, 100% { 
         transform: scale(1); 
@@ -543,7 +542,7 @@
         </div>
       </div>
 
-      <!-- ปุ่มติดตั้ง PWA Android/Chrome ย้ายมาไว้มุมซ้ายล่างของพื้นที่ทำงานบน Desktop (พร้อมเอฟเฟกต์แสงวาบนุ่มนวล pwa-banner-glow) -->
+      <!-- ปุ่มติดตั้ง PWA Android/Chrome -->
        <div id="pwaInstallBanner" class="fixed bottom-4 left-4 right-4 md:left-auto md:right-6 md:bottom-6 md:max-w-xs bg-slate-900 text-white p-3.5 rounded-2xl shadow-2xl border border-amber-400 z-40 hidden flex-col space-y-2.5 pwa-banner-glow">
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-2.5">
@@ -1008,9 +1007,6 @@
         const icon = app.icon || 'fa-solid fa-shapes';
         
         let targetUrl = app.url;
-        if (app.name.indexOf("GIS") !== -1 || app.name.indexOf("จีเอส") !== -1 || app.app_id === "APP-001") {
-          targetUrl = "https://technicianthakho-art.github.io/thako-gis/";
-        }
 
         let actionClick = '';
         if (app.open_type === 'external') {
@@ -1349,13 +1345,7 @@
         document.getElementById('edit_category').value = appData.category;
         document.getElementById('edit_color').value = appData.color || 'blue';
         document.getElementById('edit_desc').value = appData.desc;
-
-        if (appData.name.indexOf("GIS") !== -1 || appData.name.indexOf("จีเอส") !== -1 || appData.app_id === "APP-001") {
-          document.getElementById('edit_url').value = "https://technicianthakho-art.github.io/thako-gis/";
-        } else {
-          document.getElementById('edit_url').value = appData.url;
-        }
-
+        document.getElementById('edit_url').value = appData.url || '';
         document.getElementById('edit_icon').value = appData.icon;
         document.getElementById('edit_open_type').value = appData.open_type || 'embedded';
         document.getElementById('edit_keywords').value = appData.keywords || '';
@@ -1637,9 +1627,6 @@
         matchedApps.forEach(app => {
           matchCount++;
           let targetUrl = app.url;
-          if (app.name.indexOf("GIS") !== -1 || app.name.indexOf("จีเอส") !== -1 || app.app_id === "APP-001") {
-            targetUrl = "https://technicianthakho-art.github.io/thako-gis/";
-          }
 
           let actionClick = app.open_type === 'external' ? `openAppExternal('${targetUrl}')` : `loadEmbeddedApp('${targetUrl}', '${app.name}')`;
           html += `
@@ -1919,18 +1906,12 @@
       }
     }
 
-    // ฟังก์ชันสแกนตัดคำนำหน้า (นาย/นาง/นางสาว/ด.ช./ด.ญ.) และชื่อ-นามสกุลออก เหลือเฉพาะหัวข้อกิจกรรม
     function cleanActivityTitle(rawTitle) {
       if (!rawTitle) return '';
-      
-      // Regex ตรวจจับคำนำหน้า + ชื่อ-นามสกุล ทั้งภาษาไทยและอังกฤษ แล้วตัดทิ้ง
       let cleaned = rawTitle.replace(/^(นาย|นางสาว|นาง|ด\.ช\.|ด\.ญ\.|Mr\.|Mrs\.|Ms\.)\s*[\u0E00-\u0E7Fa-zA-Z]+\s+[\u0E00-\u0E7Fa-zA-Z]+\s*/g, '');
-      
-      // กรณีไม่มีคำนำหน้า แต่ขึ้นต้นด้วยชื่อ-นามสกุล 2 คำแรก
       if (cleaned === rawTitle) {
         cleaned = rawTitle.replace(/^[\u0E00-\u0E7Fa-zA-Z]+\s+[\u0E00-\u0E7Fa-zA-Z]+\s+/g, '');
       }
-      
       return cleaned.trim();
     }
 
@@ -1957,7 +1938,6 @@
           `;
         });
 
-        // เรียกตัดชื่อผู้รายงานออก เหลือเฉพาะหัวข้อกิจกรรม
         const displayTitle = cleanActivityTitle(slide.title);
 
         html += `
@@ -2008,7 +1988,6 @@
       }
     }
 
-    // PWA Registration & Cross-Platform Install Handler
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js')
