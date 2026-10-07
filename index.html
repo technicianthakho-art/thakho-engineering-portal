@@ -230,6 +230,10 @@
               <i class="fas fa-home text-emerald-400 w-4 text-center"></i>
               <span class="nav-text">หน้าหลัก & แอปทั้งหมด</span>
             </button>
+
+            <button onclick="switchTab('gis')" id="nav-gis" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs md:text-sm font-semibold hover:bg-slate-800 transition text-left" title="ระบบแผนที่ GIS กองช่าง">
+              <i class="fas fa-globe-asia text-cyan-400 w-4 text-center"></i><span class="nav-text">ระบบแผนที่ GIS กองช่าง</span>
+            </button>
             
             <button onclick="switchTab('structure')" id="nav-structure" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs md:text-sm font-semibold hover:bg-slate-800 transition text-left" title="เขตรับผิดชอบ & กรรมการราคากลาง">
               <i class="fas fa-users-gear text-amber-400 w-4 text-center"></i><span class="nav-text">เขตรับผิดชอบ & กรรมการราคากลาง</span>
@@ -243,8 +247,8 @@
               <i class="fas fa-calendar-alt text-rose-400 w-4 text-center"></i><span class="nav-text">ปฏิทินงานปฏิบัติงาน</span>
             </button>
 
-            <button onclick="switchTab('workreports')" id="nav-workreports" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs md:text-sm font-semibold hover:bg-slate-800 transition text-left" title="ภาพผลงานปฏิบัติงาน">
-              <i class="fas fa-clipboard-list text-purple-400 w-4 text-center"></i><span class="nav-text">ภาพผลงานปฏิบัติงาน</span>
+            <button onclick="switchTab('workreports')" id="nav-workreports" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs md:text-sm font-semibold hover:bg-slate-800 transition text-left" title="รายงานผลปฏิบัติงาน">
+              <i class="fas fa-clipboard-list text-purple-400 w-4 text-center"></i><span class="nav-text">รายงานผลปฏิบัติงาน</span>
             </button>
 
             <button onclick="switchTab('knowledge')" id="nav-knowledge" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs md:text-sm font-semibold hover:bg-slate-800 transition text-left" title="คลังความรู้กองช่าง">
@@ -324,6 +328,9 @@
       <button onclick="switchTab('analytics')" id="m-tab-analytics" class="flex-shrink-0 px-3 py-1.5 rounded-xl bg-emerald-600 text-white text-xs font-bold flex items-center gap-1.5 transition">
         <i class="fas fa-home"></i><span>หน้าหลัก</span>
       </button>
+      <button onclick="switchTab('gis')" id="m-tab-gis" class="flex-shrink-0 px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300 text-xs font-semibold flex items-center gap-1.5 transition">
+        <i class="fas fa-globe-asia text-cyan-400"></i><span>แผนที่ GIS</span>
+      </button>
       <button onclick="switchTab('structure')" id="m-tab-structure" class="flex-shrink-0 px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300 text-xs font-semibold flex items-center gap-1.5 transition">
         <i class="fas fa-users-gear text-amber-400"></i><span>เขตรับผิดชอบ</span>
       </button>
@@ -334,7 +341,7 @@
         <i class="fas fa-calendar-alt text-rose-400"></i><span>ปฏิทินงาน</span>
       </button>
       <button onclick="switchTab('workreports')" id="m-tab-workreports" class="flex-shrink-0 px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300 text-xs font-semibold flex items-center gap-1.5 transition">
-        <i class="fas fa-clipboard-list text-purple-400"></i><span>ภาพผลงาน</span>
+        <i class="fas fa-clipboard-list text-purple-400"></i><span>รายงานผลงาน</span>
       </button>
       <button onclick="switchTab('knowledge')" id="m-tab-knowledge" class="flex-shrink-0 px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300 text-xs font-semibold flex items-center gap-1.5 transition">
         <i class="fas fa-book-reader text-teal-400"></i><span>คลังความรู้</span>
@@ -374,7 +381,7 @@
 
             <button onclick="switchTab('workreports')" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 rounded-xl border border-slate-700 flex items-center gap-2 transition group flex-shrink-0">
               <i class="fas fa-clipboard-list text-purple-400 text-xs group-hover:scale-110 transition"></i>
-              <span class="text-xs font-bold text-slate-200 whitespace-nowrap">ภาพผลงาน</span>
+              <span class="text-xs font-bold text-slate-200 whitespace-nowrap">รายงานผล</span>
             </button>
 
             <button onclick="switchTab('knowledge')" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 rounded-xl border border-slate-700 flex items-center gap-2 transition group flex-shrink-0">
@@ -543,8 +550,8 @@
         </div>
       </div>
 
-      <!-- ปุ่มติดตั้ง PWA Android/Chrome ย้ายมาไว้มุมซ้ายล่างของพื้นที่ทำงานบน Desktop (พร้อมเอฟเฟกต์แสงวาบนุ่มนวล pwa-banner-glow) -->
-       <div id="pwaInstallBanner" class="fixed bottom-4 left-4 right-4 md:left-auto md:right-6 md:bottom-6 md:max-w-xs bg-slate-900 text-white p-3.5 rounded-2xl shadow-2xl border border-amber-400 z-40 hidden flex-col space-y-2.5 pwa-banner-glow">
+      <!-- ปุ่มติดตั้ง PWA Android/Chrome ย้ายมาอยูู่มุมขวาล่าง (md:left-auto md:right-6 md:bottom-6) ไม่บัง Sidebar หรือปุ่มแอดมิน -->
+      <div id="pwaInstallBanner" class="fixed bottom-4 left-4 right-4 md:left-auto md:right-6 md:bottom-6 md:max-w-xs bg-slate-900 text-white p-3.5 rounded-2xl shadow-2xl border border-amber-400 z-40 hidden flex-col space-y-2.5 pwa-banner-glow">
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-2.5">
             <div class="w-8 h-8 rounded-xl bg-amber-400 text-slate-900 flex items-center justify-center font-bold text-base shadow-md flex-shrink-0">
