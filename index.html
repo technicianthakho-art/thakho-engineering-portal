@@ -205,13 +205,13 @@
             </button>
           </div>
 
-          <!-- Navigation Menu (ลบเมนู GIS ออกแล้ว) -->
+          <!-- Navigation Menu (ตัดเมนู GIS ออกตามความต้องการ) -->
           <nav class="mt-4 space-y-1.5">
             <button onclick="switchTab('analytics')" id="nav-analytics" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs md:text-sm font-semibold hover:bg-slate-800 transition text-left sidebar-active" title="หน้าหลัก & แอปทั้งหมด">
               <i class="fas fa-home text-emerald-400 w-4 text-center"></i>
               <span class="nav-text">หน้าหลัก & แอปทั้งหมด</span>
             </button>
-
+            
             <button onclick="switchTab('structure')" id="nav-structure" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs md:text-sm font-semibold hover:bg-slate-800 transition text-left" title="เขตรับผิดชอบ & กรรมการราคากลาง">
               <i class="fas fa-users-gear text-amber-400 w-4 text-center"></i><span class="nav-text">เขตรับผิดชอบ & กรรมการราคากลาง</span>
             </button>
@@ -224,9 +224,8 @@
               <i class="fas fa-calendar-alt text-rose-400 w-4 text-center"></i><span class="nav-text">ปฏิทินงานปฏิบัติงาน</span>
             </button>
 
-            <!-- [UPDATED] เปลี่ยนชื่อเมนูเป็น "ผลงานกองช่าง" -->
-            <button onclick="switchTab('workreports')" id="nav-workreports" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs md:text-sm font-semibold hover:bg-slate-800 transition text-left" title="ผลงานกองช่าง">
-              <i class="fas fa-clipboard-list text-purple-400 w-4 text-center"></i><span class="nav-text">ผลงานกองช่าง</span>
+            <button onclick="switchTab('workreports')" id="nav-workreports" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs md:text-sm font-semibold hover:bg-slate-800 transition text-left" title="ผลงานปฏิบัติงานกองช่าง">
+              <i class="fas fa-clipboard-list text-purple-400 w-4 text-center"></i><span class="nav-text">ผลงานปฏิบัติงานกองช่าง</span>
             </button>
 
             <button onclick="switchTab('knowledge')" id="nav-knowledge" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs md:text-sm font-semibold hover:bg-slate-800 transition text-left" title="คลังความรู้กองช่าง">
@@ -301,7 +300,7 @@
       </div>
     </header>
 
-    <!-- Mobile Horizontal Scroll Tabs (ลบแท็บ GIS และเปลี่ยนชื่อแท็บผลงาน) -->
+    <!-- Mobile Horizontal Scroll Tabs (ตัดเมนู GIS ออกตามความต้องการ) -->
     <div class="md:hidden bg-slate-900 border-b border-slate-800 px-3 py-2 flex items-center gap-2 overflow-x-auto no-scrollbar sticky top-[57px] z-20 shadow-xs w-full">
       <button onclick="switchTab('analytics')" id="m-tab-analytics" class="flex-shrink-0 px-3 py-1.5 rounded-xl bg-emerald-600 text-white text-xs font-bold flex items-center gap-1.5 transition">
         <i class="fas fa-home"></i><span>หน้าหลัก</span>
@@ -380,6 +379,22 @@
         
         <div class="bg-white p-2 rounded-2xl border border-slate-200 shadow-xs h-[780px] overflow-hidden relative">
           <iframe id="embedIframe" src="" style="border:0; width:100%; height:100%;" allow="geolocation; camera; microphone; display-capture" allowfullscreen></iframe>
+        </div>
+      </div>
+
+      <!-- TAB GIS (อัปเดต URL เป็น GitHub Pages ตัวใหม่) -->
+      <div id="tab-gis" class="hidden space-y-4 w-full">
+        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between flex-wrap gap-2">
+          <div>
+            <h2 class="text-base font-bold text-slate-800"><i class="fas fa-map-marked-alt text-teal-600 mr-2"></i>ระบบแผนที่ GIS กองช่าง (Spatial Satellite Map)</h2>
+            <p class="text-xs text-slate-600">หากหน้าจอแสดงผลไม่ขึ้นเนื่องจากข้อจำกัดของมือถือ กรุณากดปุ่มเปิดหน้าต่างใหม่</p>
+          </div>
+          <a href="https://technicianthakho-art.github.io/thako-gis/" target="_blank" class="px-3.5 py-2 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs md:text-sm font-bold flex items-center gap-1.5 shadow-xs transition">
+            <i class="fas fa-external-link-alt"></i><span>เปิดหน้าต่างใหม่ (Direct Link)</span>
+          </a>
+        </div>
+        <div class="bg-white p-2 rounded-2xl border border-slate-200 shadow-xs h-[780px] overflow-hidden">
+          <iframe src="https://technicianthakho-art.github.io/thako-gis/" style="border:0; width:100%; height:100%;" allow="geolocation; microphone; camera; display-capture" allowfullscreen></iframe>
         </div>
       </div>
 
@@ -465,21 +480,20 @@
         </div>
       </div>
 
-      <!-- TAB Work Reports (ปรับแต่งชื่อและ UI การ์ดตามโจทย์) -->
+      <!-- TAB Work Reports (ผลงานปฏิบัติงานกองช่าง - ปรับแก้ภาษาไทยและรูปตาราง) -->
       <div id="tab-workreports" class="hidden space-y-4 w-full">
         <div class="flex items-center justify-between bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex-wrap gap-2">
           <div>
-            <!-- [UPDATED] ใช้เฉพาะข้อความภาษาไทยล้วน ตัดภาษาอังกฤษออก -->
-            <h2 class="font-bold text-slate-800 text-base"><i class="fas fa-images text-purple-600 mr-2"></i>ภาพผลงานการปฏิบัติงาน กองช่าง</h2>
+            <h2 class="font-bold text-slate-800 text-base"><i class="fas fa-images text-purple-600 mr-2"></i>ผลงานปฏิบัติงานกองช่าง</h2>
             <p class="text-xs text-slate-600">แสดงผลแบบ 3 ชุดต่อแถว สัดส่วนภาพ 16:9 ไวด์สกรีนเต็มตา</p>
           </div>
           <button onclick="loadDriveActivitySlides(true)" class="px-3.5 py-2 rounded-xl bg-purple-600 hover:bg-purple-700 text-white text-xs md:text-sm font-bold flex items-center gap-1.5 shadow-xs transition">
-            <i class="fas fa-sync-alt"></i><span>รีเฟรชสไลด์ภาพ</span>
+            <i class="fas fa-sync-alt"></i><span>รีเฟรชภาพผลงาน</span>
           </button>
         </div>
 
         <div id="driveSlidesContainer" class="grid grid-cols-1 md:grid-cols-3 gap-5">
-          <div class="col-span-3 text-center py-12 text-slate-500 text-sm"><i class="fas fa-spinner fa-spin mr-2"></i>กำลังดึงสไลด์กิจกรรมผลงาน...</div>
+          <div class="col-span-3 text-center py-12 text-slate-500 text-sm"><i class="fas fa-spinner fa-spin mr-2"></i>กำลังดึงสไลด์ภาพผลงานจาก Google Drive...</div>
         </div>
       </div>
 
@@ -669,8 +683,8 @@
         </div>
 
         <div>
-          <label class="block font-bold text-slate-800 mb-1">URL เว็บแอป (GAS Exec Link):</label>
-          <input type="text" id="edit_url" placeholder="https://script.google.com/..." class="w-full p-2 bg-slate-50 border rounded-xl font-semibold text-slate-800" required>
+          <label class="block font-bold text-slate-800 mb-1">URL เว็บแอป (GIS/GAS Exec Link):</label>
+          <input type="text" id="edit_url" placeholder="https://technicianthakho-art.github.io/thako-gis/ หรือ https://script.google.com/..." class="w-full p-2 bg-slate-50 border rounded-xl font-semibold text-slate-800" required>
         </div>
 
         <div class="grid grid-cols-2 gap-3">
@@ -683,6 +697,7 @@
             <select id="edit_open_type" class="w-full p-2 bg-slate-50 border rounded-xl font-semibold text-slate-800">
               <option value="embedded">Embedded (เปิดในเว็บ)</option>
               <option value="external">External (เปิดแท็บใหม่)</option>
+              <option value="tab_gis">GIS Tab (สลับ Tab)</option>
             </select>
           </div>
         </div>
@@ -764,6 +779,7 @@
 
   <script>
     const GAS_API_URL = "https://script.google.com/macros/s/AKfycbyykY41f__bf2ChoZtveV8ISwIIrMFufU4hF2mJaCs6ENp74azXxkkAYTyFmd7WnnUz/exec";
+    const GIS_TARGET_URL = "https://technicianthakho-art.github.io/thako-gis/";
 
     let currentAdminPin = "";
     let globalAppsData = [];
@@ -785,4 +801,1248 @@
       amber: { bg: "bg-amber-500", badgeBg: "bg-amber-100", badgeText: "text-amber-800", badgeBorder: "border-amber-200", hoverText: "group-hover:text-amber-600", border: "border-2 border-amber-200" },
       emerald: { bg: "bg-emerald-600", badgeBg: "bg-emerald-100", badgeText: "text-emerald-800", badgeBorder: "border-emerald-200", hoverText: "group-hover:text-emerald-600", border: "border-2 border-emerald-200" },
       purple: { bg: "bg-purple-600", badgeBg: "bg-purple-100", badgeText: "text-purple-800", badgeBorder: "border-purple-200", hoverText: "group-hover:text-purple-600", border: "border-2 border-purple-200" },
-      sky: { bg: "bg-sky-500", badgeBg: "bg-sky-100", badgeText: "text-sky-800", badgeBorder: "border
+      sky: { bg: "bg-sky-500", badgeBg: "bg-sky-100", badgeText: "text-sky-800", badgeBorder: "border-sky-200", hoverText: "group-hover:text-sky-600", border: "border-2 border-sky-200" },
+      red: { bg: "bg-rose-600", badgeBg: "bg-rose-100", badgeText: "text-rose-800", badgeBorder: "border-rose-200", hoverText: "group-hover:text-rose-600", border: "border-2 border-rose-200" },
+      cyan: { bg: "bg-cyan-600", badgeBg: "bg-cyan-100", badgeText: "text-cyan-800", badgeBorder: "border-cyan-200", hoverText: "group-hover:text-cyan-600", border: "border-2 border-cyan-200" },
+      teal: { bg: "bg-teal-600", badgeBg: "bg-teal-100", badgeText: "text-teal-800", badgeBorder: "border-teal-200", hoverText: "group-hover:text-teal-600", border: "border-2 border-teal-200" },
+      indigo: { bg: "bg-indigo-600", badgeBg: "bg-indigo-100", badgeText: "text-indigo-800", badgeBorder: "border-indigo-200", hoverText: "group-hover:text-indigo-600", border: "border-2 border-indigo-200" }
+    };
+
+    async function sendApiRequest(payloadObj) {
+      const bodyParams = new URLSearchParams();
+      for (const key in payloadObj) {
+        if (typeof payloadObj[key] === 'object') {
+          bodyParams.append(key, JSON.stringify(payloadObj[key]));
+        } else {
+          bodyParams.append(key, payloadObj[key]);
+        }
+      }
+
+      const res = await fetch(GAS_API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8' },
+        body: bodyParams.toString()
+      });
+      return await res.json();
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      loadAppsDataFromLocal();
+      loadPersonnelDataFromLocal();
+      loadDriveActivitySlidesFromLocal();
+
+      syncAppsDataStore(false);
+      syncPersonnelDataStore();
+      syncSystemSettings();
+      initSpeechRecognition();
+
+      const savedPin = sessionStorage.getItem('admin_pin_token');
+      if (savedPin) currentAdminPin = savedPin;
+    });
+
+    async function syncSystemSettings(forceRefresh = false) {
+      try {
+        const url = `${GAS_API_URL}?action=getSystemSettings${forceRefresh ? '&refresh=true' : ''}`;
+        const res = await fetch(url);
+        const settings = await res.json();
+        applyWatermarkSettings(settings);
+      } catch (e) {
+        console.error("Sync settings error:", e);
+      }
+    }
+
+    function applyWatermarkSettings(settings) {
+      const watermark = document.getElementById('watermarkBackground');
+      if (watermark && settings) {
+        if (settings.watermark_enabled && settings.watermark_url) {
+          watermark.src = settings.watermark_url;
+          watermark.style.opacity = settings.watermark_opacity || '0.05';
+          watermark.style.display = 'block';
+        } else {
+          watermark.style.display = 'none';
+        }
+
+        const inputUrl = document.getElementById('settingWatermarkUrl');
+        const selectOpacity = document.getElementById('settingWatermarkOpacity');
+        const checkEnabled = document.getElementById('settingWatermarkEnabled');
+
+        if (inputUrl) inputUrl.value = settings.watermark_url || '';
+        if (selectOpacity) selectOpacity.value = settings.watermark_opacity || '0.05';
+        if (checkEnabled) checkEnabled.checked = settings.watermark_enabled;
+      }
+    }
+
+    async function submitSaveSettings() {
+      if (!currentAdminPin) {
+        Swal.fire('ปฏิเสธการเข้าถึง', 'กรุณาเข้าสู่ระบบแอดมินก่อน', 'warning');
+        return;
+      }
+
+      const settingsObj = {
+        watermark_url: document.getElementById('settingWatermarkUrl').value.trim(),
+        watermark_opacity: document.getElementById('settingWatermarkOpacity').value,
+        watermark_enabled: document.getElementById('settingWatermarkEnabled').checked
+      };
+
+      Swal.fire({ title: 'กำลังบันทึกการตั้งค่า...', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } });
+
+      try {
+        const result = await sendApiRequest({
+          action: 'saveSystemSettings',
+          pin: currentAdminPin,
+          settings: settingsObj
+        });
+
+        if (result.success) {
+          Swal.fire('บันทึกสำเร็จ', result.message, 'success');
+          syncSystemSettings(true);
+        } else {
+          Swal.fire('เกิดข้อผิดพลาด', result.message, 'error');
+        }
+      } catch (err) {
+        Swal.fire('เกิดข้อผิดพลาด', err.toString(), 'error');
+      }
+    }
+
+    function toggleSidebarCollapse() {
+      const sidebar = document.getElementById('mainSidebar');
+      const toggleIcon = document.getElementById('toggleIcon');
+      sidebar.classList.toggle('sidebar-collapsed');
+      
+      if (sidebar.classList.contains('sidebar-collapsed')) {
+        toggleIcon.className = 'fas fa-chevron-right text-xs transition-transform duration-300';
+      } else {
+        toggleIcon.className = 'fas fa-chevron-left text-xs transition-transform duration-300';
+      }
+    }
+
+    function toggleMobileSidebar() {
+      const sidebar = document.getElementById('mainSidebar');
+      const backdrop = document.getElementById('mobileSidebarBackdrop');
+      const isClosed = sidebar.classList.contains('-translate-x-full');
+
+      if (isClosed) {
+        sidebar.classList.remove('-translate-x-full');
+        backdrop.classList.remove('hidden');
+      } else {
+        sidebar.classList.add('-translate-x-full');
+        backdrop.classList.add('hidden');
+      }
+    }
+
+    function closeMobileSidebar() {
+      const sidebar = document.getElementById('mainSidebar');
+      const backdrop = document.getElementById('mobileSidebarBackdrop');
+      if (window.innerWidth < 768) {
+        sidebar.classList.add('-translate-x-full');
+        backdrop.classList.add('hidden');
+      }
+    }
+
+    function loadAppsDataFromLocal() {
+      const cached = localStorage.getItem('local_apps_data');
+      if (cached) {
+        try {
+          const apps = JSON.parse(cached);
+          globalAppsData = apps;
+          globalDataStore.apps = apps;
+          renderAppsUI(apps);
+        } catch (e) {}
+      }
+    }
+
+    async function syncAppsDataStore(forceRefresh = false) {
+      try {
+        const url = `${GAS_API_URL}?action=getAppsData${forceRefresh ? '&refresh=true' : ''}`;
+        const res = await fetch(url);
+        const apps = await res.json();
+        
+        if (Array.isArray(apps)) {
+          localStorage.setItem('local_apps_data', JSON.stringify(apps));
+          globalAppsData = apps;
+          globalDataStore.apps = apps;
+          renderAppsUI(apps);
+        }
+      } catch (e) {
+        console.error("Sync apps data error:", e);
+      }
+    }
+
+    function renderAppsUI(apps) {
+      const gridContainer = document.getElementById('appsGridContainer');
+
+      if (!apps || apps.length === 0) {
+        gridContainer.innerHTML = '<div class="col-span-full text-center py-12 text-slate-500 text-sm">ไม่พบข้อมูลแอปพลิเคชันที่เปิดใช้งาน</div>';
+        return;
+      }
+
+      let gridHtml = '';
+
+      apps.forEach(app => {
+        const colorKey = app.color || 'blue';
+        const style = colorStyleMap[colorKey] || colorStyleMap['blue'];
+        const icon = app.icon || 'fa-solid fa-shapes';
+        
+        // [ปรับแก้] ตรวจสอบเงื่อนไขลิงก์ GIS ให้เชื่อมโยงกับ GitHub Pages ตัวใหม่เสมอ
+        let targetUrl = app.url;
+        if (app.name.indexOf('GIS') !== -1 || targetUrl.indexOf('AKfyc') !== -1 || targetUrl === '#') {
+          targetUrl = GIS_TARGET_URL;
+        }
+
+        let actionClick = '';
+        if (app.open_type === 'external') {
+          actionClick = `openAppExternal('${targetUrl}')`;
+        } else if (app.open_type === 'tab_gis') {
+          actionClick = `switchTab('gis')`;
+        } else {
+          actionClick = `loadEmbeddedApp('${targetUrl}', '${app.name}')`;
+        }
+
+        const isFeatured = app.is_featured;
+        const starBadgeHtml = isFeatured ? `<div class="featured-star-badge" title="⭐ แอปแนะนำสำหรับผู้บริหาร"><i class="fas fa-star"></i></div>` : '';
+        const cardAccentClass = isFeatured ? 'featured-card-accent' : '';
+
+        gridHtml += `
+          <div onclick="${actionClick}" class="widget-card p-4 ${style.border} ${cardAccentClass} flex flex-col justify-between group">
+            ${starBadgeHtml}
+            <div>
+              <div class="flex items-start justify-between gap-2 mb-2">
+                <div class="flex items-center gap-2.5 min-w-0">
+                  <div class="w-10 h-10 rounded-xl ${style.bg} text-white flex items-center justify-center font-bold text-lg shadow-sm group-hover:scale-105 transition-transform flex-shrink-0">
+                    <i class="${icon}"></i>
+                  </div>
+                  <div class="min-w-0">
+                    <h3 class="font-bold text-slate-900 text-xs md:text-sm ${style.hoverText} transition truncate" title="${app.name}">${app.name}</h3>
+                    <span class="inline-block text-[10px] font-bold px-2 py-0.5 rounded ${style.badgeBg} ${style.badgeText} border ${style.badgeBorder}">${app.category}</span>
+                  </div>
+                </div>
+                <div class="w-7 h-7 rounded-full bg-slate-100 group-hover:bg-slate-200 text-slate-400 ${style.hoverText} flex items-center justify-center transition flex-shrink-0 mt-0.5">
+                  <i class="fas fa-arrow-up-right-from-square text-[10px]"></i>
+                </div>
+              </div>
+              <p class="text-xs text-slate-600 leading-relaxed line-clamp-2 min-h-[36px]">${app.desc || '-'}</p>
+            </div>
+          </div>
+        `;
+      });
+
+      gridContainer.innerHTML = gridHtml;
+    }
+
+    // Admin Functions (PIN: 12345)
+    function openAdminPinModal() {
+      if (currentAdminPin === "12345") {
+        openAdminPanelModal();
+      } else {
+        document.getElementById('adminPinInput').value = '';
+        document.getElementById('adminPinModal').classList.remove('hidden');
+      }
+    }
+
+    function closeAdminPinModal() {
+      document.getElementById('adminPinModal').classList.add('hidden');
+    }
+
+    async function submitAdminPin(e) {
+      e.preventDefault();
+      const pin = document.getElementById('adminPinInput').value.trim();
+
+      Swal.fire({ title: 'กำลังตรวจสอบ PIN...', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } });
+
+      try {
+        const result = await sendApiRequest({ action: 'verifyAdminPin', pin: pin });
+
+        if (result.success) {
+          currentAdminPin = pin;
+          sessionStorage.setItem('admin_pin_token', pin);
+          Swal.close();
+          closeAdminPinModal();
+          openAdminPanelModal();
+        } else {
+          Swal.fire('รหัสผ่านไม่ถูกต้อง', 'กรุณาตรวจสอบรหัส PIN 5 หลักแล้วลองใหม่อีกครั้ง', 'error');
+        }
+      } catch (err) {
+        Swal.fire('เกิดข้อผิดพลาด', err.toString(), 'error');
+      }
+    }
+
+    function openAdminPanelModal() {
+      document.getElementById('adminPanelModal').classList.remove('hidden');
+      fetchAdminInitialData(false);
+    }
+
+    function closeAdminPanelModal() {
+      document.getElementById('adminPanelModal').classList.add('hidden');
+      syncAppsDataStore(true);
+      syncSystemSettings(true);
+    }
+
+    function logoutAdmin() {
+      currentAdminPin = "";
+      sessionStorage.removeItem('admin_pin_token');
+      closeAdminPanelModal();
+      Swal.fire('ออกจากระบบ', 'ออกจากระบบแอดมินเรียบร้อยแล้ว', 'success');
+    }
+
+    async function fetchAdminInitialData(forceRefresh = false) {
+      const container = document.getElementById('adminAppsListContainer');
+      container.innerHTML = '<div class="text-center py-12 text-slate-500 text-sm"><i class="fas fa-spinner fa-spin mr-2"></i>กำลังดึงข้อมูลระบบแอดมิน...</div>';
+
+      try {
+        const url = `${GAS_API_URL}?action=getAdminInitialData${forceRefresh ? '&refresh=true' : ''}`;
+        const res = await fetch(url);
+        const data = await res.json();
+
+        if (data.settings) applyWatermarkSettings(data.settings);
+        if (data.apps) {
+          globalAdminAppsData = data.apps;
+          renderAdminAppsGridUI(globalAdminAppsData);
+        }
+      } catch (err) {
+        container.innerHTML = `<div class="text-center py-8 text-red-500 text-xs md:text-sm">เกิดข้อผิดพลาด: ${err.toString()}</div>`;
+      }
+    }
+
+    function filterAdminApps(query) {
+      const cleanQ = query.trim().toLowerCase();
+      if (!cleanQ) {
+        renderAdminAppsGridUI(globalAdminAppsData);
+        return;
+      }
+      const filtered = globalAdminAppsData.filter(app => 
+        app.name.toLowerCase().includes(cleanQ) || 
+        app.desc.toLowerCase().includes(cleanQ) || 
+        app.category.toLowerCase().includes(cleanQ)
+      );
+      renderAdminAppsGridUI(filtered);
+    }
+
+    function renderAdminAppsGridUI(apps) {
+      const container = document.getElementById('adminAppsListContainer');
+
+      if (!apps || apps.length === 0) {
+        container.innerHTML = '<div class="text-center py-8 text-slate-500 text-sm">ไม่พบรายการแอปพลิเคชัน</div>';
+        return;
+      }
+
+      let gridHtml = '<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3" id="adminDragGrid">';
+
+      apps.forEach((app, index) => {
+        const isChecked = app.is_visible ? 'checked' : '';
+        const isFeaturedChecked = app.is_featured ? 'checked' : '';
+        const colorKey = app.color || 'blue';
+        const style = colorStyleMap[colorKey] || colorStyleMap['blue'];
+
+        gridHtml += `
+          <div draggable="true" 
+               data-app-id="${app.app_id}" 
+               data-index="${index}"
+               ondragstart="handleDragStart(event)" 
+               ondragover="handleDragOver(event)" 
+               ondragleave="handleDragLeave(event)" 
+               ondrop="handleDrop(event)" 
+               ondragend="handleDragEnd(event)"
+               class="admin-drag-card p-3 bg-white rounded-xl border border-slate-200 shadow-xs flex flex-col justify-between space-y-2 hover:border-blue-400">
+            
+            <div class="flex items-start justify-between gap-2">
+              <div class="flex items-center gap-2 min-w-0">
+                <div class="w-8 h-8 rounded-lg ${style.bg} text-white flex items-center justify-center font-bold text-sm shadow-xs flex-shrink-0">
+                  <i class="${app.icon}"></i>
+                </div>
+                <div class="min-w-0">
+                  <h4 class="font-bold text-slate-900 text-xs truncate" title="${app.name}">${app.name}</h4>
+                  <span class="text-[10px] text-slate-500 font-semibold">ลำดับที่: <b class="text-blue-600">${index + 1}</b></span>
+                </div>
+              </div>
+
+              <div class="flex items-center gap-1 flex-shrink-0">
+                <button onclick="editAppItem('${app.app_id}')" class="w-6 h-6 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-md text-[11px] flex items-center justify-center" title="แก้ไข">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button onclick="deleteAppItem('${app.app_id}', '${app.name}')" class="w-6 h-6 bg-red-50 hover:bg-red-100 text-red-600 rounded-md text-[11px] flex items-center justify-center" title="ลบ">
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+              </div>
+            </div>
+
+            <p class="text-[11px] text-slate-500 line-clamp-1">${app.desc || '-'}</p>
+
+            <div class="pt-1.5 border-t border-slate-100 flex items-center justify-between text-xs">
+              <label class="flex items-center gap-1 cursor-pointer bg-amber-50 hover:bg-amber-100 border border-amber-200 px-1.5 py-0.5 rounded transition" title="ติดดาวแนะนำผู้บริหาร">
+                <input type="checkbox" ${isFeaturedChecked} onchange="toggleAppFeaturedStatus('${app.app_id}', this.checked)" class="w-3 h-3 text-amber-500 rounded focus:ring-amber-400">
+                <span class="text-[10px] font-bold text-amber-800">⭐ แนะนำ</span>
+              </label>
+
+              <label class="relative inline-flex items-center cursor-pointer" title="เปิด/ปิด การแสดงผล">
+                <input type="checkbox" ${isChecked} onchange="toggleAppStatus('${app.app_id}', this.checked)" class="sr-only peer">
+                <div class="w-7 h-4 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-emerald-500"></div>
+              </label>
+            </div>
+          </div>
+        `;
+      });
+
+      gridHtml += '</div>';
+      container.innerHTML = gridHtml;
+    }
+
+    function handleDragStart(e) {
+      draggedAppId = e.currentTarget.getAttribute('data-app-id');
+      e.currentTarget.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+    }
+
+    function handleDragOver(e) {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      const card = e.currentTarget;
+      if (card && card.getAttribute('data-app-id') !== draggedAppId) {
+        card.classList.add('drag-over');
+      }
+    }
+
+    function handleDragLeave(e) {
+      e.currentTarget.classList.remove('drag-over');
+    }
+
+    async function handleDrop(e) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      const targetCard = e.currentTarget;
+      targetCard.classList.remove('drag-over');
+
+      const targetAppId = targetCard.getAttribute('data-app-id');
+      if (!draggedAppId || draggedAppId === targetAppId) return;
+
+      const fromIndex = globalAdminAppsData.findIndex(a => a.app_id === draggedAppId);
+      const toIndex = globalAdminAppsData.findIndex(a => a.app_id === targetAppId);
+
+      if (fromIndex !== -1 && toIndex !== -1) {
+        const movedItem = globalAdminAppsData.splice(fromIndex, 1)[0];
+        globalAdminAppsData.splice(toIndex, 0, movedItem);
+
+        renderAdminAppsGridUI(globalAdminAppsData);
+        await saveBatchAppOrderAuto();
+      }
+    }
+
+    function handleDragEnd(e) {
+      e.currentTarget.classList.remove('dragging');
+      document.querySelectorAll('.admin-drag-card').forEach(c => c.classList.remove('drag-over'));
+    }
+
+    async function saveBatchAppOrderAuto() {
+      if (!currentAdminPin) return;
+
+      const orderList = globalAdminAppsData.map((app, index) => ({
+        app_id: app.app_id,
+        sort_order: index + 1
+      }));
+
+      const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 2000,
+        timerProgressBar: true
+      });
+
+      Toast.fire({
+        icon: 'info',
+        title: 'กำลังบันทึกลำดับใหม่ลงระบบ...'
+      });
+
+      try {
+        const result = await sendApiRequest({
+          action: 'saveBatchAppOrder',
+          pin: currentAdminPin,
+          orderList: orderList
+        });
+
+        if (result.success) {
+          Toast.fire({
+            icon: 'success',
+            title: 'บันทึกลำดับใหม่สำเร็จ!'
+          });
+          syncAppsDataStore(true);
+        } else {
+          Swal.fire('เกิดข้อผิดพลาด', result.message, 'error');
+        }
+      } catch (err) {
+        Swal.fire('เกิดข้อผิดพลาด', err.toString(), 'error');
+      }
+    }
+
+    async function toggleAppFeaturedStatus(appId, isFeatured) {
+      try {
+        const result = await sendApiRequest({
+          action: 'toggleAppFeatured',
+          pin: currentAdminPin,
+          appId: appId,
+          isFeatured: isFeatured
+        });
+        if (result.success) {
+          fetchAdminInitialData(true);
+          syncAppsDataStore(true);
+        } else {
+          Swal.fire('ข้อผิดพลาด', result.message, 'error');
+        }
+      } catch (err) {
+        Swal.fire('ข้อผิดพลาด', err.toString(), 'error');
+      }
+    }
+
+    async function toggleAppStatus(appId, isVisible) {
+      try {
+        const result = await sendApiRequest({
+          action: 'toggleAppVisibility',
+          pin: currentAdminPin,
+          appId: appId,
+          isVisible: isVisible
+        });
+        if (result.success) {
+          fetchAdminInitialData(true);
+          syncAppsDataStore(true);
+        } else {
+          Swal.fire('ข้อผิดพลาด', result.message, 'error');
+        }
+      } catch (err) {
+        Swal.fire('ข้อผิดพลาด', err.toString(), 'error');
+      }
+    }
+
+    function openAppEditModal(appData = null) {
+      const modal = document.getElementById('appEditModal');
+      const title = document.getElementById('appEditModalTitle');
+
+      if (appData) {
+        title.innerHTML = '<i class="fas fa-edit text-amber-400 mr-2"></i>แก้ไขข้อมูลแอปพลิเคชัน';
+        document.getElementById('edit_app_id').value = appData.app_id;
+        document.getElementById('edit_app_id_display').value = appData.app_id;
+        document.getElementById('edit_app_id_display').readOnly = true;
+        document.getElementById('edit_sort_order').value = appData.sort_order || 1;
+        document.getElementById('edit_name').value = appData.name;
+        document.getElementById('edit_category').value = appData.category;
+        document.getElementById('edit_color').value = appData.color || 'blue';
+        document.getElementById('edit_desc').value = appData.desc;
+        document.getElementById('edit_url').value = appData.url;
+        document.getElementById('edit_icon').value = appData.icon;
+        document.getElementById('edit_open_type').value = appData.open_type || 'embedded';
+        document.getElementById('edit_keywords').value = appData.keywords || '';
+        document.getElementById('edit_is_featured').checked = appData.is_featured || false;
+      } else {
+        title.innerHTML = '<i class="fas fa-plus-circle text-emerald-400 mr-2"></i>เพิ่มแอปพลิเคชันใหม่';
+        document.getElementById('edit_app_id').value = '';
+        document.getElementById('edit_app_id_display').value = 'APP-' + Math.floor(100 + Math.random() * 900);
+        document.getElementById('edit_app_id_display').readOnly = false;
+        document.getElementById('edit_sort_order').value = (globalAppsData.length + 1);
+        document.getElementById('edit_name').value = '';
+        document.getElementById('edit_category').value = 'ทั่วไป';
+        document.getElementById('edit_color').value = 'blue';
+        document.getElementById('edit_desc').value = '';
+        document.getElementById('edit_url').value = '';
+        document.getElementById('edit_icon').value = 'fa-solid fa-shapes';
+        document.getElementById('edit_open_type').value = 'embedded';
+        document.getElementById('edit_keywords').value = '';
+        document.getElementById('edit_is_featured').checked = false;
+      }
+
+      modal.classList.remove('hidden');
+    }
+
+    function closeAppEditModal() {
+      document.getElementById('appEditModal').classList.add('hidden');
+    }
+
+    async function editAppItem(appId) {
+      const app = globalAdminAppsData.find(a => a.app_id === appId);
+      if (app) openAppEditModal(app);
+    }
+
+    async function submitSaveAppForm(e) {
+      e.preventDefault();
+
+      const appData = {
+        app_id: document.getElementById('edit_app_id_display').value.trim(),
+        sort_order: parseInt(document.getElementById('edit_sort_order').value),
+        name: document.getElementById('edit_name').value.trim(),
+        category: document.getElementById('edit_category').value.trim(),
+        color: document.getElementById('edit_color').value,
+        desc: document.getElementById('edit_desc').value.trim(),
+        url: document.getElementById('edit_url').value.trim(),
+        icon: document.getElementById('edit_icon').value.trim(),
+        open_type: document.getElementById('edit_open_type').value,
+        keywords: document.getElementById('edit_keywords').value.trim(),
+        is_visible: true,
+        is_featured: document.getElementById('edit_is_featured').checked
+      };
+
+      Swal.fire({ title: 'กำลังบันทึกข้อมูล...', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } });
+
+      try {
+        const result = await sendApiRequest({
+          action: 'saveAppData',
+          pin: currentAdminPin,
+          appData: appData
+        });
+
+        if (result.success) {
+          Swal.fire('บันทึกสำเร็จ', result.message, 'success');
+          closeAppEditModal();
+          fetchAdminInitialData(true);
+          syncAppsDataStore(true);
+        } else {
+          Swal.fire('เกิดข้อผิดพลาด', result.message, 'error');
+        }
+      } catch (err) {
+        Swal.fire('เกิดข้อผิดพลาด', err.toString(), 'error');
+      }
+    }
+
+    async function deleteAppItem(appId, appName) {
+      const confirm = await Swal.fire({
+        title: 'ยืนยันการลบ?',
+        text: `คุณต้องการลบแอปพลิเคชัน "${appName}" หรือไม่?`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#ef4444',
+        confirmButtonText: 'ใช่, ลบทันที',
+        cancelButtonText: 'ยกเลิก'
+      });
+
+      if (confirm.isConfirmed) {
+        Swal.fire({ title: 'กำลังลบ...', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } });
+
+        try {
+          const result = await sendApiRequest({
+            action: 'deleteAppData',
+            pin: currentAdminPin,
+            appId: appId
+          });
+
+          if (result.success) {
+            Swal.fire('ลบสำเร็จ', result.message, 'success');
+            fetchAdminInitialData(true);
+            syncAppsDataStore(true);
+          } else {
+            Swal.fire('เกิดข้อผิดพลาด', result.message, 'error');
+          }
+        } catch (err) {
+          Swal.fire('เกิดข้อผิดพลาด', err.toString(), 'error');
+        }
+      }
+    }
+
+    function loadPersonnelDataFromLocal() {
+      const cached = localStorage.getItem('local_personnel_data');
+      if (cached) {
+        try {
+          const data = JSON.parse(cached);
+          renderPersonnelUI(data);
+          globalDataStore.personnel = [
+            ...(data.inspectors || []),
+            ...(data.committee || []),
+            ...(data.engineers || [])
+          ];
+        } catch (e) {}
+      }
+    }
+
+    function loadDriveActivitySlidesFromLocal() {
+      const cached = localStorage.getItem('local_drive_slides');
+      if (cached) {
+        try {
+          const slides = JSON.parse(cached);
+          renderDriveSlidesUI(slides);
+        } catch (e) {}
+      }
+    }
+
+    async function syncPersonnelDataStore(forceRefresh = false) {
+      try {
+        const url = `${GAS_API_URL}?action=getPersonnelData${forceRefresh ? '&refresh=true' : ''}`;
+        const res = await fetch(url);
+        const data = await res.json();
+        
+        localStorage.setItem('local_personnel_data', JSON.stringify(data));
+        renderPersonnelUI(data);
+
+        globalDataStore.personnel = [
+          ...(data.inspectors || []),
+          ...(data.committee || []),
+          ...(data.engineers || [])
+        ];
+      } catch (e) {
+        console.error("Sync personnel error:", e);
+      }
+    }
+
+    function initSpeechRecognition() {
+      if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        recognition = new SpeechRecognition();
+        recognition.lang = 'th-TH';
+        recognition.continuous = false;
+        recognition.interimResults = false;
+
+        recognition.onstart = () => {
+          isRecording = true;
+          const btn = document.getElementById('voiceSearchBtn');
+          btn.classList.add('mic-recording');
+          document.getElementById('globalSearchInput').placeholder = "🎤 กำลังฟังเสียงของคุณ...";
+        };
+
+        recognition.onresult = (event) => {
+          const transcript = event.results[0][0].transcript;
+          const input = document.getElementById('globalSearchInput');
+          input.value = transcript;
+          handleSearchInput(transcript);
+        };
+
+        recognition.onerror = (event) => {
+          stopVoiceSearch();
+          if (event.error === 'not-allowed') {
+            Swal.fire('ขอสิทธิ์ใช้งานไมโครโฟน', 'กรุณากด "อนุญาต" การใช้งานไมโครโฟนบนเบราว์เซอร์', 'warning');
+          }
+        };
+
+        recognition.onend = () => { stopVoiceSearch(); };
+      }
+    }
+
+    function toggleVoiceSearch() {
+      if (!recognition) {
+        Swal.fire('เบราว์เซอร์ไม่รองรับ', 'เบราว์เซอร์ของคุณไม่รองรับการสั่งงานด้วยเสียง', 'warning');
+        return;
+      }
+      if (isRecording) {
+        recognition.stop();
+      } else {
+        try { recognition.start(); } catch (e) { stopVoiceSearch(); }
+      }
+    }
+
+    function stopVoiceSearch() {
+      isRecording = false;
+      const btn = document.getElementById('voiceSearchBtn');
+      if (btn) btn.classList.remove('mic-recording');
+      const input = document.getElementById('globalSearchInput');
+      if (input) input.placeholder = "พิมพ์หรือกด 🎙️ พูดค้นหา: ม.15, เบอร์ช่าง, แปลนท่อ, ที่อยู่...";
+    }
+
+    function clearGlobalSearch() {
+      const input = document.getElementById('globalSearchInput');
+      input.value = '';
+      handleSearchInput('');
+      input.focus();
+    }
+
+    function closeSearchDropdown(e) {
+      const dropdown = document.getElementById('searchResultsDropdown');
+      if (dropdown) dropdown.classList.add('hidden');
+    }
+
+    function handleSearchInput(query) {
+      const dropdown = document.getElementById('searchResultsDropdown');
+      const clearBtn = document.getElementById('clearSearchBtn');
+      const cleanQuery = query.toString().trim().toLowerCase();
+
+      if (!cleanQuery) {
+        dropdown.classList.add('hidden');
+        dropdown.innerHTML = '';
+        clearBtn.classList.add('hidden');
+        clearBtn.classList.remove('flex');
+        return;
+      }
+
+      clearBtn.classList.remove('hidden');
+      clearBtn.classList.add('flex');
+
+      let html = '';
+      let matchCount = 0;
+
+      const matchedPersonnel = globalDataStore.personnel.filter(p => 
+        (p.name && p.name.toLowerCase().includes(cleanQuery)) ||
+        (p.phone && p.phone.toLowerCase().includes(cleanQuery)) ||
+        (p.type && p.type.toLowerCase().includes(cleanQuery)) ||
+        (p.zone && p.zone.toLowerCase().includes(cleanQuery)) ||
+        (p.villages && p.villages.toLowerCase().includes(cleanQuery)) ||
+        (p.centers && p.centers.toLowerCase().includes(cleanQuery))
+      );
+
+      if (matchedPersonnel.length > 0) {
+        html += `<div class="text-xs font-bold text-slate-500 px-2 pb-1 border-b"><i class="fas fa-users text-blue-500 mr-1.5"></i>บุคลากร & พื้นที่รับผิดชอบ (${matchedPersonnel.length})</div>`;
+        matchedPersonnel.slice(0, 6).forEach(item => {
+          matchCount++;
+          let targetTab = 'structure';
+          if (item.type === 'พื้นที่ควบคุมงาน' || item.type.indexOf('ช่าง') !== -1) {
+            targetTab = 'engineers';
+          }
+
+          html += `
+            <div onclick="navigateToPersonnelCard('${targetTab}', '${item.id || ''}', '${item.name}')" class="p-2.5 hover:bg-slate-50 rounded-xl cursor-pointer transition flex items-center justify-between border border-transparent hover:border-slate-200">
+              <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-xs flex-shrink-0">
+                  <i class="fas fa-user-tie"></i>
+                </div>
+                <div>
+                  <h4 class="font-bold text-slate-900 text-xs md:text-sm">${item.name} <span class="text-xs text-blue-600 font-semibold">(${item.type || item.zone || 'ผู้รับผิดชอบ'})</span></h4>
+                  <p class="text-xs text-slate-600"><i class="fas fa-phone text-emerald-500 mr-1"></i>${item.phone} | หมู่บ้าน: ${item.villages || '-'}</p>
+                </div>
+              </div>
+              <i class="fas fa-chevron-right text-slate-400 text-xs"></i>
+            </div>
+          `;
+        });
+      }
+
+      const matchedApps = globalDataStore.apps.filter(a => 
+        a.name.toLowerCase().includes(cleanQuery) ||
+        a.desc.toLowerCase().includes(cleanQuery) ||
+        (a.keywords && a.keywords.toLowerCase().includes(cleanQuery))
+      );
+
+      if (matchedApps.length > 0) {
+        html += `<div class="text-xs font-bold text-slate-500 px-2 pt-2 pb-1 border-b"><i class="fas fa-th-large text-purple-500 mr-1.5"></i>ระบบแอปพลิเคชัน & เมนู (${matchedApps.length})</div>`;
+        matchedApps.forEach(app => {
+          matchCount++;
+          let targetUrl = app.url;
+          if (app.name.indexOf('GIS') !== -1 || targetUrl.indexOf('AKfyc') !== -1 || targetUrl === '#') {
+            targetUrl = GIS_TARGET_URL;
+          }
+          let actionClick = app.open_type === 'external' ? `openAppExternal('${targetUrl}')` : `loadEmbeddedApp('${targetUrl}', '${app.name}')`;
+          html += `
+            <div onclick="${actionClick}" class="p-3 bg-gradient-to-r from-purple-50/50 to-indigo-50/50 hover:from-purple-100/60 hover:to-indigo-100/60 rounded-xl cursor-pointer transition flex items-center justify-between border border-purple-100 shadow-2xs">
+              <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-full bg-purple-600 text-white flex items-center justify-center font-bold text-xs flex-shrink-0">
+                  <i class="${app.icon || 'fas fa-rocket'}"></i>
+                </div>
+                <div>
+                  <div class="flex items-center gap-2">
+                    <h4 class="font-bold text-slate-900 text-xs md:text-sm">${app.name}</h4>
+                    <span class="text-[10px] bg-purple-200 text-purple-800 px-1.5 py-0.2 rounded font-bold">แอปพลิเคชัน</span>
+                  </div>
+                  <p class="text-xs text-slate-600">${app.desc}</p>
+                </div>
+              </div>
+              <span class="text-xs font-bold text-purple-700 bg-white px-2.5 py-1 rounded-lg border border-purple-200 shadow-2xs">เปิดใช้งาน ↗</span>
+            </div>
+          `;
+        });
+      }
+
+      if (matchCount === 0) {
+        html = `
+          <div class="text-center py-6 text-slate-500 space-y-1">
+            <i class="fas fa-search text-2xl text-slate-300"></i>
+            <p class="text-xs md:text-sm font-semibold">ไม่พบข้อมูลที่ตรงกับ "${query}"</p>
+          </div>
+        `;
+      }
+
+      dropdown.innerHTML = html;
+      dropdown.classList.remove('hidden');
+    }
+
+    function navigateToPersonnelCard(tabName, cardId, nameStr) {
+      switchTab(tabName);
+      closeSearchDropdown();
+
+      setTimeout(() => {
+        let cardElem = null;
+        if (cardId) cardElem = document.getElementById(cardId);
+        
+        if (!cardElem) {
+          const cards = document.querySelectorAll(`#tab-${tabName} h4, #tab-${tabName} h3`);
+          cards.forEach(c => {
+            if (c.innerText.indexOf(nameStr) !== -1) {
+              cardElem = c.closest('.bg-white, .bg-slate-50');
+            }
+          });
+        }
+
+        if (cardElem) {
+          cardElem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          cardElem.classList.add('card-highlight');
+          setTimeout(() => { cardElem.classList.remove('card-highlight'); }, 3500);
+        }
+      }, 300);
+    }
+
+    function openAppExternal(url) {
+      window.open(url, '_blank');
+    }
+
+    function updateSidebarAndMobileTabHighlight(activeTab) {
+      const tabs = ['analytics', 'gis', 'structure', 'engineers', 'calendar', 'workreports', 'knowledge'];
+      
+      tabs.forEach(t => {
+        const navBtn = document.getElementById(`nav-${t}`);
+        if (navBtn) {
+          if (t === activeTab) {
+            navBtn.classList.add('sidebar-active');
+          } else {
+            navBtn.classList.remove('sidebar-active');
+          }
+        }
+
+        const mBtn = document.getElementById(`m-tab-${t}`);
+        if (mBtn) {
+          if (t === activeTab) {
+            mBtn.className = "flex-shrink-0 px-3 py-1.5 rounded-xl bg-emerald-600 text-white text-xs font-bold flex items-center gap-1.5 transition shadow-xs";
+          } else {
+            mBtn.className = "flex-shrink-0 px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300 text-xs font-semibold flex items-center gap-1.5 transition";
+          }
+        }
+      });
+    }
+
+    function switchTab(tab) {
+      const tabs = ['analytics', 'gis', 'structure', 'engineers', 'calendar', 'workreports', 'knowledge', 'embedded'];
+      tabs.forEach(t => {
+        const tabElem = document.getElementById(`tab-${t}`);
+        if (tabElem) tabElem.classList.add('hidden');
+      });
+
+      const currentTabElem = document.getElementById(`tab-${tab}`);
+      if (currentTabElem) currentTabElem.classList.remove('hidden');
+
+      updateSidebarAndMobileTabHighlight(tab);
+
+      const pageTitle = document.getElementById('pageTitle');
+      const headerBackBtn = document.getElementById('headerBackBtn');
+
+      if (tab === 'analytics') {
+        pageTitle.innerText = 'หน้าหลัก & แอปทั้งหมด';
+        pageTitle.classList.remove('hidden');
+        headerBackBtn.classList.add('hidden');
+        headerBackBtn.classList.remove('flex');
+      } else {
+        pageTitle.classList.add('hidden');
+        headerBackBtn.classList.remove('hidden');
+        headerBackBtn.classList.add('flex');
+
+        if (tab === 'gis') headerBackBtn.querySelector('span').innerText = 'กลับหน้าหลัก (แผนที่ GIS)';
+        if (tab === 'structure') {
+          headerBackBtn.querySelector('span').innerText = 'กลับหน้าหลัก (เขตรับผิดชอบ)';
+          loadPersonnelData();
+        }
+        if (tab === 'engineers') {
+          headerBackBtn.querySelector('span').innerText = 'กลับหน้าหลัก (ควบคุมงานช่าง)';
+          loadPersonnelData();
+        }
+        if (tab === 'calendar') {
+          headerBackBtn.querySelector('span').innerText = 'กลับหน้าหลัก (ปฏิทินงาน)';
+          reloadCalendarIframe();
+        }
+        if (tab === 'workreports') {
+          headerBackBtn.querySelector('span').innerText = 'กลับหน้าหลัก (ผลงานปฏิบัติงาน)';
+          loadDriveActivitySlides();
+        }
+        if (tab === 'knowledge') headerBackBtn.querySelector('span').innerText = 'กลับหน้าหลัก (คลังความรู้)';
+      }
+      
+      closeSearchDropdown();
+      closeMobileSidebar();
+    }
+
+    function loadEmbeddedApp(url, appTitle) {
+      switchTab('embedded');
+      
+      // ปรับลิงก์ GIS ตัวใหม่ถ้าเป็นระบบ GIS
+      let targetUrl = url;
+      if (appTitle.indexOf('GIS') !== -1 || targetUrl.indexOf('AKfyc') !== -1 || targetUrl === '#') {
+        targetUrl = GIS_TARGET_URL;
+      }
+
+      const headerBackBtn = document.getElementById('headerBackBtn');
+      headerBackBtn.querySelector('span').innerText = `กลับหน้าหลัก (${appTitle})`;
+      document.getElementById('embedAppTitle').innerText = appTitle;
+      
+      const externalLink = document.getElementById('embedAppExternalLink');
+      const iframe = document.getElementById('embedIframe');
+
+      externalLink.href = targetUrl;
+      iframe.src = targetUrl;
+      closeMobileSidebar();
+    }
+
+    function reloadCalendarIframe() {
+      const iframe = document.getElementById('calendarIframe');
+      if (iframe) iframe.src = iframe.src;
+    }
+
+    function reloadKnowledgeIframe() {
+      const iframe = document.getElementById('knowledgeIframe');
+      if (iframe) iframe.src = iframe.src;
+    }
+
+    function formatMultilineItems(textStr) {
+      if (!textStr || textStr.trim() === '') return '<p class="text-xs font-semibold text-slate-500">-</p>';
+      let items = textStr.includes(',') ? textStr.split(',') : textStr.split(/\s(?=ม\.)|\s(?=ศพด\.)|\s(?=ศูนย์)/);
+      if (items.length <= 1 && !textStr.includes(',')) items = textStr.split(' ');
+
+      let html = '';
+      items.forEach(item => {
+        const cleanItem = item.trim();
+        if (cleanItem) html += `<p class="text-xs font-semibold leading-relaxed text-slate-800">${cleanItem}</p>`;
+      });
+      return html || `<p class="text-xs font-semibold text-slate-800">${textStr}</p>`;
+    }
+
+    function renderPersonnelUI(data) {
+      const inspContainer = document.getElementById('inspectorsContainer');
+      const comContainer = document.getElementById('committeeContainer');
+      const engContainer = document.getElementById('engineersContainer');
+
+      if (data.inspectors && data.inspectors.length > 0) {
+        let html = '';
+        data.inspectors.forEach((item, idx) => {
+          const cardId = item.id || `inspector-${idx}`;
+          const avatar = item.imgUrl ? `<img src="${item.imgUrl}" loading="lazy" class="w-full h-full object-cover">` : `<i class="fas fa-user-tie text-blue-500 text-3xl"></i>`;
+          html += `
+            <div id="${cardId}" class="bg-white p-4 rounded-xl border border-slate-200 shadow-xs flex flex-col justify-between items-center text-center h-full transition-all">
+              <div class="flex flex-col items-center w-full">
+                <span class="px-3 py-0.5 bg-blue-600 text-white text-xs font-bold rounded-full mb-3">${item.zone}</span>
+                <div class="w-24 h-28 rounded-2xl overflow-hidden border-2 border-blue-500 mb-3 bg-white p-1 shadow-xs flex items-center justify-center">
+                  <div class="w-full h-full rounded-xl overflow-hidden flex items-center justify-center bg-slate-100">
+                    ${avatar}
+                  </div>
+                </div>
+                <p class="text-xs text-slate-500 font-bold">ผู้รับผิดชอบ</p>
+                <h4 class="font-bold text-slate-900 text-sm md:text-base mb-1">${item.name}</h4>
+                <p class="text-xs md:text-sm text-blue-600 font-bold mb-3"><i class="fas fa-phone mr-1"></i>โทร ${item.phone}</p>
+              </div>
+              <p class="text-xs md:text-sm text-slate-800 bg-slate-100 px-3 py-1.5 rounded-md w-full font-semibold">หมู่บ้าน: ${item.villages}</p>
+            </div>
+          `;
+        });
+        inspContainer.innerHTML = html;
+      }
+
+      if (data.committee && data.committee.length > 0) {
+        let html = '';
+        data.committee.forEach((item, idx) => {
+          const cardId = item.id || `committee-${idx}`;
+          const avatar = item.imgUrl ? `<img src="${item.imgUrl}" loading="lazy" class="w-full h-full object-cover">` : `<i class="fas fa-user-tie text-amber-500 text-3xl"></i>`;
+          html += `
+            <div id="${cardId}" class="bg-white p-4 rounded-xl border border-slate-200 shadow-xs flex flex-col justify-between items-center text-center h-full transition-all">
+              <div class="flex flex-col items-center w-full">
+                <span class="px-3 py-0.5 bg-amber-500 text-white text-xs font-bold rounded-full mb-3">${item.zone || 'กรรมการ'}</span>
+                <div class="w-24 h-28 rounded-2xl overflow-hidden border-2 border-amber-500 mb-3 bg-white p-1 shadow-xs flex items-center justify-center">
+                  <div class="w-full h-full rounded-xl overflow-hidden flex items-center justify-center bg-slate-100">
+                    ${avatar}
+                  </div>
+                </div>
+                <p class="text-xs text-slate-500 font-bold">กรรมการราคากลาง</p>
+                <h4 class="font-bold text-slate-900 text-sm md:text-base mb-1">${item.name}</h4>
+                <p class="text-xs md:text-sm text-emerald-700 font-bold mb-3"><i class="fas fa-phone mr-1"></i>โทร ${item.phone}</p>
+              </div>
+              <p class="text-xs md:text-sm text-slate-800 bg-amber-50 border border-amber-200 px-3 py-1.5 rounded-md w-full font-semibold">ผู้รับผิดชอบ: ${item.villages}</p>
+            </div>
+          `;
+        });
+        comContainer.innerHTML = html;
+      }
+
+      if (data.engineers && data.engineers.length > 0) {
+        const colors = ['blue', 'amber', 'emerald', 'purple', 'sky', 'red'];
+        let html = '';
+        data.engineers.forEach((item, idx) => {
+          const cardId = item.id || `engineer-${idx}`;
+          const color = colors[idx % colors.length];
+          const avatar = item.imgUrl ? `<img src="${item.imgUrl}" loading="lazy" class="w-full h-full object-cover">` : `<i class="fas fa-user-tie text-slate-400 text-2xl"></i>`;
+          
+          const villagesHtml = formatMultilineItems(item.villages);
+          const centersHtml = formatMultilineItems(item.centers);
+
+          html += `
+            <div id="${cardId}" class="bg-slate-50 p-4 rounded-xl border border-slate-200 flex flex-col justify-between transition-all">
+              <div>
+                <div class="w-20 h-24 rounded-2xl bg-white p-1 border-2 border-${color}-400 shadow-xs mx-auto mb-2 overflow-hidden">
+                  <div class="w-full h-full rounded-xl overflow-hidden flex items-center justify-center bg-${color}-50">
+                    ${avatar}
+                  </div>
+                </div>
+                <h3 class="font-bold text-slate-900 text-xs md:text-sm text-center">${item.name}</h3>
+                <p class="text-xs text-${color}-700 font-bold text-center mb-3">โทร ${item.phone}</p>
+                <div class="text-xs space-y-1 text-slate-800 bg-white p-2.5 rounded-lg border border-slate-200 mb-2">
+                  <p class="font-bold text-slate-900 border-b pb-1 mb-1.5 text-xs">หมู่บ้าน:</p>
+                  <div class="space-y-1">${villagesHtml}</div>
+                </div>
+              </div>
+              <div class="text-xs bg-${color}-50 p-2.5 rounded-lg text-${color}-900 border border-${color}-100">
+                <p class="font-bold border-b border-${color}-200/60 pb-1 mb-1.5 text-xs">ศพด./ศูนย์:</p>
+                <div class="space-y-1">${centersHtml}</div>
+              </div>
+            </div>
+          `;
+        });
+        engContainer.innerHTML = html;
+      }
+    }
+
+    async function loadPersonnelData(forceRefresh = false) {
+      syncPersonnelDataStore(forceRefresh);
+    }
+
+    function moveSlide(idx, direction) {
+      const container = document.getElementById(`carousel-${idx}`);
+      if (container) {
+        const scrollAmount = container.clientWidth;
+        container.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
+      }
+    }
+
+    // [ปรับแก้] ฟังก์ชันแสดงผลรูปภาพตารางผลงาน (ตัดชื่อบุคคล ตัดเวลาออก)
+    function renderDriveSlidesUI(slides) {
+      const container = document.getElementById('driveSlidesContainer');
+
+      if (!slides || slides.length === 0) {
+        container.innerHTML = '<div class="col-span-3 text-center py-12 text-slate-500 text-sm">ไม่พบภาพผลงานใน Google Drive</div>';
+        return;
+      }
+
+      let html = '';
+      slides.forEach((slide, idx) => {
+        let imageItemsHtml = '';
+        slide.images.forEach((imgUrl, imgIdx) => {
+          const loadingAttr = imgIdx === 0 ? 'loading="eager"' : 'loading="lazy"';
+          imageItemsHtml += `
+            <div class="carousel-slide flex-shrink-0 w-full aspect-video rounded-xl overflow-hidden relative bg-slate-900">
+              <img src="${imgUrl}" ${loadingAttr} class="w-full h-full object-cover">
+              <div class="absolute bottom-2 right-2 bg-black/70 text-white text-xs px-2 py-0.5 rounded-full font-bold">
+                ${imgIdx + 1}/${slide.images.length}
+              </div>
+            </div>
+          `;
+        });
+
+        html += `
+          <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex flex-col justify-between space-y-3">
+            <div class="flex items-center justify-between border-b pb-2">
+              <div class="min-w-0 pr-2">
+                <h3 class="font-bold text-slate-900 text-xs md:text-sm line-clamp-2">${slide.title}</h3>
+              </div>
+              <a href="${slide.folderUrl}" target="_blank" class="p-1.5 bg-slate-100 hover:bg-slate-200 text-emerald-600 rounded-lg text-xs md:text-sm flex-shrink-0" title="เปิดโฟลเดอร์ Google Drive">
+                <i class="fab fa-google-drive"></i>
+              </a>
+            </div>
+
+            <div class="relative group">
+              <div id="carousel-${idx}" class="carousel-container flex overflow-x-hidden scroll-smooth">
+                ${imageItemsHtml}
+              </div>
+              ${slide.images.length > 1 ? `
+                <button onclick="moveSlide(${idx}, -1)" class="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/60 text-white text-xs flex items-center justify-center opacity-80 hover:opacity-100 transition shadow-md">
+                  <i class="fas fa-chevron-left"></i>
+                </button>
+                <button onclick="moveSlide(${idx}, 1)" class="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/60 text-white text-xs flex items-center justify-center opacity-80 hover:opacity-100 transition shadow-md">
+                  <i class="fas fa-chevron-right"></i>
+                </button>
+              ` : ''}
+            </div>
+
+            <div class="text-right text-xs text-slate-500">
+              <i class="far fa-calendar-alt mr-1"></i>${slide.dateDisplay}
+            </div>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+    }
+
+    async function loadDriveActivitySlides(forceRefresh = false) {
+      try {
+        const url = `${GAS_API_URL}?action=getDriveActivitySlides${forceRefresh ? '&refresh=true' : ''}`;
+        const res = await fetch(url);
+        const slides = await res.json();
+
+        localStorage.setItem('local_drive_slides', JSON.stringify(slides));
+        renderDriveSlidesUI(slides);
+      } catch (err) {
+        console.error("Load drive activity slides error:", err);
+      }
+    }
+
+    // PWA Registration & Cross-Platform Install Handler
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then((registration) => {
+            console.log('PWA Service Worker registered successfully with scope:', registration.scope);
+          })
+          .catch((error) => {
+            console.error('PWA Service Worker registration failed:', error);
+          });
+      });
+    }
+
+    let deferredPrompt = null;
+
+    function isIos() {
+      const userAgent = window.navigator.userAgent.toLowerCase();
+      return /iphone|ipad|ipod/.test(userAgent);
+    }
+
+    function isInStandaloneMode() {
+      return ('standalone' in window.navigator) && (window.navigator.standalone);
+    }
+
+    window.addEventListener('load', () => {
+      if (isIos() && !isInStandaloneMode()) {
+        const iosBanner = document.getElementById('iosInstallBanner');
+        if (iosBanner) {
+          iosBanner.classList.remove('hidden');
+          iosBanner.classList.add('flex');
+        }
+      }
+    });
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      
+      const banner = document.getElementById('pwaInstallBanner');
+      if (banner) {
+        banner.classList.remove('hidden');
+        banner.classList.add('flex');
+      }
+    });
+
+    async function triggerPwaInstall() {
+      if (!deferredPrompt) return;
+      
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      console.log(`User response to install prompt: ${outcome}`);
+      
+      deferredPrompt = null;
+      closePwaBanner();
+    }
+
+    function closePwaBanner() {
+      const banner = document.getElementById('pwaInstallBanner');
+      if (banner) {
+        banner.classList.add('hidden');
+        banner.classList.remove('flex');
+      }
+    }
+
+    function closeIosBanner() {
+      const banner = document.getElementById('iosInstallBanner');
+      if (banner) {
+        banner.classList.add('hidden');
+        banner.classList.remove('flex');
+      }
+    }
+
+    window.addEventListener('appinstalled', () => {
+      console.log('Thakho Tech PWA installed successfully');
+      closePwaBanner();
+    });
+  </script>
+</body>
+</html>
