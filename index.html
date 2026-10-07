@@ -76,23 +76,6 @@
       50% { transform: scale(1.12); }
     }
 
-    /* CSS Animation สำหรับแสงวาบของปุ่มติดตั้ง (Glow Pulse) - ปรับองศานุ่มนวล 1.2s */
-    @keyframes soft-glow-pulse {
-      0%, 100% { 
-        transform: scale(1); 
-        box-shadow: 0 4px 15px rgba(245, 158, 11, 0.25); 
-        border-color: rgba(251, 191, 36, 0.6); 
-      }
-      50% { 
-        transform: scale(1.02); 
-        box-shadow: 0 8px 25px rgba(245, 158, 11, 0.6); 
-        border-color: rgba(251, 191, 36, 1); 
-      }
-    }
-    .pwa-banner-glow {
-      animation: soft-glow-pulse 1.2s infinite ease-in-out;
-    }
-
     @media (min-width: 768px) {
       .sidebar-collapsed { width: 4.5rem !important; }
       .sidebar-collapsed .nav-text, 
@@ -174,6 +157,7 @@
       }
     }
 
+    /* Drag and Drop Admin Card Styling */
     .admin-drag-card {
       cursor: grab;
       transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
@@ -204,9 +188,9 @@
   <div class="relative flex-shrink-0 z-20 overflow-visible">
     <aside id="mainSidebar" class="w-64 bg-slate-900 text-white flex-shrink-0 flex flex-col justify-between p-3 border-r border-slate-800 fixed md:sticky top-0 h-screen overflow-visible transition-all duration-300 z-50 -translate-x-full md:translate-x-0">
       
-      <button onclick="openAdminPinModal()" class="fixed bottom-6 right-6 z-[60] px-3.5 py-2.5 bg-slate-900 hover:bg-slate-800 text-amber-400 font-bold text-xs md:text-sm rounded-2xl border-2 border-amber-400 shadow-2xl transition-all hover:scale-105 flex items-center gap-2" title="เข้าสู่ระบบจัดการแอดมิน">
-  <i class="fas fa-sliders-h text-base"></i><span>ตั้งค่าระบบ (Setup)</span>
-</button>
+      <button onclick="toggleSidebarCollapse()" class="hidden md:flex floating-toggle-btn" title="กดยุบ / ขยาย แถบข้าง" id="floatingToggleBtn">
+        <i class="fas fa-chevron-left text-xs transition-transform duration-300" id="toggleIcon"></i>
+      </button>
 
       <div class="overflow-y-auto h-full flex flex-col justify-between sidebar-custom-scroll pr-1">
         <div>
@@ -420,12 +404,12 @@
             <h2 class="text-base font-bold text-slate-800"><i class="fas fa-map-marked-alt text-teal-600 mr-2"></i>ระบบแผนที่ GIS กองช่าง (Spatial Satellite Map)</h2>
             <p class="text-xs text-slate-600">หากหน้าจอแสดงผลไม่ขึ้นเนื่องจากข้อจำกัดของมือถือ กรุณากดปุ่มเปิดหน้าต่างใหม่</p>
           </div>
-          <a href="https://technicianthakho-art.github.io/thako-gis/" target="_blank" class="px-3.5 py-2 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs md:text-sm font-bold flex items-center gap-1.5 shadow-xs transition">
+          <a href="https://script.google.com/macros/s/AKfycbxWPamVVAn7AQBc1zYO4mk9k1xP2JPg3PS5NZXxibRaqANZOeiYboWPBbhB4z9d7M1UJw/exec" target="_blank" class="px-3.5 py-2 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs md:text-sm font-bold flex items-center gap-1.5 shadow-xs transition">
             <i class="fas fa-external-link-alt"></i><span>เปิดหน้าต่างใหม่ (Direct Link)</span>
           </a>
         </div>
         <div class="bg-white p-2 rounded-2xl border border-slate-200 shadow-xs h-[780px] overflow-hidden">
-          <iframe src="https://technicianthakho-art.github.io/thako-gis/" style="border:0; width:100%; height:100%;" allow="geolocation; microphone; camera; display-capture" allowfullscreen></iframe>
+          <iframe src="https://script.google.com/macros/s/AKfycbxWPamVVAn7AQBc1zYO4mk9k1xP2JPg3PS5NZXxibRaqANZOeiYboWPBbhB4z9d7M1UJw/exec" style="border:0; width:100%; height:100%;" allow="geolocation; microphone; camera; display-capture" allowfullscreen></iframe>
         </div>
       </div>
 
@@ -515,7 +499,7 @@
       <div id="tab-workreports" class="hidden space-y-4 w-full">
         <div class="flex items-center justify-between bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex-wrap gap-2">
           <div>
-            <h2 class="font-bold text-slate-800 text-base"><i class="fas fa-images text-purple-600 mr-2"></i>ภาพผลงานปฏิบัติงาน</h2>
+            <h2 class="font-bold text-slate-800 text-base"><i class="fas fa-images text-purple-600 mr-2"></i>รายงานผลการปฏิบัติงาน (Google Drive Group Slide)</h2>
             <p class="text-xs text-slate-600">แสดงผลแบบ 3 ชุดต่อแถว สัดส่วนภาพ 16:9 ไวด์สกรีนเต็มตา</p>
           </div>
           <button onclick="loadDriveActivitySlides(true)" class="px-3.5 py-2 rounded-xl bg-purple-600 hover:bg-purple-700 text-white text-xs md:text-sm font-bold flex items-center gap-1.5 shadow-xs transition">
@@ -524,7 +508,7 @@
         </div>
 
         <div id="driveSlidesContainer" class="grid grid-cols-1 md:grid-cols-3 gap-5">
-          <div class="col-span-3 text-center py-12 text-slate-500 text-sm"><i class="fas fa-spinner fa-spin mr-2"></i>กำลังดึงสไลด์กิจกรรมภาพผลงาน...</div>
+          <div class="col-span-3 text-center py-12 text-slate-500 text-sm"><i class="fas fa-spinner fa-spin mr-2"></i>กำลังดึงสไลด์กิจกรรมจาก Google Drive...</div>
         </div>
       </div>
 
@@ -547,32 +531,6 @@
 
         <div class="bg-white p-2 rounded-2xl border border-slate-200 shadow-xs h-[780px] overflow-hidden">
           <iframe id="knowledgeIframe" src="https://technicianthakho-art.github.io/Knowledge-Center/" style="border:0; width:100%; height:100%;" allow="geolocation; microphone; camera; display-capture" allowfullscreen></iframe>
-        </div>
-      </div>
-
-      <!-- ปุ่มติดตั้ง PWA Android/Chrome ย้ายมาอยูู่มุมขวาล่าง (md:left-auto md:right-6 md:bottom-6) ไม่บัง Sidebar หรือปุ่มแอดมิน -->
-      <div id="pwaInstallBanner" class="fixed bottom-4 left-4 right-4 md:left-auto md:right-6 md:bottom-6 md:max-w-xs bg-slate-900 text-white p-3.5 rounded-2xl shadow-2xl border border-amber-400 z-40 hidden flex-col space-y-2.5 pwa-banner-glow">
-        <div class="flex items-center justify-between">
-          <div class="flex items-center gap-2.5">
-            <div class="w-8 h-8 rounded-xl bg-amber-400 text-slate-900 flex items-center justify-center font-bold text-base shadow-md flex-shrink-0">
-              <i class="fas fa-download"></i>
-            </div>
-            <div>
-              <h4 class="font-bold text-xs md:text-sm text-amber-400">ติดตั้งแอป Thakho Tech</h4>
-              <p class="text-[10px] text-slate-300">เข้าใช้งานสะดวกขึ้นผ่านหน้าจอหลัก</p>
-            </div>
-          </div>
-          <button onclick="closePwaBanner()" class="text-slate-400 hover:text-white p-1">
-            <i class="fas fa-times text-xs"></i>
-          </button>
-        </div>
-        <div class="flex items-center gap-2">
-          <button id="pwaInstallBtn" onclick="triggerPwaInstall()" class="flex-1 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl transition shadow-md flex items-center justify-center gap-1">
-            <i class="fas fa-plus-circle"></i><span>ติดตั้งทันที</span>
-          </button>
-          <button onclick="closePwaBanner()" class="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold rounded-xl">
-            ซ่อน
-          </button>
         </div>
       </div>
 
@@ -601,7 +559,7 @@
     </div>
   </div>
 
-  <!-- MODAL 2: แผงควบคุมแอดมิน -->
+  <!-- MODAL 2: แผงควบคุมแอดมิน (Compact Drag-and-Drop View with Auto-Save) -->
   <div id="adminPanelModal" class="fixed inset-0 bg-slate-900/80 z-50 hidden flex items-center justify-center p-2 md:p-4 backdrop-blur-xs">
     <div class="bg-white rounded-2xl shadow-2xl w-full max-w-6xl h-[94vh] flex flex-col overflow-hidden border border-slate-200">
       
@@ -775,6 +733,32 @@
           <button type="submit" class="px-5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold shadow-xs">บันทึกข้อมูล</button>
         </div>
       </form>
+    </div>
+  </div>
+
+  <!-- Android PWA Install Banner -->
+  <div id="pwaInstallBanner" class="fixed bottom-4 left-4 right-4 md:left-auto md:right-4 md:max-w-sm bg-slate-900 text-white p-4 rounded-2xl shadow-2xl border border-amber-400 z-50 hidden flex-col space-y-3 animate-bounce">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center gap-2.5">
+        <div class="w-9 h-9 rounded-xl bg-amber-400 text-slate-900 flex items-center justify-center font-bold text-lg shadow-md">
+          <i class="fas fa-download"></i>
+        </div>
+        <div>
+          <h4 class="font-bold text-xs md:text-sm text-amber-400">ติดตั้งแอป Thakho Tech</h4>
+          <p class="text-[11px] text-slate-300">ติดตั้งลงหน้าจอมือถือ เข้าใช้งานได้สะดวกขึ้น</p>
+        </div>
+      </div>
+      <button onclick="closePwaBanner()" class="text-slate-400 hover:text-white p-1">
+        <i class="fas fa-times text-sm"></i>
+      </button>
+    </div>
+    <div class="flex items-center gap-2">
+      <button id="pwaInstallBtn" onclick="triggerPwaInstall()" class="flex-1 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl transition shadow-md flex items-center justify-center gap-1.5">
+        <i class="fas fa-plus-circle"></i><span>ติดตั้งลงหน้าจอโฮม</span>
+      </button>
+      <button onclick="closePwaBanner()" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold rounded-xl">
+        ไว้ทีหลัง
+      </button>
     </div>
   </div>
 
@@ -1014,18 +998,13 @@
         const style = colorStyleMap[colorKey] || colorStyleMap['blue'];
         const icon = app.icon || 'fa-solid fa-shapes';
         
-        let targetUrl = app.url;
-        if (app.name.indexOf("GIS") !== -1 || app.name.indexOf("จีเอส") !== -1 || app.app_id === "APP-001") {
-          targetUrl = "https://technicianthakho-art.github.io/thako-gis/";
-        }
-
         let actionClick = '';
         if (app.open_type === 'external') {
-          actionClick = `openAppExternal('${targetUrl}')`;
-        } else if (app.open_type === 'tab_gis') {
+          actionClick = `openAppExternal('${app.url}')`;
+        } else if (app.open_type === 'tab_gis' || app.url === '#') {
           actionClick = `switchTab('gis')`;
         } else {
-          actionClick = `loadEmbeddedApp('${targetUrl}', '${app.name}')`;
+          actionClick = `loadEmbeddedApp('${app.url}', '${app.name}')`;
         }
 
         const isFeatured = app.is_featured;
@@ -1356,13 +1335,7 @@
         document.getElementById('edit_category').value = appData.category;
         document.getElementById('edit_color').value = appData.color || 'blue';
         document.getElementById('edit_desc').value = appData.desc;
-
-        if (appData.name.indexOf("GIS") !== -1 || appData.name.indexOf("จีเอส") !== -1 || appData.app_id === "APP-001") {
-          document.getElementById('edit_url').value = "https://technicianthakho-art.github.io/thako-gis/";
-        } else {
-          document.getElementById('edit_url').value = appData.url;
-        }
-
+        document.getElementById('edit_url').value = appData.url;
         document.getElementById('edit_icon').value = appData.icon;
         document.getElementById('edit_open_type').value = appData.open_type || 'embedded';
         document.getElementById('edit_keywords').value = appData.keywords || '';
@@ -1643,12 +1616,7 @@
         html += `<div class="text-xs font-bold text-slate-500 px-2 pt-2 pb-1 border-b"><i class="fas fa-th-large text-purple-500 mr-1.5"></i>ระบบแอปพลิเคชัน & เมนู (${matchedApps.length})</div>`;
         matchedApps.forEach(app => {
           matchCount++;
-          let targetUrl = app.url;
-          if (app.name.indexOf("GIS") !== -1 || app.name.indexOf("จีเอส") !== -1 || app.app_id === "APP-001") {
-            targetUrl = "https://technicianthakho-art.github.io/thako-gis/";
-          }
-
-          let actionClick = app.open_type === 'external' ? `openAppExternal('${targetUrl}')` : `loadEmbeddedApp('${targetUrl}', '${app.name}')`;
+          let actionClick = app.open_type === 'external' ? `openAppExternal('${app.url}')` : `loadEmbeddedApp('${app.url}', '${app.name}')`;
           html += `
             <div onclick="${actionClick}" class="p-3 bg-gradient-to-r from-purple-50/50 to-indigo-50/50 hover:from-purple-100/60 hover:to-indigo-100/60 rounded-xl cursor-pointer transition flex items-center justify-between border border-purple-100 shadow-2xs">
               <div class="flex items-center gap-3">
@@ -1774,7 +1742,7 @@
           reloadCalendarIframe();
         }
         if (tab === 'workreports') {
-          headerBackBtn.querySelector('span').innerText = 'กลับหน้าหลัก (ภาพผลงาน)';
+          headerBackBtn.querySelector('span').innerText = 'กลับหน้าหลัก (รายงานผลงาน)';
           loadDriveActivitySlides();
         }
         if (tab === 'knowledge') headerBackBtn.querySelector('span').innerText = 'กลับหน้าหลัก (คลังความรู้)';
@@ -1926,21 +1894,6 @@
       }
     }
 
-    // ฟังก์ชันสแกนตัดคำนำหน้า (นาย/นาง/นางสาว/ด.ช./ด.ญ.) และชื่อ-นามสกุลออก เหลือเฉพาะหัวข้อกิจกรรม
-    function cleanActivityTitle(rawTitle) {
-      if (!rawTitle) return '';
-      
-      // Regex ตรวจจับคำนำหน้า + ชื่อ-นามสกุล ทั้งภาษาไทยและอังกฤษ แล้วตัดทิ้ง
-      let cleaned = rawTitle.replace(/^(นาย|นางสาว|นาง|ด\.ช\.|ด\.ญ\.|Mr\.|Mrs\.|Ms\.)\s*[\u0E00-\u0E7Fa-zA-Z]+\s+[\u0E00-\u0E7Fa-zA-Z]+\s*/g, '');
-      
-      // กรณีไม่มีคำนำหน้า แต่ขึ้นต้นด้วยชื่อ-นามสกุล 2 คำแรก
-      if (cleaned === rawTitle) {
-        cleaned = rawTitle.replace(/^[\u0E00-\u0E7Fa-zA-Z]+\s+[\u0E00-\u0E7Fa-zA-Z]+\s+/g, '');
-      }
-      
-      return cleaned.trim();
-    }
-
     function renderDriveSlidesUI(slides) {
       const container = document.getElementById('driveSlidesContainer');
 
@@ -1964,16 +1917,14 @@
           `;
         });
 
-        // เรียกตัดชื่อผู้รายงานออก เหลือเฉพาะหัวข้อกิจกรรม
-        const displayTitle = cleanActivityTitle(slide.title);
-
         html += `
           <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex flex-col justify-between space-y-3">
             <div class="flex items-center justify-between border-b pb-2">
-              <div class="min-w-0 pr-2">
-                <h3 class="font-bold text-slate-900 text-xs md:text-sm line-clamp-2" title="${displayTitle}">${displayTitle}</h3>
+              <div>
+                <span class="inline-block px-2 py-0.5 bg-purple-50 text-purple-800 text-xs font-bold rounded mb-1">${slide.reporter}</span>
+                <h3 class="font-bold text-slate-900 text-xs md:text-sm line-clamp-1">${slide.title}</h3>
               </div>
-              <a href="${slide.folderUrl}" target="_blank" class="p-1.5 bg-slate-100 hover:bg-slate-200 text-emerald-600 rounded-lg text-xs md:text-sm flex-shrink-0" title="เปิดโฟลเดอร์ใน Google Drive">
+              <a href="${slide.folderUrl}" target="_blank" class="p-1.5 bg-slate-100 hover:bg-slate-200 text-emerald-600 rounded-lg text-xs md:text-sm" title="เปิดโฟลเดอร์">
                 <i class="fab fa-google-drive"></i>
               </a>
             </div>
@@ -1993,7 +1944,7 @@
             </div>
 
             <div class="text-right text-xs text-slate-500">
-              <i class="far fa-calendar-alt mr-1"></i>${slide.dateDisplay}
+              <i class="far fa-clock mr-1"></i>${slide.dateDisplay}
             </div>
           </div>
         `;
