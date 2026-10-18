@@ -188,7 +188,7 @@
       transform: scale(1.02);
     }
 
-    /* BGM Floating Player Styling */
+    /* BGM Floating Player Styling - Bottom Left Transparent Spectrum Overlay */
     #bgmPlayerContainer {
       position: fixed;
       bottom: 1.25rem;
@@ -203,7 +203,7 @@
   <!-- Watermark Background -->
   <img id="watermarkBackground" src="" alt="Watermark Background">
 
-  <!-- BGM Audio & Floating Spectrum Player (Bottom-Left) -->
+  <!-- BGM Audio Element & Transparent Audio Spectrum Player (มุมล่างซ้ายตามภาพ) -->
   <audio id="bgmAudio" loop crossorigin="anonymous"></audio>
   <div id="bgmPlayerContainer" class="hidden flex items-center gap-2 p-2 bg-slate-900/85 backdrop-blur-md border border-slate-700/60 rounded-2xl shadow-2xl text-white transition-all duration-300">
     <canvas id="bgmSpectrumCanvas" width="90" height="32" class="bg-transparent rounded-lg"></canvas>
@@ -643,8 +643,8 @@
         </div>
       </div>
 
-      <!-- Watermark & BGM Settings Panel Container -->
-      <div class="bg-amber-50/80 p-2.5 md:p-3 border-b border-amber-200 flex-shrink-0 text-xs space-y-2">
+      <!-- Watermark & BGM Settings Panel Container (ปรับวางต่อลงมาตามโจทย์ 100%) -->
+      <div class="bg-amber-50/80 p-2.5 md:p-3 border-b border-amber-200 flex-shrink-0 text-xs space-y-2.5">
         <!-- 1. Watermark Settings Panel -->
         <div>
           <div class="flex items-center justify-between mb-1">
@@ -673,7 +673,7 @@
               <label class="relative inline-flex items-center cursor-pointer">
                 <input type="checkbox" id="settingWatermarkEnabled" class="sr-only peer" onchange="updateToggleText('wmToggleText', this.checked)">
                 <div class="w-8 h-4 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-amber-500"></div>
-                <span id="wmToggleText" class="ml-1 text.xs font-bold text-slate-700">เปิดแสดงผล</span>
+                <span id="wmToggleText" class="ml-1 text-xs font-bold text-slate-700">เปิดแสดงผล</span>
               </label>
               <button onclick="submitSaveSettings()" class="px-2.5 py-1 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-lg text-xs shadow-xs transition">
                 <i class="fas fa-save mr-1"></i>บันทึก
@@ -682,13 +682,13 @@
           </div>
         </div>
 
-        <!-- 2. Background Music (BGM) Settings Panel -->
+        <!-- 2. Background Music (BGM) Settings Panel (วางใต้ Watermark อยู่เหนือช่องค้นหาแอปพอดี) -->
         <div class="pt-2 border-t border-amber-200/80">
           <div class="flex items-center justify-between mb-1">
             <h4 class="font-bold text-slate-900 flex items-center gap-1.5 text-xs">
               <i class="fas fa-music text-emerald-600"></i><span>ตั้งค่าเพลงประกอบ (Background Music)</span>
             </h4>
-            <span class="text-[10px] text-slate-500"> Google Drive MP3 / Audio File</span>
+            <span class="text-[10px] text-slate-500">Google Drive MP3 / Audio File</span>
           </div>
           <div class="grid grid-cols-1 md:grid-cols-12 gap-2 items-center">
             <div class="md:col-span-9">
@@ -970,19 +970,6 @@
       const playerContainer = document.getElementById('bgmPlayerContainer');
       const audio = document.getElementById('bgmAudio');
 
-      if (settings && settings.background_music_enabled && settings.background_music_url) {
-        if (audio.src !== settings.background_music_url) {
-          audio.src = settings.background_music_url;
-        }
-        playerContainer.classList.remove('hidden');
-      } else {
-        playerContainer.classList.add('hidden');
-        if (audio) {
-          audio.pause();
-          audio.currentTime = 0;
-        }
-      }
-
       const inputBgmUrl = document.getElementById('settingBgmUrl');
       const checkBgmEnabled = document.getElementById('settingBgmEnabled');
 
@@ -990,6 +977,19 @@
       if (checkBgmEnabled) {
         checkBgmEnabled.checked = settings.background_music_enabled;
         updateToggleText('bgmToggleText', settings.background_music_enabled);
+      }
+
+      if (settings && settings.background_music_enabled && settings.background_music_url) {
+        if (audio && audio.src !== settings.background_music_url) {
+          audio.src = settings.background_music_url;
+        }
+        if (playerContainer) playerContainer.classList.remove('hidden');
+      } else {
+        if (playerContainer) playerContainer.classList.add('hidden');
+        if (audio) {
+          audio.pause();
+          audio.currentTime = 0;
+        }
       }
     }
 
@@ -1054,7 +1054,10 @@
       const audio = document.getElementById('bgmAudio');
       const playIcon = document.getElementById('bgmPlayIcon');
 
-      if (!audio.src) return;
+      if (!audio || !audio.src) {
+        Swal.fire('ไม่พบไฟล์เพลง', 'กรุณาเพิ่ม URL ลิงก์ไฟล์เพลงในแผงควบคุมแอดมินก่อน', 'info');
+        return;
+      }
 
       if (!audioCtx) initWebAudioSpectrum();
       if (audioCtx && audioCtx.state === 'suspended') {
@@ -1063,13 +1066,13 @@
 
       if (audio.paused) {
         audio.play().then(() => {
-          playIcon.className = "fas fa-pause";
+          if (playIcon) playIcon.className = "fas fa-pause";
         }).catch(err => {
           console.error("Play error:", err);
         });
       } else {
         audio.pause();
-        playIcon.className = "fas fa-play";
+        if (playIcon) playIcon.className = "fas fa-play";
       }
     }
 
