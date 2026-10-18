@@ -188,31 +188,13 @@
       transform: scale(1.02);
     }
 
-    /* Floating Transparent Audio Controller & Visualizer */
-    #audioPlayerWidget {
+    /* BGM Floating Player Styling */
+    #bgmPlayerContainer {
       position: fixed;
-      bottom: 1rem;
-      left: 1rem;
+      bottom: 1.25rem;
+      left: 1.25rem;
       z-index: 45;
-      background: rgba(15, 23, 42, 0.75);
-      backdrop-filter: blur(8px);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 1.25rem;
-      padding: 0.6rem 0.9rem;
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-      transition: all 0.3s ease;
-    }
-    #audioPlayerWidget:hover {
-      background: rgba(15, 23, 42, 0.9);
-      border-color: rgba(251, 191, 36, 0.5);
-    }
-    #spectrumCanvas {
-      width: 60px;
-      height: 24px;
-      background: transparent;
+      pointer-events: auto;
     }
   </style>
 </head>
@@ -220,6 +202,25 @@
 
   <!-- Watermark Background -->
   <img id="watermarkBackground" src="" alt="Watermark Background">
+
+  <!-- BGM Audio & Floating Spectrum Player (Bottom-Left) -->
+  <audio id="bgmAudio" loop crossorigin="anonymous"></audio>
+  <div id="bgmPlayerContainer" class="hidden flex items-center gap-2 p-2 bg-slate-900/85 backdrop-blur-md border border-slate-700/60 rounded-2xl shadow-2xl text-white transition-all duration-300">
+    <canvas id="bgmSpectrumCanvas" width="90" height="32" class="bg-transparent rounded-lg"></canvas>
+    
+    <div class="flex items-center gap-1.5 border-l border-slate-700/80 pl-2">
+      <button onclick="toggleBgmPlay()" id="bgmPlayBtn" class="w-7 h-7 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl flex items-center justify-center text-xs transition shadow-xs" title="เล่น / ชั่วคราว">
+        <i class="fas fa-play" id="bgmPlayIcon"></i>
+      </button>
+      <button onclick="stopBgmPlay()" class="w-7 h-7 bg-slate-700 hover:bg-slate-600 text-slate-200 rounded-xl flex items-center justify-center text-xs transition" title="หยุดเพลง">
+        <i class="fas fa-stop"></i>
+      </button>
+      <div class="flex items-center gap-1 pl-1">
+        <i class="fas fa-volume-high text-xs text-slate-400"></i>
+        <input type="range" id="bgmVolumeSlider" min="0" max="1" step="0.05" value="0.7" oninput="changeBgmVolume(this.value)" class="w-14 accent-emerald-500 h-1 bg-slate-700 rounded-lg cursor-pointer">
+      </div>
+    </div>
+  </div>
 
   <!-- Mobile Overlay Backdrop -->
   <div id="mobileSidebarBackdrop" onclick="toggleMobileSidebar()" class="fixed inset-0 bg-black/60 z-40 hidden md:hidden transition-opacity duration-300"></div>
@@ -567,7 +568,7 @@
         </div>
       </div>
 
-      <!-- PWA Install Banner -->
+      <!-- ปุ่มติดตั้ง PWA -->
       <div id="pwaInstallBanner" class="fixed bottom-4 left-4 right-4 md:left-auto md:right-6 md:bottom-6 md:max-w-xs bg-slate-900 text-white p-3.5 rounded-2xl shadow-2xl border border-amber-400 z-40 hidden flex-col space-y-2.5 pwa-banner-glow">
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-2.5">
@@ -594,26 +595,6 @@
       </div>
 
     </main>
-  </div>
-
-  <!-- FLOATING TRANSPARENT AUDIO CONTROLLER & SPECTRUM (มุมล่างซ้าย) -->
-  <div id="audioPlayerWidget" class="hidden">
-    <audio id="bgAudioEngine" loop crossorigin="anonymous"></audio>
-    <canvas id="spectrumCanvas" width="60" height="24"></canvas>
-    
-    <div class="flex items-center gap-1">
-      <button onclick="toggleAudioPlay()" id="audioPlayBtn" class="w-7 h-7 rounded-lg bg-amber-500 hover:bg-amber-600 text-slate-900 flex items-center justify-center text-xs font-bold transition shadow-xs" title="เล่น / หยุดชั่วคราว">
-        <i class="fas fa-play" id="audioPlayIcon"></i>
-      </button>
-      <button onclick="stopAudioPlay()" class="w-7 h-7 rounded-lg bg-slate-800 hover:bg-slate-700 text-red-400 flex items-center justify-center text-xs transition border border-slate-700" title="หยุดเล่น">
-        <i class="fas fa-stop"></i>
-      </button>
-    </div>
-
-    <div class="flex items-center gap-1 text-slate-300 text-xs">
-      <i class="fas fa-volume-high text-amber-400 text-[11px]"></i>
-      <input type="range" id="audioVolumeSlider" min="0" max="1" step="0.05" value="0.5" oninput="changeAudioVolume(this.value)" class="w-16 h-1 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-amber-500">
-    </div>
   </div>
 
   <!-- MODAL 1: ป้อนรหัส PIN -->
@@ -649,7 +630,7 @@
           </div>
           <div>
             <h3 class="font-bold text-sm md:text-base">แผงควบคุมระบบแอปพลิเคชัน (Admin Control Panel)</h3>
-            <p class="text-[11px] text-slate-400">ลากวางการ์ดด้วยเมาส์ซ้ายเพื่อสลับลำดับ | คลิกเปิด/ปิด หรือติดดาว ⭐ ได้ทันที</p>
+            <p class="text-[11px] text-slate-400">ลากวางการ์ดด้วยเมาส์ซ้ายเพื่อสลับลำดับ (บันทึกอัตโนมัติทันที) | คลิกเปิด/ปิด หรือติดดาว ⭐ ได้ทันที</p>
           </div>
         </div>
         <div class="flex items-center gap-2">
@@ -662,64 +643,67 @@
         </div>
       </div>
 
-      <!-- Watermark Settings Panel -->
-      <div class="bg-amber-50/80 p-2.5 md:p-3 border-b border-amber-200 flex-shrink-0 text-xs">
-        <div class="flex items-center justify-between mb-1.5">
-          <h4 class="font-bold text-slate-900 flex items-center gap-1.5 text-xs">
-            <i class="fas fa-image text-amber-600"></i><span>ตั้งค่า Watermark Background</span>
-          </h4>
-          <span class="text-[10px] text-slate-500">Google Drive: <b>0. รวมลิงค์กองช่าง</b></span>
+      <!-- Watermark & BGM Settings Panel Container -->
+      <div class="bg-amber-50/80 p-2.5 md:p-3 border-b border-amber-200 flex-shrink-0 text-xs space-y-2">
+        <!-- 1. Watermark Settings Panel -->
+        <div>
+          <div class="flex items-center justify-between mb-1">
+            <h4 class="font-bold text-slate-900 flex items-center gap-1.5 text-xs">
+              <i class="fas fa-image text-amber-600"></i><span>ตั้งค่า Watermark Background</span>
+            </h4>
+            <span class="text-[10px] text-slate-500">Google Drive: <b>0. รวมลิงค์กองช่าง</b></span>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-2 items-center">
+            <div class="md:col-span-6">
+              <input type="text" id="settingWatermarkUrl" placeholder="วาง URL ลิงก์ไฟล์ภาพ Google Drive..." class="w-full px-2.5 py-1 bg-white border border-amber-300 rounded-lg text-xs font-semibold focus:outline-none focus:border-amber-500 shadow-inner">
+            </div>
+            <div class="md:col-span-3 flex items-center gap-1.5">
+              <label class="text-xs font-bold text-slate-700 whitespace-nowrap">โปร่งใส:</label>
+              <select id="settingWatermarkOpacity" class="w-full px-2 py-1 bg-white border border-amber-300 rounded-lg text-xs font-semibold">
+                <option value="0.03">3% (จางมาก)</option>
+                <option value="0.05">5% (แนะนำ)</option>
+                <option value="0.10">10%</option>
+                <option value="0.20">20%</option>
+                <option value="0.30">30%</option>
+                <option value="0.50">50%</option>
+                <option value="1.00">100%</option>
+              </select>
+            </div>
+            <div class="md:col-span-3 flex items-center justify-end gap-2">
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" id="settingWatermarkEnabled" class="sr-only peer" onchange="updateToggleText('wmToggleText', this.checked)">
+                <div class="w-8 h-4 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-amber-500"></div>
+                <span id="wmToggleText" class="ml-1 text.xs font-bold text-slate-700">เปิดแสดงผล</span>
+              </label>
+              <button onclick="submitSaveSettings()" class="px-2.5 py-1 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-lg text-xs shadow-xs transition">
+                <i class="fas fa-save mr-1"></i>บันทึก
+              </button>
+            </div>
+          </div>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-12 gap-2 items-center">
-          <div class="md:col-span-6">
-            <input type="text" id="settingWatermarkUrl" placeholder="วาง URL ลิงก์ไฟล์ภาพ Google Drive..." class="w-full px-2.5 py-1 bg-white border border-amber-300 rounded-lg text-xs font-semibold focus:outline-none focus:border-amber-500 shadow-inner">
-          </div>
-          <div class="md:col-span-3 flex items-center gap-1.5">
-            <label class="text-xs font-bold text-slate-700 whitespace-nowrap">โปร่งใส:</label>
-            <select id="settingWatermarkOpacity" class="w-full px-2 py-1 bg-white border border-amber-300 rounded-lg text-xs font-semibold">
-              <option value="0.03">3% (จางมาก)</option>
-              <option value="0.05">5% (แนะนำ)</option>
-              <option value="0.10">10%</option>
-              <option value="0.20">20%</option>
-              <option value="0.30">30%</option>
-              <option value="0.50">50%</option>
-              <option value="1.00">100%</option>
-            </select>
-          </div>
-          <div class="md:col-span-3 flex items-center justify-end gap-2">
-            <label class="relative inline-flex items-center cursor-pointer">
-              <input type="checkbox" id="settingWatermarkEnabled" class="sr-only peer">
-              <div class="w-8 h-4 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-amber-500"></div>
-              <span class="ml-1 text-xs font-bold text-slate-700">เปิดแสดงผล</span>
-            </label>
-            <button onclick="submitSaveSettings()" class="px-2.5 py-1 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-lg text-xs shadow-xs transition">
-              <i class="fas fa-save mr-1"></i>บันทึก
-            </button>
-          </div>
-        </div>
-      </div>
 
-      <!-- BACKGROUND MUSIC SETTINGS PANEL (วางใต้ Watermark และอยู่เหนือแผงค้นหาแอป) -->
-      <div class="bg-indigo-50/80 p-2.5 md:p-3 border-b border-indigo-200 flex-shrink-0 text-xs">
-        <div class="flex items-center justify-between mb-1.5">
-          <h4 class="font-bold text-slate-900 flex items-center gap-1.5 text-xs">
-            <i class="fas fa-music text-indigo-600"></i><span>ตั้งค่าเพลงประกอบ (Background Music)</span>
-          </h4>
-          <span class="text-[10px] text-slate-500">วาง URL ไฟล์เพลง Google Drive / MP3</span>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-12 gap-2 items-center">
-          <div class="md:col-span-8">
-            <input type="text" id="settingMusicUrl" placeholder="วาง URL ลิงก์ไฟล์เพลง Google Drive / MP3..." class="w-full px-2.5 py-1 bg-white border border-indigo-300 rounded-lg text-xs font-semibold focus:outline-none focus:border-indigo-500 shadow-inner">
+        <!-- 2. Background Music (BGM) Settings Panel -->
+        <div class="pt-2 border-t border-amber-200/80">
+          <div class="flex items-center justify-between mb-1">
+            <h4 class="font-bold text-slate-900 flex items-center gap-1.5 text-xs">
+              <i class="fas fa-music text-emerald-600"></i><span>ตั้งค่าเพลงประกอบ (Background Music)</span>
+            </h4>
+            <span class="text-[10px] text-slate-500"> Google Drive MP3 / Audio File</span>
           </div>
-          <div class="md:col-span-4 flex items-center justify-end gap-2">
-            <label class="relative inline-flex items-center cursor-pointer">
-              <input type="checkbox" id="settingMusicEnabled" class="sr-only peer">
-              <div class="w-8 h-4 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-indigo-600"></div>
-              <span class="ml-1 text-xs font-bold text-slate-700">เปิดแสดงผล</span>
-            </label>
-            <button onclick="submitSaveSettings()" class="px-2.5 py-1 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-lg text-xs shadow-xs transition">
-              <i class="fas fa-save mr-1"></i>บันทึก
-            </button>
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-2 items-center">
+            <div class="md:col-span-9">
+              <input type="text" id="settingBgmUrl" placeholder="วาง URL ลิงก์ไฟล์เพลง Google Drive..." class="w-full px-2.5 py-1 bg-white border border-amber-300 rounded-lg text-xs font-semibold focus:outline-none focus:border-emerald-500 shadow-inner">
+            </div>
+            <div class="md:col-span-3 flex items-center justify-end gap-2">
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" id="settingBgmEnabled" class="sr-only peer" onchange="updateToggleText('bgmToggleText', this.checked)">
+                <div class="w-8 h-4 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-emerald-500"></div>
+                <span id="bgmToggleText" class="ml-1 text-xs font-bold text-slate-700">เปิดแสดงผล</span>
+              </label>
+              <button onclick="submitSaveSettings()" class="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg text-xs shadow-xs transition">
+                <i class="fas fa-save mr-1"></i>บันทึก
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -730,7 +714,7 @@
           <input type="text" id="adminSearchInput" oninput="filterAdminApps(this.value)" placeholder="ค้นหาแอป..." class="w-full px-2.5 py-1 bg-white border border-slate-200 rounded-lg text-xs font-semibold focus:outline-none focus:border-amber-400 shadow-inner">
         </div>
         <div class="flex items-center gap-2">
-          <span class="text-[11px] text-slate-500"><i class="fas fa-hand-pointer text-blue-500 mr-1"></i>คลิกค้างเมาส์ซ้ายเพื่อลากวางสลับตำแหน่ง</span>
+          <span class="text-[11px] text-slate-500"><i class="fas fa-hand-pointer text-blue-500 mr-1"></i>คลิกค้างเมาส์ซ้ายเพื่อลากวางสลับตำแหน่ง (ระบบจะบันทึกให้อัตโนมัติ)</span>
           <button onclick="fetchAdminInitialData(true)" class="text-emerald-700 font-bold hover:underline flex items-center gap-1 bg-white px-2.5 py-1 rounded-lg border border-slate-200 shadow-2xs">
             <i class="fas fa-sync-alt"></i><span>รีเฟรช</span>
           </button>
@@ -889,12 +873,11 @@
     let recognition = null;
     let isRecording = false;
 
-    // Audio Visualizer Variables
+    // Web Audio API Global States
     let audioCtx = null;
-    let analyser = null;
-    let audioSource = null;
-    let animFrameId = null;
-    let isAudioPlaying = false;
+    let audioSourceNode = null;
+    let audioAnalyserNode = null;
+    let spectrumAnimId = null;
 
     const colorStyleMap = {
       blue: { bg: "bg-blue-600", badgeBg: "bg-blue-100", badgeText: "text-blue-800", badgeBorder: "border-blue-200", hoverText: "group-hover:text-blue-600", border: "border-2 border-blue-200" },
@@ -945,13 +928,21 @@
         const url = `${GAS_API_URL}?action=getSystemSettings${forceRefresh ? '&refresh=true' : ''}`;
         const res = await fetch(url);
         const settings = await res.json();
-        applySystemSettings(settings);
+        applyWatermarkSettings(settings);
+        applyBgmSettings(settings);
       } catch (e) {
         console.error("Sync settings error:", e);
       }
     }
 
-    function applySystemSettings(settings) {
+    function updateToggleText(elemId, isChecked) {
+      const elem = document.getElementById(elemId);
+      if (elem) {
+        elem.innerText = isChecked ? "เปิดแสดงผล" : "ปิดแสดงผล";
+      }
+    }
+
+    function applyWatermarkSettings(settings) {
       const watermark = document.getElementById('watermarkBackground');
       if (watermark && settings) {
         if (settings.watermark_enabled && settings.watermark_url) {
@@ -962,32 +953,140 @@
           watermark.style.display = 'none';
         }
 
-        const inputWatermarkUrl = document.getElementById('settingWatermarkUrl');
+        const inputUrl = document.getElementById('settingWatermarkUrl');
         const selectOpacity = document.getElementById('settingWatermarkOpacity');
-        const checkWatermarkEnabled = document.getElementById('settingWatermarkEnabled');
+        const checkEnabled = document.getElementById('settingWatermarkEnabled');
 
-        if (inputWatermarkUrl) inputWatermarkUrl.value = settings.watermark_url || '';
+        if (inputUrl) inputUrl.value = settings.watermark_url || '';
         if (selectOpacity) selectOpacity.value = settings.watermark_opacity || '0.05';
-        if (checkWatermarkEnabled) checkWatermarkEnabled.checked = settings.watermark_enabled;
-
-        // Background Music Controls Setup
-        const inputMusicUrl = document.getElementById('settingMusicUrl');
-        const checkMusicEnabled = document.getElementById('settingMusicEnabled');
-        const audioWidget = document.getElementById('audioPlayerWidget');
-        const audioElement = document.getElementById('bgAudioEngine');
-
-        if (inputMusicUrl) inputMusicUrl.value = settings.bg_music_url || '';
-        if (checkMusicEnabled) checkMusicEnabled.checked = settings.bg_music_enabled;
-
-        if (settings.bg_music_enabled && settings.bg_music_url) {
-          if (audioElement && audioElement.src !== settings.bg_music_url) {
-            audioElement.src = settings.bg_music_url;
-          }
-          if (audioWidget) audioWidget.classList.remove('hidden');
-        } else {
-          if (audioWidget) audioWidget.classList.add('hidden');
-          stopAudioPlay();
+        if (checkEnabled) {
+          checkEnabled.checked = settings.watermark_enabled;
+          updateToggleText('wmToggleText', settings.watermark_enabled);
         }
+      }
+    }
+
+    function applyBgmSettings(settings) {
+      const playerContainer = document.getElementById('bgmPlayerContainer');
+      const audio = document.getElementById('bgmAudio');
+
+      if (settings && settings.background_music_enabled && settings.background_music_url) {
+        if (audio.src !== settings.background_music_url) {
+          audio.src = settings.background_music_url;
+        }
+        playerContainer.classList.remove('hidden');
+      } else {
+        playerContainer.classList.add('hidden');
+        if (audio) {
+          audio.pause();
+          audio.currentTime = 0;
+        }
+      }
+
+      const inputBgmUrl = document.getElementById('settingBgmUrl');
+      const checkBgmEnabled = document.getElementById('settingBgmEnabled');
+
+      if (inputBgmUrl) inputBgmUrl.value = settings.background_music_url || '';
+      if (checkBgmEnabled) {
+        checkBgmEnabled.checked = settings.background_music_enabled;
+        updateToggleText('bgmToggleText', settings.background_music_enabled);
+      }
+    }
+
+    function initWebAudioSpectrum() {
+      const audio = document.getElementById('bgmAudio');
+      if (!audio || audioCtx) return;
+
+      try {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        audioCtx = new AudioContext();
+        audioAnalyserNode = audioCtx.createAnalyser();
+        audioAnalyserNode.fftSize = 64;
+
+        audioSourceNode = audioCtx.createMediaElementSource(audio);
+        audioSourceNode.connect(audioAnalyserNode);
+        audioAnalyserNode.connect(audioCtx.destination);
+
+        drawAudioSpectrum();
+      } catch (err) {
+        console.warn("Web Audio API init warning:", err);
+      }
+    }
+
+    function drawAudioSpectrum() {
+      const canvas = document.getElementById('bgmSpectrumCanvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const bufferLength = audioAnalyserNode ? audioAnalyserNode.frequencyBinCount : 16;
+      const dataArray = new Uint8Array(bufferLength);
+
+      function renderFrame() {
+        spectrumAnimId = requestAnimationFrame(renderFrame);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        if (audioAnalyserNode) {
+          audioAnalyserNode.getByteFrequencyData(dataArray);
+        }
+
+        const barWidth = (canvas.width / 14) - 2;
+        let x = 0;
+
+        for (let i = 0; i < 14; i++) {
+          const val = dataArray[i] || 0;
+          const barHeight = (val / 255) * canvas.height * 0.9;
+
+          const gradient = ctx.createLinearGradient(0, canvas.height, 0, 0);
+          gradient.addColorStop(0, 'rgba(16, 185, 129, 0.4)');
+          gradient.addColorStop(0.5, 'rgba(245, 158, 11, 0.8)');
+          gradient.addColorStop(1, 'rgba(239, 68, 68, 0.9)');
+
+          ctx.fillStyle = gradient;
+          ctx.fillRect(x, canvas.height - barHeight, barWidth, barHeight);
+
+          x += barWidth + 2;
+        }
+      }
+
+      renderFrame();
+    }
+
+    function toggleBgmPlay() {
+      const audio = document.getElementById('bgmAudio');
+      const playIcon = document.getElementById('bgmPlayIcon');
+
+      if (!audio.src) return;
+
+      if (!audioCtx) initWebAudioSpectrum();
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+
+      if (audio.paused) {
+        audio.play().then(() => {
+          playIcon.className = "fas fa-pause";
+        }).catch(err => {
+          console.error("Play error:", err);
+        });
+      } else {
+        audio.pause();
+        playIcon.className = "fas fa-play";
+      }
+    }
+
+    function stopBgmPlay() {
+      const audio = document.getElementById('bgmAudio');
+      const playIcon = document.getElementById('bgmPlayIcon');
+      if (audio) {
+        audio.pause();
+        audio.currentTime = 0;
+        if (playIcon) playIcon.className = "fas fa-play";
+      }
+    }
+
+    function changeBgmVolume(val) {
+      const audio = document.getElementById('bgmAudio');
+      if (audio) {
+        audio.volume = parseFloat(val);
       }
     }
 
@@ -1001,8 +1100,8 @@
         watermark_url: document.getElementById('settingWatermarkUrl').value.trim(),
         watermark_opacity: document.getElementById('settingWatermarkOpacity').value,
         watermark_enabled: document.getElementById('settingWatermarkEnabled').checked,
-        bg_music_url: document.getElementById('settingMusicUrl').value.trim(),
-        bg_music_enabled: document.getElementById('settingMusicEnabled').checked
+        background_music_url: document.getElementById('settingBgmUrl').value.trim(),
+        background_music_enabled: document.getElementById('settingBgmEnabled').checked
       };
 
       Swal.fire({ title: 'กำลังบันทึกการตั้งค่า...', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } });
@@ -1022,111 +1121,6 @@
         }
       } catch (err) {
         Swal.fire('เกิดข้อผิดพลาด', err.toString(), 'error');
-      }
-    }
-
-    /* Floating Audio Player & Spectrum Visualizer Functions */
-    function toggleAudioPlay() {
-      const audio = document.getElementById('bgAudioEngine');
-      const icon = document.getElementById('audioPlayIcon');
-
-      if (!audio || !audio.src) return;
-
-      if (!audioCtx) {
-        initAudioSpectrum();
-      }
-
-      if (audioCtx && audioCtx.state === 'suspended') {
-        audioCtx.resume();
-      }
-
-      if (isAudioPlaying) {
-        audio.pause();
-        isAudioPlaying = false;
-        icon.className = 'fas fa-play';
-      } else {
-        audio.play().then(() => {
-          isAudioPlaying = true;
-          icon.className = 'fas fa-pause';
-          drawSpectrum();
-        }).catch(err => {
-          console.error("Audio playback error:", err);
-        });
-      }
-    }
-
-    function stopAudioPlay() {
-      const audio = document.getElementById('bgAudioEngine');
-      const icon = document.getElementById('audioPlayIcon');
-      if (audio) {
-        audio.pause();
-        audio.currentTime = 0;
-      }
-      isAudioPlaying = false;
-      if (icon) icon.className = 'fas fa-play';
-      if (animFrameId) cancelAnimationFrame(animFrameId);
-      clearSpectrumCanvas();
-    }
-
-    function changeAudioVolume(val) {
-      const audio = document.getElementById('bgAudioEngine');
-      if (audio) audio.volume = parseFloat(val);
-    }
-
-    function initAudioSpectrum() {
-      try {
-        const audio = document.getElementById('bgAudioEngine');
-        const AudioContext = window.AudioContext || window.webkitAudioContext;
-        audioCtx = new AudioContext();
-        analyser = audioCtx.createAnalyser();
-        analyser.fftSize = 64;
-
-        audioSource = audioCtx.createMediaElementSource(audio);
-        audioSource.connect(analyser);
-        analyser.connect(audioCtx.destination);
-      } catch (e) {
-        console.log("AudioContext Spectrum initialized without Web Audio API node:", e);
-      }
-    }
-
-    function drawSpectrum() {
-      if (!isAudioPlaying) return;
-
-      const canvas = document.getElementById('spectrumCanvas');
-      if (!canvas) return;
-      const ctx = canvas.getContext('2d');
-      const bufferLength = analyser ? analyser.frequencyBinCount : 12;
-      const dataArray = new Uint8Array(bufferLength);
-
-      if (analyser) analyser.getByteFrequencyData(dataArray);
-
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      const barWidth = (canvas.width / 10) - 2;
-      let x = 0;
-
-      for (let i = 0; i < 10; i++) {
-        let barHeight = analyser ? (dataArray[i] / 255) * canvas.height : Math.random() * canvas.height;
-        if (barHeight < 3) barHeight = 3;
-
-        const gradient = ctx.createLinearGradient(0, canvas.height, 0, 0);
-        gradient.addColorStop(0, 'rgba(251, 191, 36, 0.9)');
-        gradient.addColorStop(1, 'rgba(245, 158, 11, 0.4)');
-
-        ctx.fillStyle = gradient;
-        ctx.fillRect(x, canvas.height - barHeight, barWidth, barHeight);
-
-        x += barWidth + 2;
-      }
-
-      animFrameId = requestAnimationFrame(drawSpectrum);
-    }
-
-    function clearSpectrumCanvas() {
-      const canvas = document.getElementById('spectrumCanvas');
-      if (canvas) {
-        const ctx = canvas.getContext('2d');
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
       }
     }
 
@@ -1317,7 +1311,10 @@
         const res = await fetch(url);
         const data = await res.json();
 
-        if (data.settings) applySystemSettings(data.settings);
+        if (data.settings) {
+          applyWatermarkSettings(data.settings);
+          applyBgmSettings(data.settings);
+        }
         if (data.apps) {
           globalAdminAppsData = data.apps;
           renderAdminAppsGridUI(globalAdminAppsData);
@@ -2202,11 +2199,12 @@
       }
     }
 
+    // PWA Registration
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js')
           .then((registration) => {
-            console.log('PWA Service Worker registered successfully:', registration.scope);
+            console.log('PWA Service Worker registered with scope:', registration.scope);
           })
           .catch((error) => {
             console.error('PWA Service Worker registration failed:', error);
