@@ -639,7 +639,7 @@
         </div>
       </div>
 
-      <!-- Watermark & Background Music Settings Panel (ปรับปรุงแยก 2 แถวสมบูรณ์) -->
+      <!-- Watermark & Background Music Settings Panel (ปรับปรุงแยก 2 แถวพร้อมปุ่มบันทึกรวม) -->
       <div class="bg-amber-50/80 p-3 border-b border-amber-200 flex-shrink-0 text-xs space-y-3">
         <!-- 1. Watermark Settings -->
         <div>
@@ -675,7 +675,7 @@
           </div>
         </div>
 
-        <!-- 2. Background Music Settings (วางต่อด้านล่างพร้อมปุ่มบันทึก) -->
+        <!-- 2. Background Music Settings (เพิ่มส่วนนี้อยู่ใต้ Watermark และปุ่มบันทึก) -->
         <div class="pt-2.5 border-t border-amber-200/80">
           <div class="flex items-center justify-between mb-1.5">
             <h4 class="font-bold text-slate-900 flex items-center gap-1.5 text-xs">
@@ -930,9 +930,13 @@
       }
     }
 
+    /* ---------------------------------------------------- */
+    /* จุดปรับปรุงสำคัญ: ดึงค่า Watermark & Music มาใส่แผงควบคุม */
+    /* ---------------------------------------------------- */
     function applyWatermarkSettings(settings) {
       const watermark = document.getElementById('watermarkBackground');
       if (watermark && settings) {
+        // 1. ตั้งค่าแสดงผล Watermark บนหน้าเว็บ
         if (settings.watermark_enabled && settings.watermark_url) {
           watermark.src = settings.watermark_url;
           watermark.style.opacity = settings.watermark_opacity || '0.05';
@@ -941,13 +945,21 @@
           watermark.style.display = 'none';
         }
 
+        // 2. ดึงค่า Watermark ใส่ในแผงแอดมิน
         const inputUrl = document.getElementById('settingWatermarkUrl');
         const selectOpacity = document.getElementById('settingWatermarkOpacity');
         const checkEnabled = document.getElementById('settingWatermarkEnabled');
 
         if (inputUrl) inputUrl.value = settings.watermark_url || '';
         if (selectOpacity) selectOpacity.value = settings.watermark_opacity || '0.05';
-        if (checkEnabled) checkEnabled.checked = settings.watermark_enabled;
+        if (checkEnabled) checkEnabled.checked = !!settings.watermark_enabled;
+
+        // 3. ดึงค่า Background Music ใส่ในแผงแอดมิน (แก้ไขจุดนี้เพื่อให้ค่าโชว์แน่นอน!)
+        const musicInput = document.getElementById('settingMusicUrl');
+        const musicCheck = document.getElementById('settingMusicEnabled');
+
+        if (musicInput) musicInput.value = settings.background_music_url || '';
+        if (musicCheck) musicCheck.checked = !!settings.background_music_enabled;
       }
     }
 
@@ -958,7 +970,7 @@
       const musicCheck = document.getElementById('settingMusicEnabled');
 
       if (musicInput) musicInput.value = settings.background_music_url || '';
-      if (musicCheck) musicCheck.checked = settings.background_music_enabled;
+      if (musicCheck) musicCheck.checked = !!settings.background_music_enabled;
 
       if (settings && settings.background_music_enabled && settings.background_music_url) {
         if (player.src !== settings.background_music_url) {
